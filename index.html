@@ -28,7 +28,6 @@
     pointer-events: none;
   }
 
-  /* ЗАГРУЗКА */
   #loader {
     position: fixed;
     inset: 0;
@@ -40,98 +39,34 @@
     z-index: 1000;
     transition: opacity 0.8s;
   }
-  .loader-emblem {
-    width: 130px;
-    height: 130px;
-    margin-bottom: 40px;
-    animation: pulseGlow 2.5s infinite;
-  }
+  .loader-emblem { width: 130px; height: 130px; margin-bottom: 40px; animation: pulseGlow 2.5s infinite; }
   .loader-emblem svg { width: 100%; height: 100%; }
   @keyframes pulseGlow {
     0%, 100% { filter: drop-shadow(0 0 10px rgba(139,0,0,0.5)); }
     50% { filter: drop-shadow(0 0 30px rgba(139,0,0,0.9)); }
   }
-  .load-text {
-    color: #555;
-    font-size: 11px;
-    letter-spacing: 3px;
-    line-height: 2.2;
-    text-align: center;
-    min-height: 100px;
-  }
+  .load-text { color: #555; font-size: 11px; letter-spacing: 3px; line-height: 2.2; text-align: center; min-height: 100px; }
   .load-text span { color: #8B0000; }
-  .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 13px;
-    background: #8B0000;
-    animation: blink 1s infinite;
-    vertical-align: middle;
-    margin-left: 2px;
-  }
+  .cursor { display: inline-block; width: 8px; height: 13px; background: #8B0000; animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
   @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
-  .screen {
-    display: none;
-    min-height: 100vh;
-    padding: 60px 24px;
-    max-width: 720px;
-    margin: 0 auto;
-    animation: fadeIn 0.6s ease;
-  }
+  .screen { display: none; min-height: 100vh; padding: 60px 24px; max-width: 720px; margin: 0 auto; animation: fadeIn 0.6s ease; }
   .screen.active { display: block; }
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ВХОД */
-  #login {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+  #login { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   #login.active { display: flex; }
-  .login-emblem {
-    width: 110px;
-    height: 110px;
-    margin-bottom: 32px;
-    animation: pulseGlow 3s infinite;
-  }
+  .login-emblem { width: 110px; height: 110px; margin-bottom: 32px; animation: pulseGlow 3s infinite; }
   .login-emblem svg { width: 100%; height: 100%; }
   .login-title { color: #8B0000; font-size: 11px; letter-spacing: 5px; margin-bottom: 12px; }
   .login-sub { color: #d4d4d4; font-size: 18px; letter-spacing: 3px; margin-bottom: 48px; }
-  .code-input {
-    width: 100%;
-    max-width: 340px;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #333;
-    color: #d4d4d4;
-    font-family: 'Courier New', monospace;
-    font-size: 22px;
-    padding: 14px 0;
-    letter-spacing: 6px;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.3s;
-  }
+  .code-input { width: 100%; max-width: 340px; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 22px; padding: 14px 0; letter-spacing: 6px; text-align: center; outline: none; transition: border-color 0.3s; }
   .code-input:focus { border-color: #8B0000; box-shadow: 0 4px 12px -8px #8B0000; }
   .code-input::placeholder { color: #2a2a2a; letter-spacing: 4px; }
-  .login-btn {
-    margin-top: 32px;
-    padding: 14px 48px;
-    background: transparent;
-    border: 1px solid #8B0000;
-    color: #8B0000;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    letter-spacing: 4px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
+  .login-btn { margin-top: 32px; padding: 14px 48px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; transition: all 0.3s; }
   .login-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); transform: translateY(-1px); }
   .login-footer { margin-top: 48px; color: #1f1f1f; font-size: 10px; letter-spacing: 3px; }
   .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; animation: shake 0.4s; }
@@ -141,25 +76,8 @@
     75% { transform: translateX(6px); }
   }
 
-  /* ГЛАВНАЯ */
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #1f1f1f;
-    padding-bottom: 20px;
-    margin-bottom: 40px;
-    position: relative;
-  }
-  .topbar::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 60px;
-    height: 1px;
-    background: #8B0000;
-  }
+  .topbar { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1f1f1f; padding-bottom: 20px; margin-bottom: 40px; position: relative; }
+  .topbar::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 60px; height: 1px; background: #8B0000; }
   .topbar-left { display: flex; align-items: center; gap: 16px; }
   .topbar-emblem { width: 42px; height: 42px; flex-shrink: 0; }
   .topbar-emblem svg { width: 100%; height: 100%; }
@@ -167,31 +85,8 @@
   .topbar-status { color: #8B0000; font-size: 10px; letter-spacing: 2px; animation: blink 2s infinite; }
 
   .menu { display: flex; flex-direction: column; gap: 2px; }
-  .menu-item {
-    padding: 18px 24px;
-    border: 1px solid #1a1a1a;
-    color: #777;
-    font-size: 12px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.25s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .menu-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #8B0000;
-    transform: scaleY(0);
-    transition: transform 0.25s;
-  }
+  .menu-item { padding: 18px 24px; border: 1px solid #1a1a1a; color: #777; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.25s; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; }
+  .menu-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #8B0000; transform: scaleY(0); transition: transform 0.25s; }
   .menu-item:hover { border-color: #3a1010; color: #d4d4d4; background: rgba(139,0,0,0.04); padding-left: 30px; }
   .menu-item:hover::before { transform: scaleY(1); }
   .menu-item .arrow { color: #333; transition: all 0.25s; }
@@ -199,62 +94,18 @@
   .menu-item.protocol { border-color: #3a1010; color: #8B0000; }
   .menu-item.protocol .arrow { color: #8B0000; }
 
-  /* ЛИЧНОЕ ДЕЛО */
-  .case-block {
-    border: 1px solid #1a1a1a;
-    padding: 32px;
-    background: rgba(139,0,0,0.02);
-  }
-  .case-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid #141414;
-    font-size: 13px;
-    letter-spacing: 2px;
-  }
+  .case-block { border: 1px solid #1a1a1a; padding: 32px; background: rgba(139,0,0,0.02); }
+  .case-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #141414; font-size: 13px; letter-spacing: 2px; }
   .case-row:last-child { border-bottom: none; }
   .case-key { color: #555; }
   .case-val { color: #d4d4d4; }
   .case-val.red { color: #8B0000; }
-  .redacted {
-    background: #000;
-    color: #000;
-    user-select: none;
-    padding: 0 4px;
-    border-radius: 1px;
-  }
+  .redacted { background: #000; color: #000; user-select: none; padding: 0 4px; border-radius: 1px; }
 
-  /* МОДАЛКА */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.88);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    backdrop-filter: blur(3px);
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 500; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(3px); }
   .modal-overlay.show { display: flex; }
-  .modal {
-    max-width: 480px;
-    width: 100%;
-    background: #0d0d0d;
-    border: 1px solid #8B0000;
-    padding: 40px 32px;
-    position: relative;
-    animation: modalIn 0.4s ease;
-    box-shadow: 0 0 60px rgba(139,0,0,0.2);
-  }
-  .modal::before, .modal::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border: 1px solid #8B0000;
-  }
+  .modal { max-width: 480px; width: 100%; background: #0d0d0d; border: 1px solid #8B0000; padding: 40px 32px; position: relative; animation: modalIn 0.4s ease; box-shadow: 0 0 60px rgba(139,0,0,0.2); }
+  .modal::before, .modal::after { content: ''; position: absolute; width: 12px; height: 12px; border: 1px solid #8B0000; }
   .modal::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
   .modal::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
   @keyframes modalIn {
@@ -263,22 +114,9 @@
   }
   .modal-title { color: #8B0000; font-size: 12px; letter-spacing: 4px; margin-bottom: 24px; text-align: center; }
   .modal-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 32px; text-align: center; }
-  .modal-btn {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    background: transparent;
-    border: 1px solid #8B0000;
-    color: #8B0000;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
+  .modal-btn { display: block; width: 100%; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
   .modal-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
 
-  /* ПРОТОКОЛ */
   .protocol-head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
   .protocol-emblem { width: 48px; height: 48px; flex-shrink: 0; }
   .protocol-emblem svg { width: 100%; height: 100%; }
@@ -286,27 +124,12 @@
   .protocol-title { color: #d4d4d4; font-size: 18px; letter-spacing: 2px; }
   .protocol-divider { height: 1px; background: linear-gradient(90deg, #8B0000, transparent); margin: 20px 0 40px; }
 
-  .day {
-    border: 1px solid #1a1a1a;
-    padding: 24px;
-    margin-bottom: 16px;
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-  }
+  .day { border: 1px solid #1a1a1a; padding: 24px; margin-bottom: 16px; cursor: pointer; transition: all 0.3s; position: relative; }
   .day.locked { opacity: 0.4; cursor: not-allowed; }
   .day.available { border-color: #8B0000; }
   .day.available:hover { background: rgba(139,0,0,0.05); transform: translateX(4px); }
   .day.open { border-color: #8B0000; background: rgba(139,0,0,0.03); }
-  .day.open::before {
-    content: '';
-    position: absolute;
-    left: -1px;
-    top: -1px;
-    bottom: -1px;
-    width: 3px;
-    background: #8B0000;
-  }
+  .day.open::before { content: ''; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: #8B0000; }
   .day-head { display: flex; justify-content: space-between; align-items: center; }
   .day-num { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
   .day-status { font-size: 10px; letter-spacing: 2px; }
@@ -318,103 +141,28 @@
   .day.open .day-body { display: block; animation: fadeIn 0.4s ease; }
   .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
 
-  /* ПСИХОЛОГИЧЕСКИЙ ОПРОС */
-  .quiz-question {
-    color: #d4d4d4;
-    font-size: 14px;
-    letter-spacing: 1px;
-    line-height: 1.8;
-    margin: 24px 0 28px;
-    min-height: 60px;
-  }
+  .quiz-question { color: #d4d4d4; font-size: 14px; letter-spacing: 1px; line-height: 1.8; margin: 24px 0 28px; min-height: 60px; }
   .quiz-options { display: flex; gap: 12px; margin-top: 20px; }
-  .quiz-btn {
-    flex: 1;
-    padding: 14px;
-    background: transparent;
-    border: 1px solid #8B0000;
-    color: #8B0000;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
+  .quiz-btn { flex: 1; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
   .quiz-btn:hover { background: #8B0000; color: #0a0a0a; }
-  .quiz-progress {
-    color: #555;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-  }
+  .quiz-progress { color: #555; font-size: 10px; letter-spacing: 3px; margin-bottom: 12px; }
 
-  .day-code-input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #333;
-    color: #d4d4d4;
-    font-family: 'Courier New', monospace;
-    font-size: 16px;
-    padding: 10px 0;
-    letter-spacing: 4px;
-    outline: none;
-    margin-bottom: 16px;
-    transition: border-color 0.3s;
-  }
+  .day-code-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 16px; padding: 10px 0; letter-spacing: 4px; outline: none; margin-bottom: 16px; transition: border-color 0.3s; }
   .day-code-input:focus { border-color: #8B0000; }
-  .day-btn {
-    padding: 10px 28px;
-    background: transparent;
-    border: 1px solid #8B0000;
-    color: #8B0000;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
+  .day-btn { padding: 10px 28px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
   .day-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 16px rgba(139,0,0,0.5); }
   .day-result { margin-top: 16px; font-size: 12px; letter-spacing: 2px; min-height: 18px; }
   .day-result.ok { color: #4a7a4a; }
   .day-result.err { color: #8B0000; animation: shake 0.4s; }
 
-  .back-link {
-    display: inline-block;
-    margin-top: 32px;
-    color: #555;
-    font-size: 11px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
+  .back-link { display: inline-block; margin-top: 32px; color: #555; font-size: 11px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
   .back-link:hover { color: #8B0000; transform: translateX(-4px); }
 
-  .final-message {
-    border: 1px solid #8B0000;
-    padding: 40px 32px;
-    text-align: center;
-    margin-top: 24px;
-    position: relative;
-    background: rgba(139,0,0,0.04);
-    box-shadow: inset 0 0 40px rgba(139,0,0,0.1);
-  }
-  .final-message::before, .final-message::after {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border: 1px solid #8B0000;
-  }
+  .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; position: relative; background: rgba(139,0,0,0.04); box-shadow: inset 0 0 40px rgba(139,0,0,0.1); }
+  .final-message::before, .final-message::after { content: ''; position: absolute; width: 14px; height: 14px; border: 1px solid #8B0000; }
   .final-message::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
   .final-message::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
-  .final-message .big {
-    color: #8B0000;
-    font-size: 22px;
-    letter-spacing: 6px;
-    margin: 20px 0;
-    text-shadow: 0 0 20px rgba(139,0,0,0.5);
-  }
+  .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
 
   @media (max-width: 500px) {
     .screen { padding: 40px 16px; }
@@ -427,38 +175,25 @@
 </head>
 <body>
 
-<!-- ЗНАЧОК 82 -->
 <svg style="display:none">
   <symbol id="logo-82" viewBox="0 0 200 200">
-    <!-- Внешнее кольцо -->
     <circle cx="100" cy="100" r="90" fill="none" stroke="#8B0000" stroke-width="3"/>
-    <!-- Внутреннее кольцо -->
     <circle cx="100" cy="100" r="80" fill="none" stroke="#8B0000" stroke-width="1" opacity="0.4"/>
-    <!-- Угловые насечки -->
     <line x1="100" y1="5" x2="100" y2="20" stroke="#8B0000" stroke-width="2"/>
     <line x1="100" y1="180" x2="100" y2="195" stroke="#8B0000" stroke-width="2"/>
     <line x1="5" y1="100" x2="20" y2="100" stroke="#8B0000" stroke-width="2"/>
     <line x1="180" y1="100" x2="195" y2="100" stroke="#8B0000" stroke-width="2"/>
-    <!-- Цифра 82 -->
-    <text x="100" y="100" text-anchor="middle" dominant-baseline="central"
-          font-family="Courier New, monospace" font-size="72" font-weight="bold"
-          fill="#8B0000" letter-spacing="2">82</text>
+    <text x="100" y="100" text-anchor="middle" dominant-baseline="central" font-family="Courier New, monospace" font-size="72" font-weight="bold" fill="#8B0000">82</text>
   </symbol>
 </svg>
 
-<!-- ЗАГРУЗКА -->
 <div id="loader">
-  <div class="loader-emblem">
-    <svg><use href="#logo-82"/></svg>
-  </div>
+  <div class="loader-emblem"><svg><use href="#logo-82"/></svg></div>
   <div class="load-text" id="loadText"></div>
 </div>
 
-<!-- ВХОД -->
 <div class="screen" id="login">
-  <div class="login-emblem">
-    <svg><use href="#logo-82"/></svg>
-  </div>
+  <div class="login-emblem"><svg><use href="#logo-82"/></svg></div>
   <div class="login-title">COMMITTEE FOR DATA VERIFICATION</div>
   <div class="login-sub">ВВЕДИТЕ ИДЕНТИФИКАТОР</div>
   <input type="text" class="code-input" id="codeInput" placeholder="_ _ _ - _ _ - _ _ _" autocomplete="off">
@@ -467,7 +202,6 @@
   <div class="login-footer">Исх. № 641\88-6 · ДСП</div>
 </div>
 
-<!-- ГЛАВНАЯ -->
 <div class="screen" id="main">
   <div class="topbar">
     <div class="topbar-left">
@@ -485,7 +219,6 @@
   </div>
 </div>
 
-<!-- ЛИЧНОЕ ДЕЛО -->
 <div class="screen" id="case">
   <div class="protocol-head">
     <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
@@ -495,7 +228,6 @@
     </div>
   </div>
   <div class="protocol-divider"></div>
-
   <div class="case-block">
     <div class="case-row"><span class="case-key">РАНГ</span><span class="case-val red">СТАЖЁР</span></div>
     <div class="case-row"><span class="case-key">СТАТУС</span><span class="case-val">ДОПУСК ОГРАНИЧЕН</span></div>
@@ -506,11 +238,9 @@
     <div class="case-row"><span class="case-key">ПРЕДЫДУЩИЕ ОБЪЕКТЫ</span><span class="case-val redacted">[ДАННЫЕ УДАЛЕНЫ]</span></div>
     <div class="case-row"><span class="case-key">РЕКОМЕНДАЦИЯ</span><span class="case-val redacted">[ДАННЫЕ УДАЛЕНЫ]</span></div>
   </div>
-
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
-<!-- ПРОТОКОЛ -->
 <div class="screen" id="protocol">
   <div class="protocol-head">
     <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
@@ -524,7 +254,6 @@
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
-<!-- МОДАЛКА -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-title" id="modalTitle">ДОСТУП ОГРАНИЧЕН</div>
@@ -536,10 +265,8 @@
 <script>
 var VALID_CODES = ['619-33-012','844-01-902','038-02-048','028-99-539','394-39-002','381-39-289'];
 
-/* ЗАДАНИЯ */
 var DAYS = [
   { num: 1, date: new Date(2025, 0, 1, 10, 0, 0), type: 'quiz',
-    title: 'ПСИХОЛОГИЧЕСКИЙ ПРОФИЛЬ',
     questions: [
       { q: 'Вы находитесь в помещении один?', a: ['ДА','НЕТ'] },
       { q: 'Вы когда-нибудь чувствовали, что за вами наблюдают?', a: ['ДА','НЕТ'] },
@@ -554,14 +281,13 @@ var DAYS = [
     text: 'ПРОВЕРКА ЗАВЕРШЕНА.' }
 ];
 
-/* СОСТОЯНИЕ — сохраняется в localStorage */
 var state = loadState();
 function loadState() {
   try {
     var raw = localStorage.getItem('cdv_state');
     if (raw) return JSON.parse(raw);
   } catch(e) {}
-  return { completed: {}, quiz: {} };
+  return { completed: {}, quiz: {}, seenWelcome: false };
 }
 function saveState() {
   try { localStorage.setItem('cdv_state', JSON.stringify(state)); } catch(e) {}
@@ -569,7 +295,6 @@ function saveState() {
 
 var openDays = {};
 
-/* ЗАГРУЗКА */
 var loadLines = [
   '> ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...',
   '> ПРОВЕРКА СОЕДИНЕНИЯ...',
@@ -598,7 +323,6 @@ setTimeout(function() {
   }, 800);
 }, 3400);
 
-/* ВХОД */
 function checkCode() {
   var val = document.getElementById('codeInput').value.trim();
   var err = document.getElementById('errorMsg');
@@ -686,6 +410,65 @@ function renderDays() {
     if (isOpen && prevDone && !isDone) el.classList.add('available');
     if (isExpanded) el.classList.add('open');
 
+    var body = '';
+    if (isExpanded) {
+      if (d.type === 'quiz') {
+        body = '<div class="quiz-progress" id="qprog-' + d.num + '">ВОПРОС 1 ИЗ ' + d.questions.length + '</div>' +
+               '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
+               '<div class="quiz-options" id="qo-' + d.num + '"></div>';
+      } else if (d.type === 'final') {
+        body = '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ПРОВЕРКА ЗАВЕРШЕНА</div><div class="big">30.10 · 17:20</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div></div>';
+      } else {
+        body = '<div class="day-text">' + d.text + '</div>';
+      }
+    }
+
     el.innerHTML = '<div class="day-head" onclick="toggleDay(' + d.num + ')"><div class="day-num">ЭТАП ' + d.num + '</div><div class="day-status ' + statusClass + '">' + statusText + '</div></div>' +
       '<div class="day-timer" id="timer-' + d.num + '"></div>' +
-      '<div class="day-body
+      '<div class="day-body">' + body + '</div>';
+    container.appendChild(el);
+
+    if (isExpanded && d.type === 'quiz') {
+      startQuiz(d.num);
+    }
+  });
+}
+
+/* ПСИХОЛОГИЧЕСКИЙ ОПРОС */
+var quizState = { day: null, idx: 0 };
+
+function startQuiz(num) {
+  if (quizState.day !== num) {
+    quizState.day = num;
+    quizState.idx = 0;
+  }
+  var d = DAYS.find(function(x) { return x.num === num; });
+  var qq = document.getElementById('qq-' + num);
+  var qo = document.getElementById('qo-' + num);
+  var qp = document.getElementById('qprog-' + num);
+  if (!qq) return;
+
+  var q = d.questions[quizState.idx];
+  qp.textContent = 'ВОПРОС ' + (quizState.idx + 1) + ' ИЗ ' + d.questions.length;
+  qq.textContent = q.q;
+  qo.innerHTML = '';
+  q.a.forEach(function(ans) {
+    var btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = ans;
+    btn.onclick = function() { answerQuiz(num, ans); };
+    qo.appendChild(btn);
+  });
+}
+
+function answerQuiz(num, ans) {
+  var d = DAYS.find(function(x) { return x.num === num; });
+  if (!state.quiz[num]) state.quiz[num] = [];
+  state.quiz[num].push(ans);
+  saveState();
+
+  quizState.idx++;
+  if (quizState.idx < d.questions.length) {
+    startQuiz(num);
+  } else {
+    var qq = document.getElementById('qq
