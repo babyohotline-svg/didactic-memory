@@ -137,7 +137,6 @@
   .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; position: relative; background: rgba(139,0,0,0.04); box-shadow: inset 0 0 40px rgba(139,0,0,0.1); }
   .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
 
-  /* ЧАТ */
   .chat-bubble {
     position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
     border-radius: 50%; background: #0d0d0d; border: 1px solid #8B0000;
@@ -151,8 +150,6 @@
     content: ''; position: absolute; top: 4px; right: 4px;
     width: 10px; height: 10px; border-radius: 50%; background: #8B0000; animation: blink 1.5s infinite;
   }
-
-  /* Мигающий пузырик для дня 2 */
   .chat-bubble.pulse-attention {
     animation: bubblePulse 1s ease 4;
     border-color: #ff0000;
@@ -220,7 +217,6 @@
   .chat-footer { border-top: 1px solid #1a1a1a; padding: 12px; background: #0d0d0d; }
   .chat-readonly { color: #444; font-size: 10px; letter-spacing: 2px; text-align: center; padding: 8px 0; border: 1px dashed #1f1f1f; background: #0a0a0a; }
 
-  /* ЗВУКОВАЯ СЦЕНА */
   .sound-scene {
     display: none;
     position: fixed;
@@ -278,7 +274,6 @@
     animation: fadeIn 0.8s ease; text-shadow: 0 0 20px rgba(139,0,0,0.6);
   }
 
-  /* ЭКРАН С КОДОМ */
   .err-screen {
     position: fixed; inset: 0; background: #000; z-index: 750;
     display: none; align-items: flex-start; justify-content: flex-start;
@@ -349,11 +344,11 @@
     <div class="topbar-status">● ДОПУСК: ОГРАНИЧЕН</div>
   </div>
   <div class="menu">
-    <div class="menu-item" onclick="lowAccess()">АРХИВ <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="openCase()">ЛИЧНОЕ ДЕЛО <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="lowAccess()">СЕКТОР 82 <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="lowAccess()">ОТЧЁТЫ <span class="arrow">→</span></div>
-    <div class="menu-item protocol" onclick="openProtocol()">ПРОТОКОЛ ПРОВЕРКИ <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="menuClick('archive')">АРХИВ <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="menuClick('case')">ЛИЧНОЕ ДЕЛО <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="menuClick('sector')">СЕКТОР 82 <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="menuClick('reports')">ОТЧЁТЫ <span class="arrow">→</span></div>
+    <div class="menu-item protocol" onclick="menuClick('protocol')">ПРОТОКОЛ ПРОВЕРКИ <span class="arrow">→</span></div>
   </div>
 </div>
 
@@ -432,7 +427,6 @@
 <script>
 var VALID_CODES = ['619-33-012','844-01-902','038-02-048','028-99-539','394-39-002','381-39-289'];
 
-/* День 1 - психологический профиль (12 вопросов) */
 var QUIZ_1 = [
   { q: 'Вы находитесь в помещении один?', a: ['ДА','НЕТ'] },
   { q: 'Вы когда-нибудь чувствовали, что за вами наблюдают?', a: ['ДА','НЕТ'] },
@@ -448,7 +442,6 @@ var QUIZ_1 = [
   { q: 'Вы уверены, что вы — это вы?', a: ['ДА','НЕТ'] }
 ];
 
-/* День 2 - соц. тест (19 вопросов). Каверзные: 3, 7, 11, 15, 18 (индекс с 0 = 2,6,10,14,17) */
 var QUIZ_2 = [
   { q: 'Вы предпочитаете работать в группе или в одиночку?', a: ['ГРУППА','ОДИН'] },
   { q: 'Легко ли вы находите общий язык с новыми людьми?', a: ['ДА','НЕТ'] },
@@ -530,7 +523,6 @@ function checkCode() {
     document.getElementById('login').classList.remove('active');
     document.getElementById('main').classList.add('active');
     if (!state.seenWelcome) {
-      setTimeout(showWelcome, 8000);
       state.seenWelcome = true;
       saveState();
     }
@@ -543,15 +535,44 @@ document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
 
+/* Клик по любому пункту меню — плашка показывается сразу */
+function menuClick(target) {
+  // Первый клик — плашка "Уважаемый стажёр"
+  if (!state.welcomeShown) {
+    state.welcomeShown = true;
+    saveState();
+    showWelcome(function() {
+      // После закрытия плашки — выполняем действие
+      doMenuAction(target);
+    });
+    return;
+  }
+  doMenuAction(target);
+}
+
+function doMenuAction(target) {
+  if (target === 'case') { openCase(); return; }
+  if (target === 'protocol') { openProtocol(); return; }
+  lowAccess();
+}
+
+function showWelcome(cb) {
+  document.getElementById('modalTitle').textContent = 'УВЕДОМЛЕНИЕ';
+  document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
+  var overlay = document.getElementById('modalOverlay');
+  overlay.classList.add('show');
+  // Заменяем действие кнопки — после закрытия вызовем cb
+  var btn = overlay.querySelector('.modal-btn');
+  btn.onclick = function() {
+    overlay.classList.remove('show');
+    btn.onclick = function() { closeModal(); };
+    if (cb) cb();
+  };
+}
+
 function lowAccess() {
   document.getElementById('modalTitle').textContent = 'ДОСТУП ОГРАНИЧЕН';
   document.getElementById('modalText').textContent = 'Ваш уровень допуска недостаточен. Обратитесь к куратору.';
-  document.getElementById('modalOverlay').classList.add('show');
-}
-
-function showWelcome() {
-  document.getElementById('modalTitle').textContent = 'УВЕДОМЛЕНИЕ';
-  document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
   document.getElementById('modalOverlay').classList.add('show');
 }
 
@@ -571,12 +592,10 @@ function openProtocol() {
   document.getElementById('protocol').classList.add('active');
   renderDays();
   startTimers();
-  // После открытия протокола если день 2 открыт — мигаем пузыриком
   checkDay2Bubble();
 }
 
 function checkDay2Bubble() {
-  // Если день 1 пройден, а день 2 ещё нет — мигаем пузыриком
   if (state.completed[1] && !state.completed[2]) {
     setTimeout(function() {
       showBubble();
@@ -602,7 +621,6 @@ function toggleDay(num) {
   if (now < d.date) return;
   if (state.completed[num]) return;
 
-  // День 2 — только через пузырик чата
   if (d.type === 'chat') {
     showBubble();
     var b = document.getElementById('chatBubble');
@@ -702,7 +720,6 @@ function startQuiz(num) {
     btn.onclick = function() { answerQuiz(num, ans); };
     qo.appendChild(btn);
 
-    // Если вопрос каверзный — на долю секунды глючим кнопку
     if (q.tricky) {
       setTimeout(function() {
         btn.classList.add('glitching-btn');
@@ -720,23 +737,17 @@ function answerQuiz(num, ans) {
   startQuiz(num);
 }
 
-/* ============ ЧАТ ============ */
+/* ЧАТ */
 var chatStarted = false;
-var chatMode = 'day2'; // day2 или final
+var chatMode = 'day2';
 
-function showBubble() {
-  document.getElementById('chatBubble').classList.add('show');
-}
-
-function hideBubble() {
-  document.getElementById('chatBubble').classList.remove('show');
-}
+function showBubble() { document.getElementById('chatBubble').classList.add('show'); }
+function hideBubble() { document.getElementById('chatBubble').classList.remove('show'); }
 
 function openChat() {
   document.getElementById('chatBubble').classList.remove('show');
   document.getElementById('chatWindow').classList.add('show');
 
-  // Если день 2 не пройден и день 1 пройден — открываем диалог про доп. тест
   if (state.completed[1] && !state.completed[2] && chatMode !== 'day2Running') {
     chatMode = 'day2Running';
     chatStarted = false;
@@ -749,9 +760,7 @@ function openChat() {
   runChatSequence();
 }
 
-function closeChat() {
-  document.getElementById('chatWindow').classList.remove('show');
-}
+function closeChat() { document.getElementById('chatWindow').classList.remove('show'); }
 
 function addMsg() {
   var body = document.getElementById('chatBody');
@@ -778,14 +787,12 @@ function typeText(span, text, speed, cb, glitchAtEnd) {
     span.textContent += text[i];
     i++;
     document.getElementById('chatBody').scrollTop = document.getElementById('chatBody').scrollHeight;
-
     if (glitchAtEnd && i === text.length - 4) {
       var msgDiv = span.parentNode;
       msgDiv.classList.add('text-glitch');
       setTimeout(function() { chatGlitchPhase(); }, 400);
       return;
     }
-
     setTimeout(tick, speed);
   }
   tick();
@@ -806,7 +813,6 @@ function hideTyping() {
   if (el) el.remove();
 }
 
-/* Первый диалог — день 2 */
 function runDay2Dialog() {
   var body = document.getElementById('chatBody');
   body.innerHTML = '';
@@ -824,13 +830,11 @@ function runDay2Dialog() {
   function next() {
     if (i >= lines.length) {
       setTimeout(function() {
-        // Открываем день 2
         if (!state.day2Unlocked) {
           state.day2Unlocked = true;
           saveState();
         }
         hideTyping();
-        // Закрываем чат и открываем день 2 в протоколе
         closeChat();
         openDay2AfterDialog();
       }, 1200);
@@ -840,9 +844,10 @@ function runDay2Dialog() {
     setTimeout(function() {
       hideTyping();
       var msg = addMsg();
-      typeText(msg.span, lines[i], 45, function() {
+      var line = lines[i];
+      typeText(msg.span, line, 45, function() {
         i++;
-        setTimeout(next, 1000 + lines[i-1].length * 20);
+        setTimeout(next, 1000 + line.length * 20);
       });
     }, 800);
   }
@@ -850,7 +855,6 @@ function runDay2Dialog() {
 }
 
 function openDay2AfterDialog() {
-  // Открываем день 2 как quiz (соц. тест)
   var d2 = DAYS.find(function(x) { return x.num === 2; });
   if (d2) {
     d2.type = 'quiz';
@@ -860,7 +864,6 @@ function openDay2AfterDialog() {
   renderDays();
 }
 
-/* Старый диалог (первый вход) */
 function runChatSequence() {
   var lines = [
     'Добрый день, кандидат.',
@@ -892,7 +895,6 @@ function runChatSequence() {
 function chatGlitchPhase() {
   var chatWin = document.getElementById('chatWindow');
   chatWin.classList.add('glitching');
-
   setTimeout(function() {
     closeChat();
     hideBubble();
@@ -947,7 +949,6 @@ function showErrScreen() {
   nextLine();
 }
 
-/* ============ ЗВУКОВАЯ СЦЕНА ============ */
 var soundStarted = false;
 var WHISPER_WAV = null;
 
@@ -974,23 +975,18 @@ function generateWhisperWav() {
   view.setUint32(40, dataSize, true);
 
   var offset = 44;
-
   for (var i = 0; i < numSamples; i++) {
     var t = i / sampleRate;
     var sample = 0;
-
     var noise = (Math.random() * 2 - 1);
     var mod1 = 0.5 + 0.5 * Math.sin(t * 1.3);
     var mod2 = 0.5 + 0.5 * Math.sin(t * 0.7 + 1.5);
     var mod3 = 0.5 + 0.5 * Math.sin(t * 2.1 + 3.0);
     var envelope = mod1 * mod2 * 0.8 + mod3 * 0.2;
-
     sample += noise * 0.14 * envelope;
     sample += Math.sin(t * 2 * Math.PI * 55) * 0.02 * (0.5 + 0.5 * Math.sin(t * 0.3));
-
     if (sample > 1) sample = 1;
     if (sample < -1) sample = -1;
-
     view.setInt16(offset, sample * 32767, true);
     offset += 2;
   }
@@ -1012,7 +1008,6 @@ function writeString(view, offset, str) {
 function startSoundScene() {
   if (soundStarted) return;
   soundStarted = true;
-
   try {
     if (!WHISPER_WAV) WHISPER_WAV = generateWhisperWav();
     var audio = document.getElementById('sfxAudio');
@@ -1025,9 +1020,7 @@ function startSoundScene() {
     }
   } catch(e) { console.log(e); }
 
-  setTimeout(function() {
-    showSoundQuestion();
-  }, 8000);
+  setTimeout(function() { showSoundQuestion(); }, 8000);
 }
 
 function showSoundQuestion() {
@@ -1044,10 +1037,8 @@ function answerSound(answer) {
   var audio = document.getElementById('sfxAudio');
   audio.pause();
   audio.currentTime = 0;
-
   var q = document.getElementById('soundQ');
   if (q) q.style.animation = 'none';
-
   var stage = document.getElementById('soundStage');
   stage.innerHTML = '<div class="sound-final">хорошо..</div>';
 
@@ -1060,12 +1051,10 @@ function answerSound(answer) {
       state.completed[2] = true;
       saveState();
     }
-    // Возвращаем день 2 обратно в режим чата (следующий диалог)
     var d2 = DAYS.find(function(x) { return x.num === 2; });
     if (d2) d2.type = 'chat';
     renderDays();
 
-    // Возвращаем чат с финальным сообщением
     setTimeout(function() {
       showBubble();
       setTimeout(function() {
@@ -1081,13 +1070,11 @@ function answerSound(answer) {
 function runFinalMessage() {
   var body = document.getElementById('chatBody');
   body.innerHTML = '';
-
   var lines = [
     'Проверка засчитана.',
     'Продолжение — по расписанию.',
     'Не отвлекайтесь от наблюдения.'
   ];
-
   var i = 0;
   function next() {
     if (i >= lines.length) return;
