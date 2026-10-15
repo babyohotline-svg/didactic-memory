@@ -1,4 +1,4 @@
-А<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -10,11 +10,7 @@
   body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(139,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(139,0,0,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; pointer-events: none; }
   body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%); z-index: -1; pointer-events: none; }
 
-  body.chat-open .screen.active {
-    filter: brightness(0.35);
-    pointer-events: none;
-    transition: filter 0.3s;
-  }
+  body.chat-open .screen.active { filter: brightness(0.35); pointer-events: none; transition: filter 0.3s; }
   body.chat-open .chat-bubble { pointer-events: none; }
 
   #loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; transition: opacity 0.8s; }
@@ -415,12 +411,15 @@ var QUIZ_2 = [
   { q: 'Вы готовы продолжать работу с нами и после проверок?', a: ['ДА','НЕТ'] }
 ];
 
-var DAYS = [
-  { num: 1, date: new Date(2026, 9, 26, 10, 0, 0) },
-  { num: 2, date: new Date(2026, 9, 27, 10, 0, 0) },
-  { num: 3, date: new Date(2026, 9, 28, 10, 0, 0) },
-  { num: 4, date: new Date(2026, 9, 29, 10, 0, 0) }
-];
+/* ДАТЫ ДНЕЙ. Меняй здесь. Месяц считается с нуля: 9 = октябрь. */
+var DAY_DATES = {
+  1: new Date(2026, 9, 26, 0, 0, 0),
+  2: new Date(2026, 9, 27, 0, 0, 0),
+  3: new Date(2026, 9, 28, 0, 0, 0),
+  4: new Date(2026, 9, 29, 0, 0, 0)
+};
+
+var DAYS = [1, 2, 3, 4];
 
 var state = loadState();
 function loadState() {
@@ -570,23 +569,42 @@ function hideAllScreens() {
   document.getElementById('soundScene').classList.remove('show');
 }
 
-/* ЛОГИКА ДНЯ */
+/* ЛОГИКА ДНЯ — ДВА УСЛОВИЯ: ДАТА + ПРЕДЫДУЩИЙ ПРОЙДЕН */
 function getDayType(num) {
-  if (num === 1) return state.completed[1] ? 'done' : 'quiz';
+  var now = new Date();
+  var dayDate = DAY_DATES[num];
+  var dateCame = now >= dayDate;
+
+  // Уже пройден — done
+  if (state.completed[num]) return 'done';
+
+  // Дата ещё не наступила — заблокирован
+  if (!dateCame) {
+    if (num === 2) return 'phantom';
+    return 'locked';
+  }
+
+  // Дата наступила. Проверяем цепочку
+  if (num === 1) {
+    return 'quiz';
+  }
+
   if (num === 2) {
-    if (state.completed[2]) return 'done';
-    if (state.day2Unlocked) return 'quiz';
-    return 'phantom';
+    if (!state.completed[1]) return 'phantom';
+    if (!state.day2Unlocked) return 'phantom';
+    return 'quiz';
   }
+
   if (num === 3) {
-    if (state.completed[3]) return 'done';
-    if (state.completed[2]) return 'rorschach';
-    return 'locked';
+    if (!state.completed[2]) return 'locked';
+    return 'rorschach';
   }
+
   if (num === 4) {
-    if (state.completed[3]) return 'final';
-    return 'locked';
+    if (!state.completed[3]) return 'locked';
+    return 'final';
   }
+
   return 'locked';
 }
 
@@ -615,9 +633,9 @@ function renderDays() {
   var container = document.getElementById('days');
   container.innerHTML = '';
 
-  DAYS.forEach(function(d) {
-    var isDone = !!state.completed[d.num];
-    var type = getDayType(d.num);
+  DAYS.forEach(function(num) {
+    var isDone = !!state.completed[num];
+    var type = getDayType(num);
 
     var statusClass, statusText;
     if (isDone) { statusClass = 'done'; statusText = '✓ ПРОЙДЕНО'; }
@@ -634,28 +652,28 @@ function renderDays() {
     else if (type === 'locked' || type === 'done') el.classList.add('locked');
     if (type === 'quiz' || type === 'final' || type === 'rorschach') el.classList.add('available');
 
-    var isExpanded = openDays[d.num] && !isDone && (type === 'quiz' || type === 'final');
+    var isExpanded = openDays[num] && !isDone && (type === 'quiz' || type === 'final');
     if (isExpanded) el.classList.add('open');
 
     var body = '';
     if (isExpanded) {
       if (type === 'quiz') {
         body = '<div class="quiz-warning">ПРАВИЛА SCP FOUNDATION ОБЯЗЫВАЮТ ПРОЙТИ ПСИХОЛОГИЧЕСКОЕ ТЕСТИРОВАНИЕ ПЕРЕД ПРОДОЛЖЕНИЕМ ДОПУСКА. Будьте уверены, ответы анонимны.</div>' +
-               '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
-               '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
-               '<div class="quiz-options" id="qo-' + d.num + '"></div>';
+               '<div class="quiz-progress" id="qprog-' + num + '"></div>' +
+               '<div class="quiz-question" id="qq-' + num + '"></div>' +
+               '<div class="quiz-options" id="qo-' + num + '"></div>';
       } else if (type === 'final') {
         body = '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ПРОВЕРКА ЗАВЕРШЕНА</div><div class="big">30.10 · 17:20</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div></div>';
       }
     }
 
-    el.innerHTML = '<div class="day-head" onclick="toggleDay(' + d.num + ')"><div class="day-num">ЭТАП ' + d.num + '</div><div class="day-status ' + statusClass + '">' + statusText + '</div></div>' +
-      '<div class="day-timer" id="timer-' + d.num + '"></div>' +
+    el.innerHTML = '<div class="day-head" onclick="toggleDay(' + num + ')"><div class="day-num">ЭТАП ' + num + '</div><div class="day-status ' + statusClass + '">' + statusText + '</div></div>' +
+      '<div class="day-timer" id="timer-' + num + '"></div>' +
       '<div class="day-body">' + body + '</div>';
     container.appendChild(el);
 
     if (isExpanded && type === 'quiz') {
-      startQuiz(d.num);
+      startQuiz(num);
     }
   });
 }
@@ -767,13 +785,11 @@ function openChat() {
   saveState();
   hideBubble();
 
-  // Если диалог был прерван — продолжаем
   if (currentChatLines !== null && currentChatIndex < currentChatLines.length) {
     playLinesFrom(currentChatLines, currentChatIndex, currentChatDone);
     return;
   }
 
-  // Иначе — новый диалог
   var st = state.chatStage;
   if (st === 0) runChatSequence();
   else if (st === 1) runFinalMessage();
@@ -795,7 +811,6 @@ function closeChat() {
     renderDays();
   }
 
-  // Если диалог прерван — показать пузырик, чтобы можно было вернуться
   if (currentChatLines !== null && currentChatIndex < currentChatLines.length) {
     showBubble();
     var b = document.getElementById('chatBubble');
@@ -1031,7 +1046,7 @@ function answerSound() {
   }, 3000);
 }
 
-/* СТАДИЯ 1 — продолжение. Куратор СООБЩАЕТ про ранний доступ */
+/* СТАДИЯ 1 — продолжение */
 function runFinalMessage() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -1050,7 +1065,7 @@ function runFinalMessage() {
   });
 }
 
-/* СТАДИЯ 2 — благодарность после 2 теста */
+/* СТАДИЯ 2 — благодарность */
 function runThanksMessage() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -1226,14 +1241,15 @@ function startTimers() {
 
 function updateTimers() {
   var now = new Date();
-  DAYS.forEach(function(d) {
-    var el = document.getElementById('timer-' + d.num);
+  DAYS.forEach(function(num) {
+    var el = document.getElementById('timer-' + num);
     if (!el) return;
-    if (state.completed[d.num]) { el.textContent = ''; return; }
-    var type = getDayType(d.num);
-    if (type === 'phantom' || type === 'locked') { el.textContent = ''; return; }
-    if (now >= d.date) { el.textContent = ''; return; }
-    var diff = d.date - now;
+    if (state.completed[num]) { el.textContent = ''; return; }
+    var type = getDayType(num);
+    if (type === 'phantom' || type === 'locked' || type === 'done') { el.textContent = ''; return; }
+    var d = DAY_DATES[num];
+    if (now >= d) { el.textContent = ''; return; }
+    var diff = d - now;
     var days = Math.floor(diff / 86400000);
     var hours = Math.floor((diff % 86400000) / 3600000);
     var mins = Math.floor((diff % 3600000) / 60000);
@@ -1242,7 +1258,6 @@ function updateTimers() {
   });
 }
 
-/* При загрузке — если есть висящий пузырик */
 setTimeout(function() {
   if (state.bubbleVisible && state.chatStage < 5) {
     updateBubble(false);
