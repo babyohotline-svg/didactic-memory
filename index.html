@@ -524,7 +524,6 @@ function checkCode() {
     err.textContent = '';
     document.getElementById('login').classList.remove('active');
     document.getElementById('main').classList.add('active');
-    // Если день 1 пройден и день 2 ещё не открыт — показать пузырик сразу
     checkShowBubble();
   } else {
     err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
@@ -613,7 +612,6 @@ function toggleDay(num) {
   if (now < d.date) return;
   if (state.completed[num]) return;
 
-  // Фантомно заблокированный день — ничего не делает
   if (d.type === 'phantom') {
     return;
   }
@@ -649,7 +647,6 @@ function renderDays() {
     var body = '';
     if (isExpanded) {
       if (d.type === 'quiz') {
-        var quizId = (d.num === 1) ? 'QUIZ_1' : 'QUIZ_2';
         body = '<div class="quiz-warning">ПРАВИЛА SCP FOUNDATION ОБЯЗЫВАЮТ ПРОЙТИ ПСИХОЛОГИЧЕСКОЕ ТЕСТИРОВАНИЕ ПЕРЕД ПРОДОЛЖЕНИЕМ ДОПУСКА. Будьте уверены, ответы анонимны.</div>' +
                '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
                '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
@@ -697,7 +694,6 @@ function startQuiz(num) {
       saveState();
     }
     setTimeout(function() { openDays[num] = false; renderDays(); }, 2500);
-    // Если день 1 — показать пузырик чата
     if (num === 1) {
       setTimeout(function() {
         showBubble();
@@ -737,7 +733,7 @@ function answerQuiz(num, ans) {
   startQuiz(num);
 }
 
-/* ============ ЧАТ ============ */
+/* ЧАТ */
 var chatBusy = false;
 
 function showBubble() { document.getElementById('chatBubble').classList.add('show'); }
@@ -755,7 +751,6 @@ function openChat() {
   } else if (state.chatStage === 1) {
     runFinalMessage();
   } else {
-    // уже всё сделано
     chatBusy = false;
   }
 }
@@ -816,7 +811,6 @@ function hideTyping() {
   if (el) el.remove();
 }
 
-/* Стадия 0 — первый диалог, обрывается */
 function runChatSequence() {
   var body = document.getElementById('chatBody');
   body.innerHTML = '';
@@ -905,7 +899,6 @@ function showErrScreen() {
   nextLine();
 }
 
-/* ============ ЗВУК ============ */
 var soundStarted = false;
 var WHISPER_WAV = null;
 
@@ -1004,7 +997,6 @@ function answerSound(answer) {
     document.getElementById('protocol').classList.add('active');
     soundStarted = false;
 
-    // День 2 теперь открыт как QUIZ
     var d2 = DAYS.find(function(x) { return x.num === 2; });
     if (d2) d2.type = 'quiz';
     state.day2Unlocked = true;
@@ -1012,7 +1004,6 @@ function answerSound(answer) {
     saveState();
     renderDays();
 
-    // Возвращаем чат через паузу
     setTimeout(function() {
       showBubble();
       setTimeout(function() {
@@ -1022,18 +1013,17 @@ function answerSound(answer) {
   }, 3000);
 }
 
-/* Стадия 1 — финальное сообщение о раннем доступе */
+/* Продолжение как будто ничего не было */
 function runFinalMessage() {
   var body = document.getElementById('chatBody');
   body.innerHTML = '';
 
   var lines = [
-    'Канал восстановлен.',
-    'Приносим извинения за неполадки.',
-    'Для полной сверки данных вам необходимо пройти дополнительный тест.',
+    '...и ваши показатели вызвали у нас вопросы.',
+    'Нам требуется провести дополнительную сверку.',
+    'Для этого вы должны пройти расширенный тест.',
     'Он касается социального взаимодействия и работы в группе.',
-    'Мы открываем вам доступ к нему раньше срока.',
-    'Отнеситесь к вопросам внимательно. Некоторые из них могут повести себя неожиданно.'
+    'Я открываю вам доступ к нему раньше срока.'
   ];
 
   var i = 0;
