@@ -121,25 +121,153 @@
   .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; position: relative; background: rgba(139,0,0,0.04); box-shadow: inset 0 0 40px rgba(139,0,0,0.1); }
   .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
 
-  /* ============ ЧАТ С КУРАТОРОМ ============ */
-  .chat-wrap { border: 1px solid #1a1a1a; background: #0c0c0c; padding: 24px; min-height: 400px; }
-  .chat-header { color: #8B0000; font-size: 11px; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; }
-  .chat-header .online { color: #4a7a4a; animation: blink 2s infinite; }
-  .chat-msg { color: #aaa; font-size: 13px; line-height: 1.8; margin-bottom: 16px; opacity: 0; animation: msgIn 0.5s forwards; }
-  .chat-msg .who { color: #8B0000; font-size: 11px; letter-spacing: 2px; display: block; margin-bottom: 4px; }
-  .chat-msg .data { color: #555; font-size: 11px; }
+  /* ========== ЧАТ ========== */
+  .chat-bubble {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #0d0d0d;
+    border: 1px solid #8B0000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 400;
+    box-shadow: 0 0 24px rgba(139,0,0,0.4);
+    transition: all 0.3s;
+  }
+  .chat-bubble.show { display: flex; }
+  .chat-bubble:hover { transform: scale(1.08); box-shadow: 0 0 32px rgba(139,0,0,0.7); }
+  .chat-bubble svg { width: 24px; height: 24px; fill: #8B0000; }
+  .chat-bubble::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #8B0000;
+    animation: blink 1.5s infinite;
+  }
+
+  .chat-window {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 48px);
+    height: 520px;
+    max-height: calc(100vh - 48px);
+    background: #0c0c0c;
+    border: 1px solid #8B0000;
+    display: none;
+    flex-direction: column;
+    z-index: 450;
+    box-shadow: 0 0 60px rgba(139,0,0,0.25);
+    animation: chatIn 0.3s ease;
+  }
+  .chat-window.show { display: flex; }
+  @keyframes chatIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .chat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid #1a1a1a;
+    background: #0d0d0d;
+  }
+  .chat-top-left { display: flex; align-items: center; gap: 10px; }
+  .chat-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #8B0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B0000;
+    font-size: 12px;
+    background: #0a0a0a;
+  }
+  .chat-name { color: #d4d4d4; font-size: 12px; letter-spacing: 2px; }
+  .chat-status { color: #4a7a4a; font-size: 9px; letter-spacing: 1px; }
+  .chat-close { color: #555; font-size: 20px; cursor: pointer; transition: color 0.3s; line-height: 1; }
+  .chat-close:hover { color: #8B0000; }
+
+  .chat-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .chat-body::-webkit-scrollbar { width: 4px; }
+  .chat-body::-webkit-scrollbar-thumb { background: #3a1010; }
+
+  .chat-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    background: #141414;
+    border-left: 2px solid #8B0000;
+    color: #bbb;
+    align-self: flex-start;
+    animation: msgIn 0.4s ease;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
   @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* Помехи */
-  .glitch { animation: glitch 0.15s infinite; }
-  @keyframes glitch {
-    0% { transform: translate(0); filter: hue-rotate(0deg); }
-    20% { transform: translate(-2px, 1px); filter: hue-rotate(-20deg); }
-    40% { transform: translate(2px, -1px); filter: hue-rotate(20deg); }
-    60% { transform: translate(-1px, 2px); }
-    80% { transform: translate(1px, -2px); filter: hue-rotate(-10deg); }
-    100% { transform: translate(0); }
+  .chat-msg.mine { align-self: flex-end; border-left: none; border-right: 2px solid #8B0000; color: #d4d4d4; background: #101010; }
+
+  .typing-dots { display: inline-flex; gap: 3px; }
+  .typing-dots span { width: 4px; height: 4px; background: #8B0000; border-radius: 50%; animation: dotPulse 1.2s infinite; }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
+
+  .chat-footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 12px;
+    background: #0d0d0d;
   }
+  .chat-readonly {
+    color: #444;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 8px 0;
+    border: 1px dashed #1f1f1f;
+    background: #0a0a0a;
+  }
+  .chat-options {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .chat-opt {
+    flex: 1;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid #3a1010;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .chat-opt:hover { background: #1a0808; }
+  .chat-opt:disabled { opacity: 0.4; cursor: not-allowed; }
+
   .glitch-overlay {
     position: fixed;
     inset: 0;
@@ -152,7 +280,6 @@
   .glitch-overlay.show { display: block; }
   @keyframes glitchScroll { from { background-position-y: 0; } to { background-position-y: 4px; } }
 
-  /* Картина */
   .painting-wrap { text-align: center; padding: 40px 0; }
   .painting {
     display: inline-block;
@@ -160,8 +287,9 @@
     padding: 8px;
     background: #0d0d0d;
     max-width: 100%;
+    box-shadow: 0 0 40px rgba(139,0,0,0.2);
   }
-  .painting img { display: block; max-width: 100%; filter: contrast(1.1) saturate(0.85) brightness(0.9); }
+  .painting svg { display: block; max-width: 100%; height: auto; }
   .painting-caption {
     margin-top: 20px;
     color: #8B0000;
@@ -200,6 +328,8 @@
     .topbar-status { display: none; }
     .login-sub { font-size: 15px; letter-spacing: 2px; }
     .quiz-options { flex-direction: column; }
+    .chat-window { width: calc(100vw - 16px); right: 8px; bottom: 8px; height: 80vh; }
+    .chat-bubble { bottom: 16px; right: 16px; }
   }
 </style>
 </head>
@@ -289,12 +419,80 @@
 <div class="screen" id="painting">
   <div class="painting-wrap">
     <div class="painting">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/400px-The_Scream.jpg" alt="Картина" onerror="this.style.display='none';this.parentNode.innerHTML='&lt;div style=&quot;width:340px;height:420px;background:#111;display:flex;align-items:center;justify-content:center;color:#333;font-size:12px;letter-spacing:2px;&quot;&gt;[ИЗОБРАЖЕНИЕ НЕДОСТУПНО]&lt;/div&gt;'">
+      <svg viewBox="0 0 400 500" width="320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c9642a"/>
+            <stop offset="60%" stop-color="#e8a54b"/>
+            <stop offset="100%" stop-color="#8a3f1a"/>
+          </linearGradient>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3d2a4a"/>
+            <stop offset="100%" stop-color="#1a1225"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="500" fill="url(#sky)"/>
+        <path d="M 0 320 Q 100 300 200 320 T 400 320 L 400 500 L 0 500 Z" fill="url(#water)"/>
+        <path d="M 0 320 Q 100 300 200 320 T 400 320" stroke="#2a1a1a" stroke-width="3" fill="none"/>
+        <path d="M 0 340 Q 80 330 180 345 T 400 340" stroke="#5a3a1a" stroke-width="1" opacity="0.4" fill="none"/>
+        <path d="M 0 370 Q 100 360 200 375 T 400 370" stroke="#3a2a5a" stroke-width="1" opacity="0.3" fill="none"/>
+        <!-- Мост -->
+        <path d="M 0 300 L 400 295" stroke="#2a1510" stroke-width="6"/>
+        <line x1="60" y1="300" x2="60" y2="280" stroke="#2a1510" stroke-width="3"/>
+        <line x1="160" y1="298" x2="160" y2="278" stroke="#2a1510" stroke-width="3"/>
+        <line x1="260" y1="296" x2="260" y2="276" stroke="#2a1510" stroke-width="3"/>
+        <line x1="360" y1="295" x2="360" y2="275" stroke="#2a1510" stroke-width="3"/>
+        <!-- Два силуэта на мосту -->
+        <ellipse cx="100" cy="285" rx="10" ry="14" fill="#1a0f08"/>
+        <rect x="94" y="295" width="12" height="20" fill="#1a0f08"/>
+        <ellipse cx="300" cy="280" rx="10" ry="14" fill="#2a1a10"/>
+        <rect x="294" y="290" width="12" height="20" fill="#2a1a10"/>
+        <!-- Крик: фигура -->
+        <ellipse cx="200" cy="330" rx="32" ry="42" fill="#2a1510"/>
+        <ellipse cx="200" cy="305" rx="26" ry="32" fill="#3a2015"/>
+        <ellipse cx="200" cy="300" rx="18" ry="22" fill="#5a3a25"/>
+        <!-- Рот -->
+        <ellipse cx="200" cy="315" rx="7" ry="12" fill="#0a0505"/>
+        <!-- Глаза -->
+        <circle cx="190" cy="295" r="2.5" fill="#0a0505"/>
+        <circle cx="210" cy="295" r="2.5" fill="#0a0505"/>
+        <!-- Руки -->
+        <path d="M 175 330 Q 165 350 170 370" stroke="#2a1510" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M 225 330 Q 235 350 230 370" stroke="#2a1510" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <!-- Тело -->
+        <path d="M 185 360 Q 200 380 215 360 L 220 420 L 180 420 Z" fill="#1a0f08"/>
+        <!-- Штрихи для тревожности -->
+        <path d="M 30 200 Q 60 180 90 200" stroke="#8a3f1a" stroke-width="1.5" opacity="0.6" fill="none"/>
+        <path d="M 310 180 Q 340 160 370 180" stroke="#8a3f1a" stroke-width="1.5" opacity="0.6" fill="none"/>
+      </svg>
     </div>
     <div class="painting-caption">ʇо видишь это?</div>
     <div id="paintingStage"></div>
   </div>
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
+</div>
+
+<!-- ЧАТ -->
+<div class="chat-bubble" id="chatBubble" onclick="openChat()">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+</div>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-top">
+    <div class="chat-top-left">
+      <div class="chat-avatar">ДР</div>
+      <div>
+        <div class="chat-name">ДР. РАШ</div>
+        <div class="chat-status">● В СЕТИ</div>
+      </div>
+    </div>
+    <div class="chat-close" onclick="closeChat()">×</div>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-footer">
+    <div class="chat-readonly">ТОЛЬКО ДЛЯ ЧТЕНИЯ</div>
+    <div class="chat-options" id="chatOptions"></div>
+  </div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -430,6 +628,8 @@ function backToMain() {
   document.getElementById('case').classList.remove('active');
   document.getElementById('painting').classList.remove('active');
   document.getElementById('main').classList.add('active');
+  closeChat();
+  hideBubble();
 }
 
 function toggleDay(num) {
@@ -437,6 +637,11 @@ function toggleDay(num) {
   var now = new Date();
   if (now < d.date) return;
   if (state.completed[num]) return;
+  if (d.type === 'chat') {
+    showBubble();
+    setTimeout(openChat, 200);
+    return;
+  }
   openDays[num] = !openDays[num];
   renderDays();
 }
@@ -470,11 +675,6 @@ function renderDays() {
                '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
                '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
                '<div class="quiz-options" id="qo-' + d.num + '"></div>';
-      } else if (d.type === 'chat') {
-        body = '<div class="chat-wrap" id="chat-' + d.num + '">' +
-               '<div class="chat-header"><span>КАНАЛ СВЯЗИ · ДР. РАШ</span><span class="online">● В СЕТИ</span></div>' +
-               '<div id="chatBody-' + d.num + '"></div>' +
-               '</div>';
       } else if (d.type === 'final') {
         body = '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ПРОВЕРКА ЗАВЕРШЕНА</div><div class="big">30.10 · 17:20</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div></div>';
       } else {
@@ -489,9 +689,6 @@ function renderDays() {
 
     if (isExpanded && d.type === 'quiz') {
       startQuiz(d.num);
-    }
-    if (isExpanded && d.type === 'chat') {
-      startChat(d.num);
     }
   });
 }
@@ -538,52 +735,143 @@ function answerQuiz(num, ans) {
   startQuiz(num);
 }
 
-var chatTimers = {};
+/* ============ ЧАТ ============ */
+var chatStarted = false;
+var chatTimers = [];
+var typingQueue = [];
 
-function startChat(num) {
-  if (chatTimers[num]) return;
-  var body = document.getElementById('chatBody-' + num);
-  if (!body) return;
-  body.innerHTML = '';
+function showBubble() {
+  document.getElementById('chatBubble').classList.add('show');
+}
 
+function hideBubble() {
+  document.getElementById('chatBubble').classList.remove('show');
+}
+
+function openChat() {
+  document.getElementById('chatBubble').classList.remove('show');
+  document.getElementById('chatWindow').classList.add('show');
+  if (!chatStarted) {
+    chatStarted = true;
+    runChatSequence();
+  }
+}
+
+function closeChat() {
+  document.getElementById('chatWindow').classList.remove('show');
+  if (state.completed[2]) return;
+  showBubble();
+}
+
+function addMsg(text, mine) {
+  var body = document.getElementById('chatBody');
+  var div = document.createElement('div');
+  div.className = 'chat-msg' + (mine ? ' mine' : '');
+  if (!mine) {
+    var who = document.createElement('div');
+    who.style.color = '#8B0000';
+    who.style.fontSize = '10px';
+    who.style.letterSpacing = '2px';
+    who.style.marginBottom = '4px';
+    who.textContent = 'ДР. РАШ';
+    div.appendChild(who);
+  }
+  var span = document.createElement('span');
+  div.appendChild(span);
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+  return span;
+}
+
+function typeText(span, text, speed, cb) {
+  var i = 0;
+  function tick() {
+    if (i >= text.length) { if (cb) cb(); return; }
+    span.textContent += text[i];
+    i++;
+    document.getElementById('chatBody').scrollTop = document.getElementById('chatBody').scrollHeight;
+    setTimeout(tick, speed);
+  }
+  tick();
+}
+
+function showTyping() {
+  var body = document.getElementById('chatBody');
+  var div = document.createElement('div');
+  div.className = 'chat-msg';
+  div.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+  div.id = 'typingIndicator';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function hideTyping() {
+  var el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+function runChatSequence() {
   var lines = [
-    { who: 'ДР. РАШ', text: 'Добрый день, кандидат.' },
-    { who: 'ДР. РАШ', text: 'Мы изучили ваш психологический профиль.' },
-    { who: 'ДР. РАШ', text: 'Он был сопоставлен с данными, полученными ранее.' },
-    { who: 'ДР. РАШ', text: 'Обнаружены несоответствия.', data: 'Стресс: 0.34<br>Внимание: 0.61<br>Восприятие: [ДАННЫЕ УДАЛЕНЫ]' },
-    { who: 'ДР. РАШ', text: 'Прежде чем мы продолжим, ответьте на один вопрос.' }
+    'Добрый день, кандидат.',
+    'Мы изучили ваш психологический профиль.',
+    'Он был сопоставлен с данными, полученными ранее.',
+    'Обнаружены несоответствия.',
+    'Показатели: стресс 0.34, внимание 0.61, восприятие — [ДАННЫЕ УДАЛЕНЫ].',
+    'Прежде чем мы продолжим, ответьте на один вопрос.'
   ];
 
   var i = 0;
   function next() {
     if (i >= lines.length) {
-      setTimeout(startGlitch, 1800);
+      setTimeout(showChatOptions, 800);
+      setTimeout(startGlitch, 2500);
       return;
     }
-    var m = lines[i];
-    var div = document.createElement('div');
-    div.className = 'chat-msg';
-    div.innerHTML = '<span class="who">' + m.who + '</span>' + m.text + (m.data ? '<div class="data">' + m.data + '</div>' : '');
-    body.appendChild(div);
-    i++;
-    chatTimers[num] = setTimeout(next, 1400);
+    showTyping();
+    setTimeout(function() {
+      hideTyping();
+      var span = addMsg('', false);
+      typeText(span, lines[i], 35, function() {
+        i++;
+        setTimeout(next, 1200);
+      });
+    }, 900);
   }
   next();
+}
+
+function showChatOptions() {
+  var opts = document.getElementById('chatOptions');
+  opts.innerHTML = '';
+  ['ПОНЯЛ', 'ПРОДОЛЖИТЬ', 'ОТМЕНА'].forEach(function(txt) {
+    var b = document.createElement('button');
+    b.className = 'chat-opt';
+    b.textContent = txt;
+    b.disabled = true;
+    opts.appendChild(b);
+  });
 }
 
 function startGlitch() {
   document.getElementById('glitchOverlay').classList.add('show');
   var scr = document.getElementById('protocol');
-  scr.classList.add('glitch');
+  scr.style.animation = 'glitch 0.15s infinite';
   setTimeout(function() {
-    scr.classList.remove('glitch');
+    scr.style.animation = '';
+    document.getElementById('glitchOverlay').classList.remove('show');
+    closeChat();
     document.getElementById('protocol').classList.remove('active');
     document.getElementById('painting').classList.add('active');
     startPaintingTimer();
   }, 2500);
 }
 
+/* ============ КАРТИНА ============ */
+var paintingStarted = false;
+
 function startPaintingTimer() {
+  if (paintingStarted) return;
+  paintingStarted = true;
   var stage = document.getElementById('paintingStage');
   stage.innerHTML = '';
   setTimeout(function() {
@@ -623,6 +911,7 @@ function checkPainting() {
     setTimeout(function() {
       document.getElementById('painting').classList.remove('active');
       document.getElementById('protocol').classList.add('active');
+      paintingStarted = false;
       renderDays();
     }, 1500);
   } else {
