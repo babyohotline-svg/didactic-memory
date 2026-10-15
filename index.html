@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commission on Adoption</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #c8c8c8;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.8s;
+  }
+
+  .emblem {
+    width: 90px;
+    height: 90px;
+    border: 2px solid #8B0000;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 40px;
+    animation: pulse 2s infinite;
+  }
+
+  .emblem::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 1px solid #8B0000;
+    border-radius: 50%;
+  }
+
+  .emblem::after {
+    content: '82';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B0000;
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(139,0,0,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 30px 8px rgba(139,0,0,0.15); }
+  }
+
+  .load-text {
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 3px;
+    line-height: 2.2;
+    text-align: center;
+  }
+
+  .load-text span { color: #8B0000; }
+
+  .screen {
+    display: none;
+    min-height: 100vh;
+    padding: 60px 24px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .screen.active { display: block; }
+
+  #login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  #login.active { display: flex; }
+
+  .login-title {
+    color: #8B0000;
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+  }
+
+  .login-sub {
+    color: #d4d4d4;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 48px;
+  }
+
+  .code-input {
+    width: 100%;
+    max-width: 340px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    color: #d4d4d4;
+    font-family: 'Courier New', monospace;
+    font-size: 22px;
+    padding: 14px 0;
+    letter-spacing: 6px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .code-input:focus { border-color: #8B0000; }
+  .code-input::placeholder { color: #2a2a2a; letter-spacing: 4px; }
+
+  .login-btn {
+    margin-top: 32px;
+    padding: 14px 48px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .login-btn:hover { background: #8B0000; color: #0a0a0a; }
+
+  .login-footer {
+    margin-top: 48px;
+    color: #1f1f1f;
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+
+  .error-msg {
+    color: #8B0000;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 16px;
+    min-height: 16px;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #1f1f1f;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
+
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+
+  .mini-emblem {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #8B0000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B0000;
+    font-size: 11px;
+  }
+
+  .topbar-title { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
+  .topbar-status { color: #444; font-size: 10px; letter-spacing: 2px; }
+
+  .menu { display: flex; flex-direction: column; gap: 2px; }
+
+  .menu-item {
+    padding: 18px 24px;
+    border: 1px solid #1a1a1a;
+    color: #777;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .menu-item:hover {
+    border-color: #8B0000;
+    color: #d4d4d4;
+    background: rgba(139,0,0,0.04);
+  }
+
+  .menu-item .arrow { color: #333; }
+  .menu-item:hover .arrow { color: #8B0000; }
+
+  .menu-item.protocol { border-color: #3a1010; color: #8B0000; }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    backdrop-filter: blur(3px);
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    max-width: 480px;
+    width: 100%;
+    background: #0d0d0d;
+    border: 1px solid #8B0000;
+    padding: 40px 32px;
+    animation: modalIn 0.4s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-title {
+    color: #8B0000;
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .modal-text {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .modal-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .modal-btn:hover { background: #8B0000; color: #0a0a0a; }
+
+  .protocol-header {
+    color: #8B0000;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+
+  .protocol-title {
+    color: #d4d4d4;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+  }
+
+  .day {
+    border: 1px solid #1a1a1a;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+  }
+
+  .day.locked { opacity: 0.45; }
+  .day.available { border-color: #8B0000; }
+
+  .day-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .day-num { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
+
+  .day-status { font-size: 10px; letter-spacing: 2px; }
+  .day-status.done { color: #4a7a4a; }
+  .day-status.wait { color: #8B0000; }
+  .day-status.lock { color: #333; }
+
+  .day-timer {
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 8px;
+  }
+
+  .day-body {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #1a1a1a;
+    display: none;
+  }
+
+  .day.open .day-body { display: block; }
+
+  .day-text {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 20px;
+    white-space: pre-line;
+  }
+
+  .day-code-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    color: #d4d4d4;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    padding: 10px 0;
+    letter-spacing: 4px;
+    outline: none;
+    margin-bottom: 16px;
+  }
+
+  .day-code-input:focus { border-color: #8B0000; }
+
+  .day-btn {
+    padding: 10px 28px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .day-btn:hover { background: #8B0000; color: #0a0a0a; }
+
+  .day-result {
+    margin-top: 16px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    min-height: 18px;
+  }
+
+  .day-result.ok { color: #4a7a4a; }
+  .day-result.err { color: #8B0000; }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 32px;
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .back-link:hover { color: #8B0000; }
+
+  .final-message {
+    border: 1px solid #8B0000;
+    padding: 40px 32px;
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  .final-message .big {
+    color: #8B0000;
+    font-size: 22px;
+    letter-spacing: 6px;
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="emblem"></div>
+  <div class="load-text">
+    ИНИЦИАЛИЗАЦИЯ...<br>
+    ПРОВЕРКА СОЕДИНЕНИЯ...<br>
+    <span>ДОСТУП К СИСТЕМЕ...</span>
+  </div>
+</div>
+
+<div class="screen" id="login">
+  <div class="login-title">COMMISSION ON ADOPTION</div>
+  <div class="login-sub">ВВЕДИТЕ ИДЕНТИФИКАТОР</div>
+  <input type="text" class="code-input" id="codeInput" placeholder="_ _ _ - _ _ - _ _ _" autocomplete="off">
+  <button class="login-btn" onclick="checkCode()">ПОДТВЕРДИТЬ</button>
+  <div class="error-msg" id="errorMsg"></div>
+  <div class="login-footer">Исх. № 641\88-6 · ДСП</div>
+</div>
+
+<div class="screen" id="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="mini-emblem">82</div>
+      <div class="topbar-title">ФОНД · ЛИЧНЫЙ КАБИНЕТ</div>
+    </div>
+    <div class="topbar-status">ДОПУСК: ОГРАНИЧЕН</div>
+  </div>
+
+  <div class="menu">
+    <div class="menu-item" onclick="lowAccess()">АРХИВ <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="lowAccess()">ЛИЧНОЕ ДЕЛО <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="lowAccess()">СЕКТОР 82 <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="lowAccess()">СВЯЗЬ С КУРАТОРОМ <span class="arrow">→</span></div>
+    <div class="menu-item protocol" onclick="openProtocol()">ПРОТОКОЛ ПРОВЕРКИ <span class="arrow">→</span></div>
+  </div>
+</div>
+
+<div class="screen" id="protocol">
+  <div class="protocol-header">РЕГЛАМЕНТ ДОПОЛНИТЕЛЬНЫХ ПРОВЕРОК</div>
+  <div class="protocol-title">ПРОТОКОЛ</div>
+
+  <div id="days"></div>
+
+  <div class="back-link" onclick="backToMain()">← НАЗАД</div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">ДОСТУП ОГРАНИЧЕН</div>
+    <div class="modal-text" id="modalText"></div>
+    <button class="modal-btn" onclick="closeModal()">ПРИНЯТО</button>
+  </div>
+</div>
+
+<script>
+/* ==================================================
+   КОДЫ ДОСТУПА
+   ================================================== */
+const VALID_CODES = [
+  '619-33-012',
+  '844-01-902',
+  '038-02-048',
+  '028-99-539',
+  '394-39-002',
+  '381-39-289'
+];
+
+/* ==================================================
+   !!! ТЕСТОВЫЕ ДАТЫ — ВСЁ В ПРОШЛОМ !!!
+   Проверь сейчас, потом замени на реальные.
+   Месяц в JS: 0=янв, 9=окт, 10=ноя
+   ================================================== */
+const DAYS = [
+  {
+    num: 1,
+    date: new Date(2025, 0, 1, 10, 0, 0), // 1 января 2025 — уже прошло
+    text: 'ДОБРО ПОЖАЛОВАТЬ, СТАЖЁР.\n\nВаша заявка была рассмотрена. Кандидатура согласована.\n\nВы приняты в штат Фонда. На текущем этапе Фонд не может в полной мере доверить вам информацию о местоположении Зоны 82.\n\nНеобходимые данные вы обязаны выявить самостоятельно. Рекомендуется проявлять внимательность к деталям.\n\nПрежде чем продолжить, ответьте на вопрос:\n\nСколько человек в вашей группе?',
+    anyAnswer: true
+  },
+  {
+    num: 2,
+    date: new Date(2025, 0, 2, 10, 0, 0),
+    text: 'ПРОВЕРКА ВНИМАТЕЛЬНОСТИ.\n\nВ присланном вам документе есть номер.\nОн выглядит так: 641\\88-6.\n\nСложите все цифры этого номера.\n\nК полученному числу прибавьте количество человек в вашей группе.\n\nВведите результат.',
+    calcAnswer: function(groupSize) {
+      return String(33 + groupSize);
+    }
+  },
+  {
+    num: 3,
+    date: new Date(2025, 0, 3, 10, 0, 0),
+    text: 'ДОПУСК ЧАСТИЧНО ПОДТВЕРЖДЁН.\n\nОсталось последнее.\n\nВ вашем документе есть дата. Она не совпадает с датой сбора.\n\nПосмотрите на неё внимательно.\n\nВведите дату из документа в формате ДД.ММ.ГГГГ.',
+    answer: '23.10.2026'
+  },
+  {
+    num: 4,
+    date: new Date(2025, 0, 4, 10, 0, 0),
+    text: 'ПРОВЕРКА ЗАВЕРШЕНА.\n\nВы выдержали все этапы.\n\nФонд подтверждает ваш допуск.',
+    isFinal: true
+  }
+];
+
+let enteredCode = null;
+let groupSize = 4;
+let completedDays = {};
+
+setTimeout(() => {
+  document.getElementById('loader').style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('login').classList.add('active');
+  }, 800);
+}, 3200);
+
+function checkCode() {
+  const val = document.getElementById('codeInput').value.trim();
+  const err = document.getElementById('errorMsg');
+
+  if (VALID_CODES.includes(val)) {
+    enteredCode = val;
+    err.textContent = '';
+    document.getElementById('login').classList.remove('active');
+    document.getElementById('main').classList.add('active');
+    setTimeout(showFirstModal, 8000);
+  } else {
+    err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
+    document.getElementById('codeInput').value = '';
+  }
+}
+
+document.getElementById('codeInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkCode();
+});
+
+function lowAccess() {
+  document.getElementById('modalTitle').textContent = 'ДОСТУП ОГРАНИЧЕН';
+  document.getElementById('modalText').textContent = 'Ваш уровень допуска недостаточен. Обратитесь к куратору.';
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function showFirstModal() {
+  document.getElementById('modalTitle').textContent = 'УВЕДОМЛЕНИЕ';
+  document.getElementById('modalText').innerHTML =
+    'Уважаемый стажёр.<br><br>' +
+    'Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>' +
+    'Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>' +
+    'Возвращайтесь ежедневно.<br><br>' +
+    'Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function openProtocol() {
+  document.getElementById('main').classList.remove('active');
+  document.getElementById('protocol').classList.add('active');
+  renderDays();
+  startTimers();
+}
+
+function backToMain() {
+  document.getElementById('protocol').classList.remove('active');
+  document.getElementById('main').classList.add('active');
+}
+
+function renderDays() {
+  const container = document.getElementById('days');
+  container.innerHTML = '';
+
+  DAYS.forEach((d, i) => {
+    const now = new Date();
+    const isOpen = now >= d.date;
+    const isDone = completedDays[d.num];
+    const prevDone = i === 0 ? true : completedDays[DAYS[i-1].num];
+
+    let statusClass, statusText;
+    if (isDone) { statusClass = 'done'; statusText = 'ВЫПОЛНЕНО'; }
+    else if (!prevDone) { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
+    else if (isOpen) { statusClass = 'wait'; statusText = 'ДОСТУПНО'; }
+    else { statusClass = 'wait'; statusText = 'ОЖИДАНИЕ'; }
+
+    const el = document.createElement('div');
+    el.className = 'day';
+    if (isDone) el.classList.add('open');
+    if (!isOpen || !prevDone) el.classList.add('locked');
+    if (isOpen && prevDone && !isDone) el.classList.add('available');
+
+    el.innerHTML = `
+      <div class="day-head">
+        <div class="day-num">ДЕНЬ ${d.num}</div>
+        <div class="day-status ${statusClass}">${statusText}</div>
+      </div>
+      <div class="day-timer" id="timer-${d.num}"></div>
+      <div class="day-body">
+        <div class="day-text">${d.text}</div>
+        ${renderDayInput(d)}
+        <div class="day-result" id="result-${d.num}"></div>
+      </div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function renderDayInput(d) {
+  if (d.isFinal) {
+    return `<div class="final-message">
+      <div style="color:#777;font-size:11px;letter-spacing:3px;">ДОПУСК ПОДТВЕРЖДЁН</div>
+      <div class="big">30.10 · 17:20</div>
+      <div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div>
+    </div>`;
+  }
+  return `
+    <input type="text" class="day-code-input" id="input-${d.num}" placeholder="ВВЕДИТЕ ОТВЕТ">
+    <button class="day-btn" onclick="submitDay(${d.num})">ПОДТВЕРДИТЬ</button>
+  `;
+}
+
+function submitDay(num) {
+  const d = DAYS.find(x => x.num === num);
+  const val = document.getElementById('input-' + num).value.trim();
+  const res = document.getElementById('result-' + num);
+
+  if (d.anyAnswer) {
+    if (val.length === 0) {
+      res.className = 'day-result err';
+      res.textContent = 'ВВЕДИТЕ ОТВЕТ.';
+      return;
+    }
+    const size = parseInt(val);
+    if (!isNaN(size) && size > 0 && size < 50) groupSize = size;
+    completedDays[num] = true;
+    res.className = 'day-result ok';
+    res.textContent = 'ПРИНЯТО.';
+    renderDays();
+    return;
+  }
+
+  if (d.calcAnswer) {
+    const correct = d.calcAnswer(groupSize);
+    if (val === correct) {
+      completedDays[num] = true;
+      res.className = 'day-result ok';
+      res.textContent = 'ВЕРНО.';
+      renderDays();
+    } else {
+      res.className = 'day-result err';
+      res.textContent = 'НЕВЕРНО. ПОПРОБУЙТЕ СНОВА.';
+    }
+    return;
+  }
+
+  if (d.answer) {
+    if (val === d.answer) {
+      completedDays[num] = true;
+      res.className = 'day-result ok';
+      res.textContent = 'ВЕРНО.';
+      renderDays();
+    } else {
+      res.className = 'day-result err';
+      res.textContent = 'НЕВЕРНО. ПОПРОБУЙТЕ СНОВА.';
+    }
+    return;
+  }
+}
+
+let timerInterval = null;
+
+function startTimers() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimers, 1000);
+  updateTimers();
+}
+
+function updateTimers() {
+  const now = new Date();
+  DAYS.forEach(d => {
+    const el = document.getElementById('timer-' + d.num);
+    if (!el) return;
+    if (completedDays[d.num]) { el.textContent = ''; return; }
+    if (now >= d.date) { el.textContent = 'ДОСТУП ОТКРЫТ'; return; }
+
+    const diff = d.date - now;
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+
+    el.textContent = `ОТКРЫТИЕ ЧЕРЕЗ: ${days}д ${hours}ч ${mins}м ${secs}с`;
+  });
+}
+</script>
+
+</body>
+</html>
