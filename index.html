@@ -95,6 +95,8 @@
 
   .day { border: 1px solid #1a1a1a; padding: 24px; margin-bottom: 16px; cursor: pointer; transition: all 0.3s; position: relative; }
   .day.locked { opacity: 0.4; cursor: not-allowed; }
+  .day.phantom { opacity: 0.55; cursor: not-allowed; border-color: #2a0a0a; }
+  .day.phantom .day-status { color: #5a1010; letter-spacing: 4px; }
   .day.available { border-color: #8B0000; }
   .day.available:hover { background: rgba(139,0,0,0.05); transform: translateX(4px); }
   .day.open { border-color: #8B0000; background: rgba(139,0,0,0.03); }
@@ -141,7 +143,7 @@
     position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
     border-radius: 50%; background: #0d0d0d; border: 1px solid #8B0000;
     display: none; align-items: center; justify-content: center;
-    cursor: pointer; z-index: 400; box-shadow: 0 0 24px rgba(139,0,0,0.4); transition: all 0.3s;
+    cursor: pointer; z-index: 900; box-shadow: 0 0 24px rgba(139,0,0,0.4); transition: all 0.3s;
   }
   .chat-bubble.show { display: flex; }
   .chat-bubble:hover { transform: scale(1.08); box-shadow: 0 0 32px rgba(139,0,0,0.7); }
@@ -151,7 +153,7 @@
     width: 10px; height: 10px; border-radius: 50%; background: #8B0000; animation: blink 1.5s infinite;
   }
   .chat-bubble.pulse-attention {
-    animation: bubblePulse 1s ease 4;
+    animation: bubblePulse 1s ease infinite;
     border-color: #ff0000;
   }
   @keyframes bubblePulse {
@@ -163,7 +165,7 @@
     position: fixed; bottom: 24px; right: 24px; width: 380px;
     max-width: calc(100vw - 48px); height: 520px; max-height: calc(100vh - 48px);
     background: #0c0c0c; border: 1px solid #8B0000;
-    display: none; flex-direction: column; z-index: 450;
+    display: none; flex-direction: column; z-index: 950;
     box-shadow: 0 0 60px rgba(139,0,0,0.25); animation: chatIn 0.3s ease;
   }
   .chat-window.show { display: flex; }
@@ -465,8 +467,8 @@ var QUIZ_2 = [
 ];
 
 var DAYS = [
-  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0), type: 'quiz', quizData: 'QUIZ_1' },
-  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0), type: 'chat' },
+  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0), type: 'quiz' },
+  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0), type: 'phantom' },
   { num: 3, date: new Date(2025, 0, 3, 10, 0, 0), type: 'text',
     text: 'ЭТАП 3.\n\nПроверка будет объявлена позже.' },
   { num: 4, date: new Date(2025, 0, 4, 10, 0, 0), type: 'final',
@@ -479,7 +481,7 @@ function loadState() {
     var raw = localStorage.getItem('cdv_state');
     if (raw) return JSON.parse(raw);
   } catch(e) {}
-  return { completed: {}, quiz: {}, seenWelcome: false, day2Unlocked: false };
+  return { completed: {}, quiz: {}, seenWelcome: false, welcomeShown: false, chatStage: 0, day2Unlocked: false };
 }
 function saveState() {
   try { localStorage.setItem('cdv_state', JSON.stringify(state)); } catch(e) {}
@@ -522,10 +524,8 @@ function checkCode() {
     err.textContent = '';
     document.getElementById('login').classList.remove('active');
     document.getElementById('main').classList.add('active');
-    if (!state.seenWelcome) {
-      state.seenWelcome = true;
-      saveState();
-    }
+    // Если день 1 пройден и день 2 ещё не открыт — показать пузырик сразу
+    checkShowBubble();
   } else {
     err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
     document.getElementById('codeInput').value = '';
@@ -535,14 +535,19 @@ document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
 
-/* Клик по любому пункту меню — плашка показывается сразу */
+function checkShowBubble() {
+  if (state.completed[1] && !state.completed[2]) {
+    showBubble();
+    var b = document.getElementById('chatBubble');
+    b.classList.add('pulse-attention');
+  }
+}
+
 function menuClick(target) {
-  // Первый клик — плашка "Уважаемый стажёр"
   if (!state.welcomeShown) {
     state.welcomeShown = true;
     saveState();
     showWelcome(function() {
-      // После закрытия плашки — выполняем действие
       doMenuAction(target);
     });
     return;
@@ -561,7 +566,6 @@ function showWelcome(cb) {
   document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
   var overlay = document.getElementById('modalOverlay');
   overlay.classList.add('show');
-  // Заменяем действие кнопки — после закрытия вызовем cb
   var btn = overlay.querySelector('.modal-btn');
   btn.onclick = function() {
     overlay.classList.remove('show');
@@ -592,18 +596,7 @@ function openProtocol() {
   document.getElementById('protocol').classList.add('active');
   renderDays();
   startTimers();
-  checkDay2Bubble();
-}
-
-function checkDay2Bubble() {
-  if (state.completed[1] && !state.completed[2]) {
-    setTimeout(function() {
-      showBubble();
-      var b = document.getElementById('chatBubble');
-      b.classList.add('pulse-attention');
-      setTimeout(function() { b.classList.remove('pulse-attention'); }, 4500);
-    }, 800);
-  }
+  checkShowBubble();
 }
 
 function backToMain() {
@@ -612,7 +605,6 @@ function backToMain() {
   document.getElementById('soundScene').classList.remove('show');
   document.getElementById('main').classList.add('active');
   closeChat();
-  hideBubble();
 }
 
 function toggleDay(num) {
@@ -621,11 +613,8 @@ function toggleDay(num) {
   if (now < d.date) return;
   if (state.completed[num]) return;
 
-  if (d.type === 'chat') {
-    showBubble();
-    var b = document.getElementById('chatBubble');
-    b.classList.add('pulse-attention');
-    setTimeout(function() { b.classList.remove('pulse-attention'); }, 3000);
+  // Фантомно заблокированный день — ничего не делает
+  if (d.type === 'phantom') {
     return;
   }
 
@@ -645,19 +634,22 @@ function renderDays() {
 
     var statusClass, statusText;
     if (isDone) { statusClass = 'done'; statusText = '✓ ПРОЙДЕНО'; }
+    else if (d.type === 'phantom') { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
     else if (!prevDone) { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
     else if (isOpen) { statusClass = 'wait'; statusText = 'НАЖМИТЕ'; }
     else { statusClass = 'wait'; statusText = 'ОЖИДАНИЕ'; }
 
     var el = document.createElement('div');
     el.className = 'day';
-    if (!isOpen || !prevDone) el.classList.add('locked');
-    if (isOpen && prevDone && !isDone) el.classList.add('available');
+    if (d.type === 'phantom') el.classList.add('phantom');
+    else if (!isOpen || !prevDone) el.classList.add('locked');
+    if (isOpen && prevDone && !isDone && d.type !== 'phantom') el.classList.add('available');
     if (isExpanded) el.classList.add('open');
 
     var body = '';
     if (isExpanded) {
       if (d.type === 'quiz') {
+        var quizId = (d.num === 1) ? 'QUIZ_1' : 'QUIZ_2';
         body = '<div class="quiz-warning">ПРАВИЛА SCP FOUNDATION ОБЯЗЫВАЮТ ПРОЙТИ ПСИХОЛОГИЧЕСКОЕ ТЕСТИРОВАНИЕ ПЕРЕД ПРОДОЛЖЕНИЕМ ДОПУСКА. Будьте уверены, ответы анонимны.</div>' +
                '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
                '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
@@ -705,6 +697,14 @@ function startQuiz(num) {
       saveState();
     }
     setTimeout(function() { openDays[num] = false; renderDays(); }, 2500);
+    // Если день 1 — показать пузырик чата
+    if (num === 1) {
+      setTimeout(function() {
+        showBubble();
+        var b = document.getElementById('chatBubble');
+        b.classList.add('pulse-attention');
+      }, 2800);
+    }
     return;
   }
 
@@ -737,30 +737,33 @@ function answerQuiz(num, ans) {
   startQuiz(num);
 }
 
-/* ЧАТ */
-var chatStarted = false;
-var chatMode = 'day2';
+/* ============ ЧАТ ============ */
+var chatBusy = false;
 
 function showBubble() { document.getElementById('chatBubble').classList.add('show'); }
 function hideBubble() { document.getElementById('chatBubble').classList.remove('show'); }
 
 function openChat() {
+  if (chatBusy) return;
+  chatBusy = true;
   document.getElementById('chatBubble').classList.remove('show');
+  document.getElementById('chatBubble').classList.remove('pulse-attention');
   document.getElementById('chatWindow').classList.add('show');
 
-  if (state.completed[1] && !state.completed[2] && chatMode !== 'day2Running') {
-    chatMode = 'day2Running';
-    chatStarted = false;
-    runDay2Dialog();
-    return;
+  if (state.chatStage === 0) {
+    runChatSequence();
+  } else if (state.chatStage === 1) {
+    runFinalMessage();
+  } else {
+    // уже всё сделано
+    chatBusy = false;
   }
-
-  if (chatStarted) return;
-  chatStarted = true;
-  runChatSequence();
 }
 
-function closeChat() { document.getElementById('chatWindow').classList.remove('show'); }
+function closeChat() {
+  document.getElementById('chatWindow').classList.remove('show');
+  chatBusy = false;
+}
 
 function addMsg() {
   var body = document.getElementById('chatBody');
@@ -813,58 +816,11 @@ function hideTyping() {
   if (el) el.remove();
 }
 
-function runDay2Dialog() {
+/* Стадия 0 — первый диалог, обрывается */
+function runChatSequence() {
   var body = document.getElementById('chatBody');
   body.innerHTML = '';
 
-  var lines = [
-    'Добрый день, кандидат.',
-    'Мы рассмотрели результаты вашего первичного профиля.',
-    'Есть основания полагать, что данных недостаточно для полной картины.',
-    'Вам необходимо пройти дополнительный тест в ближайшее время.',
-    'Мы сверим показатели и продолжим.',
-    'Момент — открываю вам доступ к следующему этапу раньше срока.'
-  ];
-
-  var i = 0;
-  function next() {
-    if (i >= lines.length) {
-      setTimeout(function() {
-        if (!state.day2Unlocked) {
-          state.day2Unlocked = true;
-          saveState();
-        }
-        hideTyping();
-        closeChat();
-        openDay2AfterDialog();
-      }, 1200);
-      return;
-    }
-    showTyping();
-    setTimeout(function() {
-      hideTyping();
-      var msg = addMsg();
-      var line = lines[i];
-      typeText(msg.span, line, 45, function() {
-        i++;
-        setTimeout(next, 1000 + line.length * 20);
-      });
-    }, 800);
-  }
-  next();
-}
-
-function openDay2AfterDialog() {
-  var d2 = DAYS.find(function(x) { return x.num === 2; });
-  if (d2) {
-    d2.type = 'quiz';
-    d2.quizData = 'QUIZ_2';
-  }
-  openDays[2] = true;
-  renderDays();
-}
-
-function runChatSequence() {
   var lines = [
     'Добрый день, кандидат.',
     'Мы изучили ваш психологический профиль.',
@@ -949,6 +905,7 @@ function showErrScreen() {
   nextLine();
 }
 
+/* ============ ЗВУК ============ */
 var soundStarted = false;
 var WHISPER_WAV = null;
 
@@ -1047,44 +1004,53 @@ function answerSound(answer) {
     document.getElementById('protocol').classList.add('active');
     soundStarted = false;
 
-    if (!state.completed[2]) {
-      state.completed[2] = true;
-      saveState();
-    }
+    // День 2 теперь открыт как QUIZ
     var d2 = DAYS.find(function(x) { return x.num === 2; });
-    if (d2) d2.type = 'chat';
+    if (d2) d2.type = 'quiz';
+    state.day2Unlocked = true;
+    state.chatStage = 1;
+    saveState();
     renderDays();
 
+    // Возвращаем чат через паузу
     setTimeout(function() {
       showBubble();
       setTimeout(function() {
-        chatMode = 'final';
-        chatStarted = false;
         openChat();
-        setTimeout(runFinalMessage, 1200);
-      }, 300);
-    }, 800);
+      }, 400);
+    }, 1000);
   }, 3000);
 }
 
+/* Стадия 1 — финальное сообщение о раннем доступе */
 function runFinalMessage() {
   var body = document.getElementById('chatBody');
   body.innerHTML = '';
+
   var lines = [
-    'Проверка засчитана.',
-    'Продолжение — по расписанию.',
-    'Не отвлекайтесь от наблюдения.'
+    'Канал восстановлен.',
+    'Приносим извинения за неполадки.',
+    'Для полной сверки данных вам необходимо пройти дополнительный тест.',
+    'Он касается социального взаимодействия и работы в группе.',
+    'Мы открываем вам доступ к нему раньше срока.',
+    'Отнеситесь к вопросам внимательно. Некоторые из них могут повести себя неожиданно.'
   ];
+
   var i = 0;
   function next() {
-    if (i >= lines.length) return;
+    if (i >= lines.length) {
+      setTimeout(function() {
+        chatBusy = false;
+      }, 1000);
+      return;
+    }
     showTyping();
     setTimeout(function() {
       hideTyping();
       var msg = addMsg();
       typeText(msg.span, lines[i], 45, function() {
         i++;
-        setTimeout(next, 1000);
+        setTimeout(next, 900 + lines[i-1].length * 15);
       });
     }, 800);
   }
@@ -1104,6 +1070,7 @@ function updateTimers() {
     var el = document.getElementById('timer-' + d.num);
     if (!el) return;
     if (state.completed[d.num]) { el.textContent = ''; return; }
+    if (d.type === 'phantom') { el.textContent = ''; return; }
     if (now >= d.date) { el.textContent = 'ЭТАП ДОСТУПЕН'; return; }
     var diff = d.date - now;
     var days = Math.floor(diff / 86400000);
