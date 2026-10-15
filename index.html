@@ -475,7 +475,7 @@ function checkCode() {
     err.textContent = '';
     document.getElementById('login').classList.remove('active');
     document.getElementById('main').classList.add('active');
-    updateBubble();
+    updateBubble(false);
   } else {
     err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
     document.getElementById('codeInput').value = '';
@@ -529,7 +529,7 @@ function openProtocol() {
   document.getElementById('protocol').classList.add('active');
   renderDays();
   startTimers();
-  updateBubble();
+  updateBubble(false);
 }
 function backToMain() {
   hideAllScreens();
@@ -545,20 +545,17 @@ function hideAllScreens() {
 
 /* ЛОГИКА ДНЯ */
 function getDayType(num) {
-  // 1 — quiz всегда
   if (num === 1) return 'quiz';
-  // 2 — phantom пока не открыт, потом quiz
   if (num === 2) {
+    if (state.completed[2]) return 'done';
     if (state.day2Unlocked) return 'quiz';
     return 'phantom';
   }
-  // 3 — locked пока день 2 не пройден, потом rorschach (кликабельный)
   if (num === 3) {
     if (state.completed[3]) return 'done';
     if (state.completed[2]) return 'rorschach';
     return 'locked';
   }
-  // 4 — final когда день 3 пройден
   if (num === 4) {
     if (state.completed[3]) return 'final';
     return 'locked';
@@ -568,13 +565,10 @@ function getDayType(num) {
 
 function toggleDay(num) {
   if (state.completed[num]) return;
-
   var type = getDayType(num);
-
   if (type === 'phantom' || type === 'locked' || type === 'done') return;
 
   if (type === 'rorschach') {
-    // Клик по дню 3 — открываем чат с диалогом дня 3
     state.chatStage = 3;
     state.bubbleVisible = false;
     saveState();
@@ -595,9 +589,7 @@ function renderDays() {
 
   DAYS.forEach(function(d, i) {
     var now = new Date();
-    var isTimeOpen = now >= d.date;
     var isDone = !!state.completed[d.num];
-    var prevDone = i === 0 ? true : !!state.completed[DAYS[i-1].num];
     var type = getDayType(d.num);
 
     var statusClass, statusText;
@@ -698,7 +690,7 @@ function finishQuiz(num) {
   state.completed[num] = true;
 
   if (num === 1) {
-    // День 1 пройден — показываем пузырик с первым диалогом
+    // День 1 пройден — стадия 0, показываем пузырик для первого диалога
     state.chatStage = 0;
     state.bubbleVisible = true;
     saveState();
@@ -711,7 +703,7 @@ function finishQuiz(num) {
   }
 
   if (num === 2) {
-    // День 2 пройден — благодарность
+    // День 2 пройден — стадия 2, благодарность
     state.chatStage = 2;
     state.bubbleVisible = true;
     saveState();
@@ -824,10 +816,9 @@ function playLines(lines, done) {
       hideTyping();
       var span = addMsg();
       var line = typeof lines[i] === 'string' ? lines[i] : lines[i].text;
-      var speed = 45;
       var isLast = (i === lines.length - 1);
       var glitch = isLast && lines[i].glitch;
-      typeText(span, line, speed, function() {
+      typeText(span, line, 45, function() {
         i++;
         var delay = 900 + line.length * 15;
         setTimeout(next, delay);
@@ -957,11 +948,12 @@ function answerSound() {
     document.getElementById('soundScene').classList.remove('show');
     soundStarted = false;
 
-    // Открываем день 2 и стадию 1
-    state.day2Unlocked = true;
+    // Возвращаемся в протокол. День 2 ВСЁ ЕЩЁ phantom.
+    // Показываем пузырик для стадии 1 — но день 2 ещё заблокирован.
     state.chatStage = 1;
     state.bubbleVisible = true;
     saveState();
+
     hideAllScreens();
     document.getElementById('protocol').classList.add('active');
     renderDays();
@@ -969,7 +961,7 @@ function answerSound() {
   }, 3000);
 }
 
-/* СТАДИЯ 1 — продолжение разговора как ни в чём не бывало */
+/* СТАДИЯ 1 — продолжение разговора, ОТКРЫВАЕТ день 2 */
 function runFinalMessage() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -980,10 +972,15 @@ function runFinalMessage() {
     'Я открываю вам доступ к нему раньше срока.'
   ];
   playLines(lines, function() {
+    // Только теперь день 2 открыт
+    state.day2Unlocked = true;
     state.chatStage = 2;
     state.bubbleVisible = false;
     saveState();
-    setTimeout(function() { chatBusy = false; }, 1000);
+    setTimeout(function() {
+      chatBusy = false;
+      renderDays();
+    }, 1000);
   });
 }
 
@@ -1177,10 +1174,10 @@ function updateTimers() {
   });
 }
 
-/* При загрузке — если день 1 пройден и есть незавершённые стадии, показать пузырик */
+/* При загрузке — если что-то «висит», показать пузырик */
 setTimeout(function() {
-  if (state.completed[1] && state.chatStage < 5 && state.bubbleVisible) {
-    updateBubble(true);
+  if (state.bubbleVisible && state.chatStage < 5) {
+    updateBubble(false);
   }
 }, 3500);
 
