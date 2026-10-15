@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SCP FOUNDATION</title>
+<title>COMMITTEE FOR DATA VERIFICATION</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: #0a0a0a; color: #c8c8c8; font-family: 'Courier New', monospace; min-height: 100vh; overflow-x: hidden; }
@@ -28,6 +28,7 @@
     pointer-events: none;
   }
 
+  /* ЗАГРУЗКА */
   #loader {
     position: fixed;
     inset: 0;
@@ -39,20 +40,17 @@
     z-index: 1000;
     transition: opacity 0.8s;
   }
-
   .loader-emblem {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     margin-bottom: 40px;
     animation: pulseGlow 2.5s infinite;
   }
   .loader-emblem svg { width: 100%; height: 100%; }
-
   @keyframes pulseGlow {
     0%, 100% { filter: drop-shadow(0 0 10px rgba(139,0,0,0.5)); }
     50% { filter: drop-shadow(0 0 30px rgba(139,0,0,0.9)); }
   }
-
   .load-text {
     color: #555;
     font-size: 11px;
@@ -87,6 +85,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* ВХОД */
   #login {
     display: none;
     flex-direction: column;
@@ -95,18 +94,15 @@
     text-align: center;
   }
   #login.active { display: flex; }
-
   .login-emblem {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     margin-bottom: 32px;
     animation: pulseGlow 3s infinite;
   }
   .login-emblem svg { width: 100%; height: 100%; }
-
-  .login-title { color: #8B0000; font-size: 12px; letter-spacing: 6px; margin-bottom: 12px; }
+  .login-title { color: #8B0000; font-size: 11px; letter-spacing: 5px; margin-bottom: 12px; }
   .login-sub { color: #d4d4d4; font-size: 18px; letter-spacing: 3px; margin-bottom: 48px; }
-
   .code-input {
     width: 100%;
     max-width: 340px;
@@ -124,7 +120,6 @@
   }
   .code-input:focus { border-color: #8B0000; box-shadow: 0 4px 12px -8px #8B0000; }
   .code-input::placeholder { color: #2a2a2a; letter-spacing: 4px; }
-
   .login-btn {
     margin-top: 32px;
     padding: 14px 48px;
@@ -138,9 +133,7 @@
     transition: all 0.3s;
   }
   .login-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); transform: translateY(-1px); }
-
   .login-footer { margin-top: 48px; color: #1f1f1f; font-size: 10px; letter-spacing: 3px; }
-
   .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; animation: shake 0.4s; }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -148,6 +141,7 @@
     75% { transform: translateX(6px); }
   }
 
+  /* ГЛАВНАЯ */
   .topbar {
     display: flex;
     align-items: center;
@@ -167,9 +161,9 @@
     background: #8B0000;
   }
   .topbar-left { display: flex; align-items: center; gap: 16px; }
-  .topbar-emblem { width: 38px; height: 38px; flex-shrink: 0; }
+  .topbar-emblem { width: 42px; height: 42px; flex-shrink: 0; }
   .topbar-emblem svg { width: 100%; height: 100%; }
-  .topbar-title { color: #d4d4d4; font-size: 12px; letter-spacing: 3px; line-height: 1.4; }
+  .topbar-title { color: #d4d4d4; font-size: 11px; letter-spacing: 2px; line-height: 1.5; }
   .topbar-status { color: #8B0000; font-size: 10px; letter-spacing: 2px; animation: blink 2s infinite; }
 
   .menu { display: flex; flex-direction: column; gap: 2px; }
@@ -205,11 +199,38 @@
   .menu-item.protocol { border-color: #3a1010; color: #8B0000; }
   .menu-item.protocol .arrow { color: #8B0000; }
 
+  /* ЛИЧНОЕ ДЕЛО */
+  .case-block {
+    border: 1px solid #1a1a1a;
+    padding: 32px;
+    background: rgba(139,0,0,0.02);
+  }
+  .case-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #141414;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+  .case-row:last-child { border-bottom: none; }
+  .case-key { color: #555; }
+  .case-val { color: #d4d4d4; }
+  .case-val.red { color: #8B0000; }
+  .redacted {
+    background: #000;
+    color: #000;
+    user-select: none;
+    padding: 0 4px;
+    border-radius: 1px;
+  }
+
+  /* МОДАЛКА */
   .modal-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.88);
     z-index: 500;
     align-items: center;
     justify-content: center;
@@ -257,8 +278,9 @@
   }
   .modal-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
 
+  /* ПРОТОКОЛ */
   .protocol-head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
-  .protocol-emblem { width: 44px; height: 44px; flex-shrink: 0; }
+  .protocol-emblem { width: 48px; height: 48px; flex-shrink: 0; }
   .protocol-emblem svg { width: 100%; height: 100%; }
   .protocol-header { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 4px; }
   .protocol-title { color: #d4d4d4; font-size: 18px; letter-spacing: 2px; }
@@ -295,6 +317,37 @@
   .day-body { margin-top: 20px; padding-top: 20px; border-top: 1px solid #1a1a1a; display: none; }
   .day.open .day-body { display: block; animation: fadeIn 0.4s ease; }
   .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
+
+  /* ПСИХОЛОГИЧЕСКИЙ ОПРОС */
+  .quiz-question {
+    color: #d4d4d4;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+    margin: 24px 0 28px;
+    min-height: 60px;
+  }
+  .quiz-options { display: flex; gap: 12px; margin-top: 20px; }
+  .quiz-btn {
+    flex: 1;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .quiz-btn:hover { background: #8B0000; color: #0a0a0a; }
+  .quiz-progress {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+
   .day-code-input {
     width: 100%;
     background: transparent;
@@ -365,59 +418,38 @@
 
   @media (max-width: 500px) {
     .screen { padding: 40px 16px; }
-    .topbar-title { font-size: 10px; letter-spacing: 2px; }
+    .topbar-title { font-size: 9px; letter-spacing: 1px; }
     .topbar-status { display: none; }
     .login-sub { font-size: 15px; letter-spacing: 2px; }
+    .quiz-options { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
-<!-- НАСТОЯЩИЙ ЗНАК SCP FOUNDATION -->
+<!-- ЗНАЧОК 82 -->
 <svg style="display:none">
-  <symbol id="scp-logo" viewBox="0 0 200 200">
-    <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square">
-      <!-- Внешнее кольцо с тремя разрывами -->
-      <path d="M 100 15
-               A 85 85 0 0 1 173.6 57.5
-               L 190 50
-               L 190 90
-               L 155 82
-               A 85 85 0 0 1 155 140
-               L 173.6 142.5
-               L 148 175
-               L 120 150
-               A 85 85 0 0 1 80 150
-               L 52 175
-               L 26.4 142.5
-               L 45 140
-               A 85 85 0 0 1 45 82
-               L 10 90
-               L 10 50
-               L 26.4 57.5
-               A 85 85 0 0 1 100 15 Z"
-            stroke="#8B0000" fill="none" stroke-width="5"/>
-
-      <!-- Внутреннее кольцо -->
-      <circle cx="100" cy="100" r="38" stroke="#8B0000" stroke-width="5"/>
-
-      <!-- Три стрелки к центру -->
-      <line x1="100" y1="30" x2="100" y2="75" stroke="#8B0000" stroke-width="5"/>
-      <polygon points="100,85 90,65 110,65" fill="#8B0000"/>
-
-      <line x1="42" y1="135" x2="75" y2="115" stroke="#8B0000" stroke-width="5"/>
-      <polygon points="82,110 65,105 73,124" fill="#8B0000"/>
-
-      <line x1="158" y1="135" x2="125" y2="115" stroke="#8B0000" stroke-width="5"/>
-      <polygon points="118,110 135,105 127,124" fill="#8B0000"/>
-    </g>
+  <symbol id="logo-82" viewBox="0 0 200 200">
+    <!-- Внешнее кольцо -->
+    <circle cx="100" cy="100" r="90" fill="none" stroke="#8B0000" stroke-width="3"/>
+    <!-- Внутреннее кольцо -->
+    <circle cx="100" cy="100" r="80" fill="none" stroke="#8B0000" stroke-width="1" opacity="0.4"/>
+    <!-- Угловые насечки -->
+    <line x1="100" y1="5" x2="100" y2="20" stroke="#8B0000" stroke-width="2"/>
+    <line x1="100" y1="180" x2="100" y2="195" stroke="#8B0000" stroke-width="2"/>
+    <line x1="5" y1="100" x2="20" y2="100" stroke="#8B0000" stroke-width="2"/>
+    <line x1="180" y1="100" x2="195" y2="100" stroke="#8B0000" stroke-width="2"/>
+    <!-- Цифра 82 -->
+    <text x="100" y="100" text-anchor="middle" dominant-baseline="central"
+          font-family="Courier New, monospace" font-size="72" font-weight="bold"
+          fill="#8B0000" letter-spacing="2">82</text>
   </symbol>
 </svg>
 
 <!-- ЗАГРУЗКА -->
 <div id="loader">
   <div class="loader-emblem">
-    <svg style="color:#8B0000"><use href="#scp-logo"/></svg>
+    <svg><use href="#logo-82"/></svg>
   </div>
   <div class="load-text" id="loadText"></div>
 </div>
@@ -425,9 +457,9 @@
 <!-- ВХОД -->
 <div class="screen" id="login">
   <div class="login-emblem">
-    <svg style="color:#8B0000"><use href="#scp-logo"/></svg>
+    <svg><use href="#logo-82"/></svg>
   </div>
-  <div class="login-title">SCP FOUNDATION</div>
+  <div class="login-title">COMMITTEE FOR DATA VERIFICATION</div>
   <div class="login-sub">ВВЕДИТЕ ИДЕНТИФИКАТОР</div>
   <input type="text" class="code-input" id="codeInput" placeholder="_ _ _ - _ _ - _ _ _" autocomplete="off">
   <button class="login-btn" onclick="checkCode()">ПОДТВЕРДИТЬ</button>
@@ -439,24 +471,49 @@
 <div class="screen" id="main">
   <div class="topbar">
     <div class="topbar-left">
-      <div class="topbar-emblem"><svg style="color:#8B0000"><use href="#scp-logo"/></svg></div>
-      <div class="topbar-title">SCP FOUNDATION<br>ЛИЧНЫЙ КАБИНЕТ</div>
+      <div class="topbar-emblem"><svg><use href="#logo-82"/></svg></div>
+      <div class="topbar-title">COMMITTEE FOR DATA VERIFICATION<br>ЛИЧНЫЙ КАБИНЕТ</div>
     </div>
     <div class="topbar-status">● ДОПУСК: ОГРАНИЧЕН</div>
   </div>
   <div class="menu">
     <div class="menu-item" onclick="lowAccess()">АРХИВ <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="lowAccess()">ЛИЧНОЕ ДЕЛО <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="openCase()">ЛИЧНОЕ ДЕЛО <span class="arrow">→</span></div>
     <div class="menu-item" onclick="lowAccess()">СЕКТОР 82 <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="lowAccess()">СВЯЗЬ С КУРАТОРОМ <span class="arrow">→</span></div>
+    <div class="menu-item" onclick="lowAccess()">ОТЧЁТЫ <span class="arrow">→</span></div>
     <div class="menu-item protocol" onclick="openProtocol()">ПРОТОКОЛ ПРОВЕРКИ <span class="arrow">→</span></div>
   </div>
+</div>
+
+<!-- ЛИЧНОЕ ДЕЛО -->
+<div class="screen" id="case">
+  <div class="protocol-head">
+    <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
+    <div>
+      <div class="protocol-header">КОМИТЕТ ПРОВЕРКИ ДАННЫХ</div>
+      <div class="protocol-title">ЛИЧНОЕ ДЕЛО</div>
+    </div>
+  </div>
+  <div class="protocol-divider"></div>
+
+  <div class="case-block">
+    <div class="case-row"><span class="case-key">РАНГ</span><span class="case-val red">СТАЖЁР</span></div>
+    <div class="case-row"><span class="case-key">СТАТУС</span><span class="case-val">ДОПУСК ОГРАНИЧЕН</span></div>
+    <div class="case-row"><span class="case-key">ОТДЕЛ</span><span class="case-val">СЕКТОР 82</span></div>
+    <div class="case-row"><span class="case-key">КУРАТОР</span><span class="case-val">ДР. РАШ</span></div>
+    <div class="case-row"><span class="case-key">РЕГИСТРАЦИЯ</span><span class="case-val">23.10.2026</span></div>
+    <div class="case-row"><span class="case-key">ПРОФИЛЬ</span><span class="case-val redacted">[ДАННЫЕ УДАЛЕНЫ]</span></div>
+    <div class="case-row"><span class="case-key">ПРЕДЫДУЩИЕ ОБЪЕКТЫ</span><span class="case-val redacted">[ДАННЫЕ УДАЛЕНЫ]</span></div>
+    <div class="case-row"><span class="case-key">РЕКОМЕНДАЦИЯ</span><span class="case-val redacted">[ДАННЫЕ УДАЛЕНЫ]</span></div>
+  </div>
+
+  <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
 <!-- ПРОТОКОЛ -->
 <div class="screen" id="protocol">
   <div class="protocol-head">
-    <div class="protocol-emblem"><svg style="color:#8B0000"><use href="#scp-logo"/></svg></div>
+    <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
     <div>
       <div class="protocol-header">РЕГЛАМЕНТ ДОПОЛНИТЕЛЬНЫХ ПРОВЕРОК</div>
       <div class="protocol-title">ПРОТОКОЛ</div>
@@ -479,25 +536,40 @@
 <script>
 var VALID_CODES = ['619-33-012','844-01-902','038-02-048','028-99-539','394-39-002','381-39-289'];
 
+/* ЗАДАНИЯ */
 var DAYS = [
-  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0),
-    text: 'ДОБРО ПОЖАЛОВАТЬ, СТАЖЁР.\n\nВаша заявка была рассмотрена. Кандидатура согласована.\n\nВы приняты в штат Фонда. На текущем этапе Фонд не может в полной мере доверить вам информацию о местоположении Зоны 82.\n\nНеобходимые данные вы обязаны выявить самостоятельно.\n\nСколько человек в вашей группе?',
-    anyAnswer: true },
-  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0),
-    text: 'ПРОВЕРКА ВНИМАТЕЛЬНОСТИ.\n\nВ присланном вам документе есть номер: 641\\88-6.\n\nСложите все цифры этого номера.\n\nК полученному числу прибавьте количество человек в вашей группе.\n\nВведите результат.',
-    calcAnswer: function(g) { return String(33 + g); } },
-  { num: 3, date: new Date(2025, 0, 3, 10, 0, 0),
-    text: 'Осталось последнее.\n\nВ вашем документе есть дата. Она не совпадает с датой сбора.\n\nВведите дату из документа в формате ДД.ММ.ГГГГ.',
-    answer: '23.10.2026' },
-  { num: 4, date: new Date(2025, 0, 4, 10, 0, 0),
-    text: 'ПРОВЕРКА ЗАВЕРШЕНА.\n\nВы выдержали все этапы.\n\nФонд подтверждает ваш допуск.',
-    isFinal: true }
+  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0), type: 'quiz',
+    title: 'ПСИХОЛОГИЧЕСКИЙ ПРОФИЛЬ',
+    questions: [
+      { q: 'Вы находитесь в помещении один?', a: ['ДА','НЕТ'] },
+      { q: 'Вы когда-нибудь чувствовали, что за вами наблюдают?', a: ['ДА','НЕТ'] },
+      { q: 'Вы уверены, что помните вчерашний день полностью?', a: ['ДА','НЕТ'] }
+    ]
+  },
+  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0), type: 'text',
+    text: 'ЭТАП 2.\n\nПроверка будет объявлена позже.' },
+  { num: 3, date: new Date(2025, 0, 3, 10, 0, 0), type: 'text',
+    text: 'ЭТАП 3.\n\nПроверка будет объявлена позже.' },
+  { num: 4, date: new Date(2025, 0, 4, 10, 0, 0), type: 'final',
+    text: 'ПРОВЕРКА ЗАВЕРШЕНА.' }
 ];
 
-var groupSize = 4;
-var completedDays = {};
+/* СОСТОЯНИЕ — сохраняется в localStorage */
+var state = loadState();
+function loadState() {
+  try {
+    var raw = localStorage.getItem('cdv_state');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return { completed: {}, quiz: {} };
+}
+function saveState() {
+  try { localStorage.setItem('cdv_state', JSON.stringify(state)); } catch(e) {}
+}
+
 var openDays = {};
 
+/* ЗАГРУЗКА */
 var loadLines = [
   '> ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...',
   '> ПРОВЕРКА СОЕДИНЕНИЯ...',
@@ -506,10 +578,8 @@ var loadLines = [
   '> ЗАГРУЗКА ПРОТОКОЛА 641\\88-6...',
   '> <span>ДОСТУП К СИСТЕМЕ...</span>'
 ];
-
 var loadIdx = 0;
 var loadTextEl = document.getElementById('loadText');
-
 function typeLine() {
   if (loadIdx >= loadLines.length) return;
   var line = loadLines[loadIdx];
@@ -518,7 +588,6 @@ function typeLine() {
   loadIdx++;
   setTimeout(typeLine, 400);
 }
-
 typeLine();
 
 setTimeout(function() {
@@ -529,6 +598,7 @@ setTimeout(function() {
   }, 800);
 }, 3400);
 
+/* ВХОД */
 function checkCode() {
   var val = document.getElementById('codeInput').value.trim();
   var err = document.getElementById('errorMsg');
@@ -536,13 +606,16 @@ function checkCode() {
     err.textContent = '';
     document.getElementById('login').classList.remove('active');
     document.getElementById('main').classList.add('active');
-    setTimeout(showFirstModal, 8000);
+    if (!state.seenWelcome) {
+      setTimeout(showWelcome, 8000);
+      state.seenWelcome = true;
+      saveState();
+    }
   } else {
     err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
     document.getElementById('codeInput').value = '';
   }
 }
-
 document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
@@ -553,9 +626,9 @@ function lowAccess() {
   document.getElementById('modalOverlay').classList.add('show');
 }
 
-function showFirstModal() {
+function showWelcome() {
   document.getElementById('modalTitle').textContent = 'УВЕДОМЛЕНИЕ';
-  document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
+  document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Комитет ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
   document.getElementById('modalOverlay').classList.add('show');
 }
 
@@ -563,8 +636,14 @@ function closeModal() {
   document.getElementById('modalOverlay').classList.remove('show');
 }
 
+function openCase() {
+  document.getElementById('main').classList.remove('active');
+  document.getElementById('case').classList.add('active');
+}
+
 function openProtocol() {
   document.getElementById('main').classList.remove('active');
+  document.getElementById('case').classList.remove('active');
   document.getElementById('protocol').classList.add('active');
   renderDays();
   startTimers();
@@ -572,6 +651,7 @@ function openProtocol() {
 
 function backToMain() {
   document.getElementById('protocol').classList.remove('active');
+  document.getElementById('case').classList.remove('active');
   document.getElementById('main').classList.add('active');
 }
 
@@ -579,6 +659,7 @@ function toggleDay(num) {
   var d = DAYS.find(function(x) { return x.num === num; });
   var now = new Date();
   if (now < d.date) return;
+  if (state.completed[num]) return;
   openDays[num] = !openDays[num];
   renderDays();
 }
@@ -589,94 +670,22 @@ function renderDays() {
   DAYS.forEach(function(d, i) {
     var now = new Date();
     var isOpen = now >= d.date;
-    var isDone = completedDays[d.num];
-    var prevDone = i === 0 ? true : completedDays[DAYS[i-1].num];
-    var isExpanded = openDays[d.num];
+    var isDone = !!state.completed[d.num];
+    var prevDone = i === 0 ? true : !!state.completed[DAYS[i-1].num];
+    var isExpanded = openDays[d.num] && !isDone;
 
     var statusClass, statusText;
-    if (isDone) { statusClass = 'done'; statusText = 'ВЫПОЛНЕНО'; }
+    if (isDone) { statusClass = 'done'; statusText = '✓ ПРОЙДЕНО'; }
     else if (!prevDone) { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
     else if (isOpen) { statusClass = 'wait'; statusText = 'НАЖМИТЕ'; }
     else { statusClass = 'wait'; statusText = 'ОЖИДАНИЕ'; }
 
     var el = document.createElement('div');
     el.className = 'day';
-    if (isDone) el.classList.add('open');
     if (!isOpen || !prevDone) el.classList.add('locked');
     if (isOpen && prevDone && !isDone) el.classList.add('available');
     if (isExpanded) el.classList.add('open');
 
-    el.innerHTML = '<div class="day-head" onclick="toggleDay(' + d.num + ')"><div class="day-num">ДЕНЬ ' + d.num + '</div><div class="day-status ' + statusClass + '">' + statusText + '</div></div>' +
+    el.innerHTML = '<div class="day-head" onclick="toggleDay(' + d.num + ')"><div class="day-num">ЭТАП ' + d.num + '</div><div class="day-status ' + statusClass + '">' + statusText + '</div></div>' +
       '<div class="day-timer" id="timer-' + d.num + '"></div>' +
-      '<div class="day-body"><div class="day-text">' + d.text + '</div>' + renderDayInput(d) + '<div class="day-result" id="result-' + d.num + '"></div></div>';
-    container.appendChild(el);
-  });
-}
-
-function renderDayInput(d) {
-  if (d.isFinal) {
-    return '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ДОПУСК ПОДТВЕРЖДЁН</div><div class="big">30.10 · 17:20</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div></div>';
-  }
-  return '<input type="text" class="day-code-input" id="input-' + d.num + '" placeholder="ВВЕДИТЕ ОТВЕТ">' +
-    '<button class="day-btn" onclick="submitDay(' + d.num + ')">ПОДТВЕРДИТЬ</button>';
-}
-
-function submitDay(num) {
-  var d = DAYS.find(function(x) { return x.num === num; });
-  var val = document.getElementById('input-' + num).value.trim();
-  var res = document.getElementById('result-' + num);
-
-  if (d.anyAnswer) {
-    if (val.length === 0) { res.className = 'day-result err'; res.textContent = 'ВВЕДИТЕ ОТВЕТ.'; return; }
-    var size = parseInt(val);
-    if (!isNaN(size) && size > 0 && size < 50) groupSize = size;
-    completedDays[num] = true;
-    res.className = 'day-result ok';
-    res.textContent = 'ПРИНЯТО.';
-    setTimeout(renderDays, 600);
-    return;
-  }
-  if (d.calcAnswer) {
-    if (val === d.calcAnswer(groupSize)) {
-      completedDays[num] = true;
-      res.className = 'day-result ok';
-      res.textContent = 'ВЕРНО.';
-      setTimeout(renderDays, 600);
-    } else { res.className = 'day-result err'; res.textContent = 'НЕВЕРНО.'; }
-    return;
-  }
-  if (d.answer) {
-    if (val === d.answer) {
-      completedDays[num] = true;
-      res.className = 'day-result ok';
-      res.textContent = 'ВЕРНО.';
-      setTimeout(renderDays, 600);
-    } else { res.className = 'day-result err'; res.textContent = 'НЕВЕРНО.'; }
-  }
-}
-
-var timerInterval = null;
-function startTimers() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(updateTimers, 1000);
-  updateTimers();
-}
-
-function updateTimers() {
-  var now = new Date();
-  DAYS.forEach(function(d) {
-    var el = document.getElementById('timer-' + d.num);
-    if (!el) return;
-    if (completedDays[d.num]) { el.textContent = ''; return; }
-    if (now >= d.date) { el.textContent = 'ДЕНЬ ДОСТУПЕН'; return; }
-    var diff = d.date - now;
-    var days = Math.floor(diff / 86400000);
-    var hours = Math.floor((diff % 86400000) / 3600000);
-    var mins = Math.floor((diff % 3600000) / 60000);
-    var secs = Math.floor((diff % 60000) / 1000);
-    el.textContent = 'ОТКРЫТИЕ ЧЕРЕЗ: ' + days + 'д ' + hours + 'ч ' + mins + 'м ' + secs + 'с';
-  });
-}
-</script>
-</body>
-</html>
+      '<div class="day-body
