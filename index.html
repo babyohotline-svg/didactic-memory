@@ -100,6 +100,7 @@
   .day.open .day-body { display: block; animation: fadeIn 0.4s ease; }
   .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
 
+  .quiz-warning { color: #8B0000; font-size: 10px; letter-spacing: 2px; line-height: 1.7; padding: 12px; border: 1px solid #3a1010; margin-bottom: 20px; background: rgba(139,0,0,0.03); }
   .quiz-question { color: #d4d4d4; font-size: 14px; letter-spacing: 1px; line-height: 1.8; margin: 24px 0 28px; min-height: 60px; }
   .quiz-options { display: flex; gap: 12px; margin-top: 20px; }
   .quiz-btn { flex: 1; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
@@ -119,6 +120,79 @@
 
   .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; position: relative; background: rgba(139,0,0,0.04); box-shadow: inset 0 0 40px rgba(139,0,0,0.1); }
   .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
+
+  /* ============ ЧАТ С КУРАТОРОМ ============ */
+  .chat-wrap { border: 1px solid #1a1a1a; background: #0c0c0c; padding: 24px; min-height: 400px; }
+  .chat-header { color: #8B0000; font-size: 11px; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+  .chat-header .online { color: #4a7a4a; animation: blink 2s infinite; }
+  .chat-msg { color: #aaa; font-size: 13px; line-height: 1.8; margin-bottom: 16px; opacity: 0; animation: msgIn 0.5s forwards; }
+  .chat-msg .who { color: #8B0000; font-size: 11px; letter-spacing: 2px; display: block; margin-bottom: 4px; }
+  .chat-msg .data { color: #555; font-size: 11px; }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Помехи */
+  .glitch { animation: glitch 0.15s infinite; }
+  @keyframes glitch {
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
+    20% { transform: translate(-2px, 1px); filter: hue-rotate(-20deg); }
+    40% { transform: translate(2px, -1px); filter: hue-rotate(20deg); }
+    60% { transform: translate(-1px, 2px); }
+    80% { transform: translate(1px, -2px); filter: hue-rotate(-10deg); }
+    100% { transform: translate(0); }
+  }
+  .glitch-overlay {
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(139,0,0,0.08) 0px, rgba(139,0,0,0.08) 2px, transparent 2px, transparent 4px);
+    z-index: 200;
+    pointer-events: none;
+    display: none;
+    animation: glitchScroll 0.2s infinite;
+  }
+  .glitch-overlay.show { display: block; }
+  @keyframes glitchScroll { from { background-position-y: 0; } to { background-position-y: 4px; } }
+
+  /* Картина */
+  .painting-wrap { text-align: center; padding: 40px 0; }
+  .painting {
+    display: inline-block;
+    border: 1px solid #3a1010;
+    padding: 8px;
+    background: #0d0d0d;
+    max-width: 100%;
+  }
+  .painting img { display: block; max-width: 100%; filter: contrast(1.1) saturate(0.85) brightness(0.9); }
+  .painting-caption {
+    margin-top: 20px;
+    color: #8B0000;
+    font-size: 16px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px rgba(139,0,0,0.6);
+  }
+
+  .timer-question {
+    text-align: center;
+    margin-top: 24px;
+    color: #d4d4d4;
+    font-size: 16px;
+    letter-spacing: 2px;
+    animation: jitter 0.12s infinite;
+  }
+  @keyframes jitter {
+    0% { transform: translate(0); }
+    25% { transform: translate(-1px, 1px); }
+    50% { transform: translate(1px, -1px); }
+    75% { transform: translate(-1px, -1px); }
+    100% { transform: translate(1px, 1px); }
+  }
+  .timer-count {
+    text-align: center;
+    color: #8B0000;
+    font-size: 32px;
+    letter-spacing: 4px;
+    margin-top: 16px;
+    text-shadow: 0 0 20px rgba(139,0,0,0.6);
+  }
 
   @media (max-width: 500px) {
     .screen { padding: 40px 16px; }
@@ -142,6 +216,8 @@
     <text x="100" y="100" text-anchor="middle" dominant-baseline="central" font-family="Courier New, monospace" font-size="72" font-weight="bold" fill="#8B0000">82</text>
   </symbol>
 </svg>
+
+<div class="glitch-overlay" id="glitchOverlay"></div>
 
 <div id="loader">
   <div class="loader-emblem"><svg><use href="#logo-82"/></svg></div>
@@ -210,6 +286,17 @@
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
+<div class="screen" id="painting">
+  <div class="painting-wrap">
+    <div class="painting">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/400px-The_Scream.jpg" alt="Картина" onerror="this.style.display='none';this.parentNode.innerHTML='&lt;div style=&quot;width:340px;height:420px;background:#111;display:flex;align-items:center;justify-content:center;color:#333;font-size:12px;letter-spacing:2px;&quot;&gt;[ИЗОБРАЖЕНИЕ НЕДОСТУПНО]&lt;/div&gt;'">
+    </div>
+    <div class="painting-caption">ʇо видишь это?</div>
+    <div id="paintingStage"></div>
+  </div>
+  <div class="back-link" onclick="backToMain()">← НАЗАД</div>
+</div>
+
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-title" id="modalTitle">ДОСТУП ОГРАНИЧЕН</div>
@@ -221,16 +308,24 @@
 <script>
 var VALID_CODES = ['619-33-012','844-01-902','038-02-048','028-99-539','394-39-002','381-39-289'];
 
+var QUIZ_QUESTIONS = [
+  { q: 'Вы находитесь в помещении один?', a: ['ДА','НЕТ'] },
+  { q: 'Вы когда-нибудь чувствовали, что за вами наблюдают?', a: ['ДА','НЕТ'] },
+  { q: 'Вы уверены, что помните вчерашний день полностью?', a: ['ДА','НЕТ'] },
+  { q: 'Вы замечали за собой повторяющиеся действия?', a: ['ДА','НЕТ'] },
+  { q: 'Вам снятся сны, которые кажутся реальнее реальности?', a: ['ДА','НЕТ'] },
+  { q: 'Вы когда-нибудь теряли время, не понимая, куда оно ушло?', a: ['ДА','НЕТ'] },
+  { q: 'Вы узнаёте места, в которых никогда не были?', a: ['ДА','НЕТ'] },
+  { q: 'Вы слышали звуки, источник которых не могли найти?', a: ['ДА','НЕТ'] },
+  { q: 'Вы чувствуете, что некоторые ваши воспоминания чужие?', a: ['ДА','НЕТ'] },
+  { q: 'Вы согласны, что реальность может быть неполной?', a: ['ДА','НЕТ'] },
+  { q: 'Вы готовы продолжить проверку, что бы ни обнаружилось?', a: ['ДА','НЕТ'] },
+  { q: 'Вы уверены, что вы — это вы?', a: ['ДА','НЕТ'] }
+];
+
 var DAYS = [
-  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0), type: 'quiz',
-    questions: [
-      { q: 'Вы находитесь в помещении один?', a: ['ДА','НЕТ'] },
-      { q: 'Вы когда-нибудь чувствовали, что за вами наблюдают?', a: ['ДА','НЕТ'] },
-      { q: 'Вы уверены, что помните вчерашний день полностью?', a: ['ДА','НЕТ'] }
-    ]
-  },
-  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0), type: 'text',
-    text: 'ЭТАП 2.\n\nПроверка будет объявлена позже.' },
+  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0), type: 'quiz' },
+  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0), type: 'chat' },
   { num: 3, date: new Date(2025, 0, 3, 10, 0, 0), type: 'text',
     text: 'ЭТАП 3.\n\nПроверка будет объявлена позже.' },
   { num: 4, date: new Date(2025, 0, 4, 10, 0, 0), type: 'final',
@@ -324,6 +419,7 @@ function openCase() {
 function openProtocol() {
   document.getElementById('main').classList.remove('active');
   document.getElementById('case').classList.remove('active');
+  document.getElementById('painting').classList.remove('active');
   document.getElementById('protocol').classList.add('active');
   renderDays();
   startTimers();
@@ -332,6 +428,7 @@ function openProtocol() {
 function backToMain() {
   document.getElementById('protocol').classList.remove('active');
   document.getElementById('case').classList.remove('active');
+  document.getElementById('painting').classList.remove('active');
   document.getElementById('main').classList.add('active');
 }
 
@@ -369,9 +466,15 @@ function renderDays() {
     var body = '';
     if (isExpanded) {
       if (d.type === 'quiz') {
-        body = '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
+        body = '<div class="quiz-warning">ПРАВИЛА КОМИТЕТА ОБЯЗЫВАЮТ ПРОЙТИ ПСИХОЛОГИЧЕСКОЕ ТЕСТИРОВАНИЕ ПЕРЕД ПРОДОЛЖЕНИЕМ ДОПУСКА. ОТВЕТЫ НЕ ПРОВЕРЯЮТСЯ. ОНИ СОХРАНЯЮТСЯ.</div>' +
+               '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
                '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
                '<div class="quiz-options" id="qo-' + d.num + '"></div>';
+      } else if (d.type === 'chat') {
+        body = '<div class="chat-wrap" id="chat-' + d.num + '">' +
+               '<div class="chat-header"><span>КАНАЛ СВЯЗИ · ДР. РАШ</span><span class="online">● В СЕТИ</span></div>' +
+               '<div id="chatBody-' + d.num + '"></div>' +
+               '</div>';
       } else if (d.type === 'final') {
         body = '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ПРОВЕРКА ЗАВЕРШЕНА</div><div class="big">30.10 · 17:20</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div></div>';
       } else {
@@ -387,24 +490,35 @@ function renderDays() {
     if (isExpanded && d.type === 'quiz') {
       startQuiz(d.num);
     }
+    if (isExpanded && d.type === 'chat') {
+      startChat(d.num);
+    }
   });
 }
 
 var quizState = { day: null, idx: 0 };
 
 function startQuiz(num) {
-  if (quizState.day !== num) {
-    quizState.day = num;
-    quizState.idx = 0;
-  }
-  var d = DAYS.find(function(x) { return x.num === num; });
+  if (quizState.day !== num) { quizState.day = num; quizState.idx = 0; }
   var qq = document.getElementById('qq-' + num);
   var qo = document.getElementById('qo-' + num);
   var qp = document.getElementById('qprog-' + num);
   if (!qq) return;
 
-  var q = d.questions[quizState.idx];
-  qp.textContent = 'ВОПРОС ' + (quizState.idx + 1) + ' ИЗ ' + d.questions.length;
+  if (quizState.idx >= QUIZ_QUESTIONS.length) {
+    qp.textContent = '';
+    qq.textContent = 'ПРОФИЛЬ СОХРАНЁН.\nРЕЗУЛЬТАТ: [ДАННЫЕ УДАЛЕНЫ]';
+    qo.innerHTML = '';
+    if (!state.completed[num]) {
+      state.completed[num] = true;
+      saveState();
+    }
+    setTimeout(function() { openDays[num] = false; renderDays(); }, 2500);
+    return;
+  }
+
+  var q = QUIZ_QUESTIONS[quizState.idx];
+  qp.textContent = 'ВОПРОС ' + (quizState.idx + 1) + ' ИЗ ' + QUIZ_QUESTIONS.length;
   qq.textContent = q.q;
   qo.innerHTML = '';
   q.a.forEach(function(ans) {
@@ -417,27 +531,103 @@ function startQuiz(num) {
 }
 
 function answerQuiz(num, ans) {
-  var d = DAYS.find(function(x) { return x.num === num; });
   if (!state.quiz[num]) state.quiz[num] = [];
   state.quiz[num].push(ans);
   saveState();
-
   quizState.idx++;
-  if (quizState.idx < d.questions.length) {
-    startQuiz(num);
-  } else {
-    var qq = document.getElementById('qq-' + num);
-    var qo = document.getElementById('qo-' + num);
-    var qp = document.getElementById('qprog-' + num);
-    qp.textContent = '';
-    qq.textContent = 'ПРОФИЛЬ СОХРАНЁН.\nРЕЗУЛЬТАТ: [ДАННЫЕ УДАЛЕНЫ]';
-    qo.innerHTML = '';
-    state.completed[num] = true;
-    saveState();
+  startQuiz(num);
+}
+
+var chatTimers = {};
+
+function startChat(num) {
+  if (chatTimers[num]) return;
+  var body = document.getElementById('chatBody-' + num);
+  if (!body) return;
+  body.innerHTML = '';
+
+  var lines = [
+    { who: 'ДР. РАШ', text: 'Добрый день, кандидат.' },
+    { who: 'ДР. РАШ', text: 'Мы изучили ваш психологический профиль.' },
+    { who: 'ДР. РАШ', text: 'Он был сопоставлен с данными, полученными ранее.' },
+    { who: 'ДР. РАШ', text: 'Обнаружены несоответствия.', data: 'Стресс: 0.34<br>Внимание: 0.61<br>Восприятие: [ДАННЫЕ УДАЛЕНЫ]' },
+    { who: 'ДР. РАШ', text: 'Прежде чем мы продолжим, ответьте на один вопрос.' }
+  ];
+
+  var i = 0;
+  function next() {
+    if (i >= lines.length) {
+      setTimeout(startGlitch, 1800);
+      return;
+    }
+    var m = lines[i];
+    var div = document.createElement('div');
+    div.className = 'chat-msg';
+    div.innerHTML = '<span class="who">' + m.who + '</span>' + m.text + (m.data ? '<div class="data">' + m.data + '</div>' : '');
+    body.appendChild(div);
+    i++;
+    chatTimers[num] = setTimeout(next, 1400);
+  }
+  next();
+}
+
+function startGlitch() {
+  document.getElementById('glitchOverlay').classList.add('show');
+  var scr = document.getElementById('protocol');
+  scr.classList.add('glitch');
+  setTimeout(function() {
+    scr.classList.remove('glitch');
+    document.getElementById('protocol').classList.remove('active');
+    document.getElementById('painting').classList.add('active');
+    startPaintingTimer();
+  }, 2500);
+}
+
+function startPaintingTimer() {
+  var stage = document.getElementById('paintingStage');
+  stage.innerHTML = '';
+  setTimeout(function() {
+    stage.innerHTML = '<div class="timer-question">Когда была написана эта картина?</div><div class="timer-count" id="paintingCount">10</div>';
+    var n = 10;
+    var t = setInterval(function() {
+      n--;
+      var el = document.getElementById('paintingCount');
+      if (el) el.textContent = n;
+      if (n <= 0) {
+        clearInterval(t);
+        showPaintingInput();
+      }
+    }, 1000);
+  }, 5000);
+}
+
+function showPaintingInput() {
+  var stage = document.getElementById('paintingStage');
+  stage.innerHTML = '<div class="timer-question">Когда была написана эта картина?</div>' +
+    '<input type="text" class="day-code-input" id="paintingInput" placeholder="ВВЕДИТЕ ГОД" style="max-width:240px;margin:24px auto 0;display:block;text-align:center;">' +
+    '<button class="day-btn" style="display:block;margin:16px auto 0;" onclick="checkPainting()">ОК</button>' +
+    '<div class="day-result" id="paintingResult" style="text-align:center;"></div>';
+}
+
+function checkPainting() {
+  var val = document.getElementById('paintingInput').value.trim();
+  var res = document.getElementById('paintingResult');
+  if (val === '1893') {
+    res.className = 'day-result ok';
+    res.textContent = 'ВЕРНО.';
+    document.getElementById('glitchOverlay').classList.remove('show');
+    if (!state.completed[2]) {
+      state.completed[2] = true;
+      saveState();
+    }
     setTimeout(function() {
-      openDays[num] = false;
+      document.getElementById('painting').classList.remove('active');
+      document.getElementById('protocol').classList.add('active');
       renderDays();
-    }, 2500);
+    }, 1500);
+  } else {
+    res.className = 'day-result err';
+    res.textContent = 'НЕВЕРНО.';
   }
 }
 
