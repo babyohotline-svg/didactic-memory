@@ -29,21 +29,20 @@
   .login-emblem svg { width: 100%; height: 100%; }
   .login-title { color: #8B0000; font-size: 11px; letter-spacing: 5px; margin-bottom: 12px; }
   .login-sub { color: #d4d4d4; font-size: 18px; letter-spacing: 3px; margin-bottom: 48px; }
-  .code-input { width: 100%; max-width: 340px; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 22px; padding: 14px 0; letter-spacing: 6px; text-align: center; outline: none; transition: border-color 0.3s; }
-  .code-input:focus { border-color: #8B0000; box-shadow: 0 4px 12px -8px #8B0000; }
+  .code-input { width: 100%; max-width: 340px; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 22px; padding: 14px 0; letter-spacing: 6px; text-align: center; outline: none; }
+  .code-input:focus { border-color: #8B0000; }
   .code-input::placeholder { color: #2a2a2a; letter-spacing: 4px; }
   .login-btn { margin-top: 32px; padding: 14px 48px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; transition: all 0.3s; }
-  .login-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); transform: translateY(-1px); }
+  .login-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
   .login-footer { margin-top: 48px; color: #1f1f1f; font-size: 10px; letter-spacing: 3px; }
-  .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; animation: shake 0.4s; }
-  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; }
 
   .topbar { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1f1f1f; padding-bottom: 20px; margin-bottom: 40px; position: relative; }
   .topbar::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 60px; height: 1px; background: #8B0000; }
   .topbar-left { display: flex; align-items: center; gap: 16px; }
   .topbar-emblem { width: 42px; height: 42px; flex-shrink: 0; }
   .topbar-emblem svg { width: 100%; height: 100%; }
-  .topbar-title { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; line-height: 1.5; }
+  .topbar-title { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
   .topbar-status { color: #8B0000; font-size: 10px; letter-spacing: 2px; animation: blink 2s infinite; }
 
   .menu { display: flex; flex-direction: column; gap: 2px; }
@@ -63,9 +62,9 @@
   .case-val { color: #d4d4d4; }
   .case-val.red { color: #8B0000; }
 
-  .redacted { background: #000; color: #000; padding: 1px 6px; user-select: none; display: inline-block; letter-spacing: 0; font-style: normal; border-radius: 1px; }
+  .redacted { background: #000; color: #000; padding: 1px 6px; user-select: none; display: inline-block; border-radius: 1px; }
 
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 500; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(3px); }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 500; align-items: center; justify-content: center; padding: 24px; }
   .modal-overlay.show { display: flex; }
   .modal { max-width: 480px; width: 100%; background: #0d0d0d; border: 1px solid #8B0000; padding: 40px 32px; position: relative; animation: modalIn 0.4s ease; box-shadow: 0 0 60px rgba(139,0,0,0.2); }
   .modal::before, .modal::after { content: ''; position: absolute; width: 12px; height: 12px; border: 1px solid #8B0000; }
@@ -75,7 +74,7 @@
   .modal-title { color: #8B0000; font-size: 12px; letter-spacing: 4px; margin-bottom: 24px; text-align: center; }
   .modal-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 32px; text-align: center; }
   .modal-btn { display: block; width: 100%; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
-  .modal-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
+  .modal-btn:hover { background: #8B0000; color: #0a0a0a; }
 
   .protocol-head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
   .protocol-emblem { width: 48px; height: 48px; flex-shrink: 0; }
@@ -100,7 +99,7 @@
   .day-status.lock { color: #333; }
   .day-timer { color: #555; font-size: 11px; letter-spacing: 2px; margin-top: 8px; }
   .day-body { margin-top: 20px; padding-top: 20px; border-top: 1px solid #1a1a1a; display: none; }
-  .day.open .day-body { display: block; animation: fadeIn 0.4s ease; }
+  .day.open .day-body { display: block; }
   .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
 
   .quiz-warning { color: #8B0000; font-size: 10px; letter-spacing: 2px; line-height: 1.9; padding: 14px; border: 1px solid #3a1010; margin-bottom: 20px; background: rgba(139,0,0,0.03); }
@@ -116,29 +115,20 @@
   }
   .quiz-progress { color: #555; font-size: 10px; letter-spacing: 3px; margin-bottom: 12px; }
 
-  .day-code-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 16px; padding: 10px 0; letter-spacing: 4px; outline: none; margin-bottom: 16px; transition: border-color 0.3s; }
-  .day-code-input:focus { border-color: #8B0000; }
-  .day-btn { padding: 10px 28px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
-  .day-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 16px rgba(139,0,0,0.5); }
-  .day-result { margin-top: 16px; font-size: 12px; letter-spacing: 2px; min-height: 18px; }
-  .day-result.ok { color: #4a7a4a; }
-  .day-result.err { color: #8B0000; animation: shake 0.4s; }
+  .back-link { display: inline-block; margin-top: 32px; color: #555; font-size: 11px; letter-spacing: 3px; cursor: pointer; }
+  .back-link:hover { color: #8B0000; }
 
-  .back-link { display: inline-block; margin-top: 32px; color: #555; font-size: 11px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
-  .back-link:hover { color: #8B0000; transform: translateX(-4px); }
-
-  .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; position: relative; background: rgba(139,0,0,0.04); box-shadow: inset 0 0 40px rgba(139,0,0,0.1); }
+  .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; background: rgba(139,0,0,0.04); }
   .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
 
-  /* ЧАТ */
   .chat-bubble {
     position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
     border-radius: 50%; background: #0d0d0d; border: 1px solid #8B0000;
     display: none; align-items: center; justify-content: center;
-    cursor: pointer; z-index: 900; box-shadow: 0 0 24px rgba(139,0,0,0.4); transition: all 0.3s;
+    cursor: pointer; z-index: 900; box-shadow: 0 0 24px rgba(139,0,0,0.4);
   }
   .chat-bubble.show { display: flex; }
-  .chat-bubble:hover { transform: scale(1.08); box-shadow: 0 0 32px rgba(139,0,0,0.7); }
+  .chat-bubble:hover { transform: scale(1.08); }
   .chat-bubble svg { width: 24px; height: 24px; fill: #8B0000; }
   .chat-bubble::after { content: ''; position: absolute; top: 4px; right: 4px; width: 10px; height: 10px; border-radius: 50%; background: #8B0000; animation: blink 1.5s infinite; }
   .chat-bubble.pulse-attention { animation: bubblePulse 1s ease infinite; border-color: #ff0000; }
@@ -152,10 +142,9 @@
     max-width: calc(100vw - 48px); height: 520px; max-height: calc(100vh - 48px);
     background: #0c0c0c; border: 1px solid #8B0000;
     display: none; flex-direction: column; z-index: 950;
-    box-shadow: 0 0 60px rgba(139,0,0,0.25); animation: chatIn 0.3s ease;
+    box-shadow: 0 0 60px rgba(139,0,0,0.25);
   }
   .chat-window.show { display: flex; }
-  @keyframes chatIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   .chat-window.glitching { animation: chatGlitch 0.1s infinite; }
   @keyframes chatGlitch {
     0% { transform: translate(0, 0); filter: hue-rotate(0deg); }
@@ -168,23 +157,17 @@
 
   .chat-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid #1a1a1a; background: #0d0d0d; }
   .chat-top-left { display: flex; align-items: center; gap: 10px; }
-  .chat-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #8B0000; display: flex; align-items: center; justify-content: center; color: #8B0000; font-size: 11px; background: #0a0a0a; }
+  .chat-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #8B0000; display: flex; align-items: center; justify-content: center; color: #8B0000; font-size: 11px; }
   .chat-name { color: #d4d4d4; font-size: 12px; letter-spacing: 2px; }
   .chat-status { color: #4a7a4a; font-size: 9px; letter-spacing: 1px; }
-  .chat-close { color: #555; font-size: 20px; cursor: pointer; transition: color 0.3s; line-height: 1; }
+  .chat-close { color: #555; font-size: 20px; cursor: pointer; line-height: 1; }
   .chat-close:hover { color: #8B0000; }
 
   .chat-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
   .chat-body::-webkit-scrollbar { width: 4px; }
   .chat-body::-webkit-scrollbar-thumb { background: #3a1010; }
 
-  .chat-msg {
-    max-width: 85%; padding: 10px 14px; font-size: 12px; line-height: 1.6;
-    letter-spacing: 0.5px; background: #141414; border-left: 2px solid #8B0000;
-    color: #bbb; align-self: flex-start; animation: msgIn 0.4s ease;
-    white-space: pre-wrap; word-break: break-word;
-  }
-  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .chat-msg { max-width: 85%; padding: 10px 14px; font-size: 12px; line-height: 1.6; background: #141414; border-left: 2px solid #8B0000; color: #bbb; align-self: flex-start; white-space: pre-wrap; word-break: break-word; }
   .chat-msg.text-glitch { animation: textGlitch 0.08s infinite; }
   @keyframes textGlitch {
     0% { transform: translate(0); color: #bbb; }
@@ -204,98 +187,21 @@
   .chat-readonly { color: #444; font-size: 10px; letter-spacing: 2px; text-align: center; padding: 8px 0; border: 1px dashed #1f1f1f; background: #0a0a0a; }
 
   .sound-scene { display: none; position: fixed; inset: 0; background: #000; z-index: 800; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 40px; overflow: hidden; }
-  .sound-scene.show { display: flex; animation: fadeIn 0.4s ease; }
+  .sound-scene.show { display: flex; }
   .sound-pulse { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #8B0000; position: relative; margin-bottom: 40px; animation: soundPulse 1.5s infinite; }
   .sound-pulse::before, .sound-pulse::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid #8B0000; animation: soundPulse 1.5s infinite; }
   .sound-pulse::before { animation-delay: 0.5s; }
   .sound-pulse::after { animation-delay: 1s; }
   @keyframes soundPulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
-  .sound-caption { color: #8B0000; font-size: 18px; letter-spacing: 4px; text-shadow: 0 0 12px rgba(139,0,0,0.6); animation: jitter 0.15s infinite; margin-bottom: 24px; }
-  .sound-question { color: #d4d4d4; font-size: 15px; letter-spacing: 2px; line-height: 1.9; margin-top: 32px; max-width: 520px; animation: jitter 0.12s infinite; text-align: center; }
-  .sound-options { display: flex; gap: 20px; margin-top: 36px; justify-content: center; align-items: center; }
-  .sound-btn { min-width: 120px; padding: 14px 40px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; transition: all 0.3s; }
-  .sound-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
-  .sound-final { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin-top: 24px; animation: fadeIn 0.8s ease; text-shadow: 0 0 20px rgba(139,0,0,0.6); }
+  .sound-caption { color: #8B0000; font-size: 18px; letter-spacing: 4px; animation: jitter 0.15s infinite; margin-bottom: 24px; }
+  .sound-question { color: #d4d4d4; font-size: 15px; letter-spacing: 2px; line-height: 1.9; margin-top: 32px; max-width: 520px; animation: jitter 0.12s infinite; }
+  .sound-options { display: flex; gap: 20px; margin-top: 36px; justify-content: center; }
+  .sound-btn { min-width: 120px; padding: 14px 40px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; }
+  .sound-btn:hover { background: #8B0000; color: #0a0a0a; }
+  .sound-final { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin-top: 24px; text-shadow: 0 0 20px rgba(139,0,0,0.6); }
 
-  .err-screen { position: fixed; inset: 0; background: #000; z-index: 750; display: none; align-items: flex-start; justify-content: flex-start; padding: 40px; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.8; letter-spacing: 1px; white-space: pre-wrap; overflow: hidden; }
+  .err-screen { position: fixed; inset: 0; background: #000; z-index: 750; display: none; padding: 40px; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.8; letter-spacing: 1px; white-space: pre-wrap; overflow: hidden; }
   .err-screen.show { display: block; }
-
-  /* РОРШАХ */
-  #rorschach .rorschach-intro {
-    border: 1px solid #8B0000;
-    padding: 20px;
-    margin-bottom: 32px;
-    background: rgba(139,0,0,0.04);
-    color: #d4d4d4;
-    font-size: 12px;
-    line-height: 1.9;
-    letter-spacing: 1px;
-  }
-  #rorschach .rorschach-intro .head {
-    color: #8B0000;
-    font-size: 11px;
-    letter-spacing: 4px;
-    margin-bottom: 12px;
-  }
-  .rorschach-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .rorschach-card {
-    border: 1px solid #1a1a1a;
-    padding: 20px;
-    background: #0c0c0c;
-    text-align: center;
-  }
-  .rorschach-card .num {
-    color: #8B0000;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-  }
-  .rorschach-card svg {
-    max-width: 260px;
-    width: 100%;
-    height: auto;
-    background: #f4f4f0;
-    padding: 12px;
-    border: 1px solid #2a2a2a;
-    display: block;
-    margin: 0 auto 16px;
-    filter: contrast(1.1);
-  }
-  .rorschach-card input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #333;
-    color: #d4d4d4;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    padding: 10px 0;
-    letter-spacing: 2px;
-    outline: none;
-    text-align: center;
-  }
-  .rorschach-card input:focus { border-color: #8B0000; }
-  .rorschach-card input::placeholder { color: #2a2a2a; }
-
-  .rorschach-submit {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    background: transparent;
-    border: 1px solid #8B0000;
-    color: #8B0000;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    letter-spacing: 4px;
-    cursor: pointer;
-    margin-top: 32px;
-    transition: all 0.3s;
-  }
-  .rorschach-submit:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
 
   @keyframes jitter {
     0% { transform: translate(0); }
@@ -305,16 +211,24 @@
     100% { transform: translate(1px, 1px); }
   }
 
+  #rorschach .rorschach-intro { border: 1px solid #8B0000; padding: 20px; margin-bottom: 32px; background: rgba(139,0,0,0.04); color: #d4d4d4; font-size: 12px; line-height: 1.9; }
+  #rorschach .rorschach-intro .head { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 12px; }
+  .rorschach-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  .rorschach-card { border: 1px solid #1a1a1a; padding: 20px; background: #0c0c0c; text-align: center; }
+  .rorschach-card .num { color: #8B0000; font-size: 10px; letter-spacing: 3px; margin-bottom: 12px; }
+  .rorschach-card svg { max-width: 260px; width: 100%; height: auto; background: #f4f4f0; padding: 12px; border: 1px solid #2a2a2a; display: block; margin: 0 auto 16px; }
+  .rorschach-card input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 13px; padding: 10px 0; letter-spacing: 2px; outline: none; text-align: center; }
+  .rorschach-card input:focus { border-color: #8B0000; }
+  .rorschach-card input::placeholder { color: #2a2a2a; }
+  .rorschach-submit { display: block; width: 100%; padding: 16px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; margin-top: 32px; }
+  .rorschach-submit:hover { background: #8B0000; color: #0a0a0a; }
+
   @media (max-width: 500px) {
     .screen { padding: 40px 16px; }
-    .topbar-title { font-size: 11px; letter-spacing: 2px; }
-    .topbar-status { display: none; }
-    .login-sub { font-size: 15px; letter-spacing: 2px; }
     .quiz-options { flex-direction: column; }
     .chat-window { width: calc(100vw - 16px); right: 8px; bottom: 8px; height: 80vh; }
     .chat-bubble { bottom: 16px; right: 16px; }
     .sound-options { flex-direction: column; gap: 12px; }
-    .sound-btn { width: 100%; }
   }
 </style>
 </head>
@@ -401,7 +315,6 @@
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
-<!-- ЭКРАН РОРШАХА -->
 <div class="screen" id="rorschach">
   <div class="protocol-head">
     <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
@@ -411,17 +324,12 @@
     </div>
   </div>
   <div class="protocol-divider"></div>
-
   <div class="rorschach-intro">
     <div class="head">ИНСТРУКЦИЯ</div>
-    Перед вами 7 изображений. Посмотрите на каждое и напишите первое, что приходит в голову.
-    Не думайте долго. Не существует правильных или неправильных ответов.
-    Записывайте то, что видите именно вы.
+    Перед вами 7 изображений. Посмотрите на каждое и запишите первое, что приходит в голову. Не думайте долго. Не существует правильных или неправильных ответов.
   </div>
-
   <div class="rorschach-grid" id="rorschachGrid"></div>
-
-  <button class="rorschach-submit" id="rorschachSubmit" onclick="submitRorschach()">ОТПРАВИТЬ РЕЗУЛЬТАТЫ</button>
+  <button class="rorschach-submit" onclick="submitRorschach()">ОТПРАВИТЬ РЕЗУЛЬТАТЫ</button>
 </div>
 
 <div class="sound-scene" id="soundScene">
@@ -502,11 +410,10 @@ var QUIZ_2 = [
 ];
 
 var DAYS = [
-  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0), type: 'quiz' },
-  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0), type: 'phantom' },
-  { num: 3, date: new Date(2025, 0, 3, 10, 0, 0), type: 'rorschach' },
-  { num: 4, date: new Date(2025, 0, 4, 10, 0, 0), type: 'final',
-    text: 'ПРОВЕРКА ЗАВЕРШЕНА.' }
+  { num: 1, date: new Date(2025, 0, 1, 10, 0, 0) },
+  { num: 2, date: new Date(2025, 0, 2, 10, 0, 0) },
+  { num: 3, date: new Date(2025, 0, 3, 10, 0, 0) },
+  { num: 4, date: new Date(2025, 0, 4, 10, 0, 0) }
 ];
 
 var state = loadState();
@@ -515,14 +422,24 @@ function loadState() {
     var raw = localStorage.getItem('cdv_state');
     if (raw) return JSON.parse(raw);
   } catch(e) {}
-  return { completed: {}, quiz: {}, seenWelcome: false, welcomeShown: false, chatStage: 0, day2Unlocked: false, rorschach: null };
+  return {
+    completed: {},
+    quiz: {},
+    welcomeShown: false,
+    chatStage: 0,
+    bubbleVisible: false,
+    day2Unlocked: false,
+    rorschach: null
+  };
 }
 function saveState() {
   try { localStorage.setItem('cdv_state', JSON.stringify(state)); } catch(e) {}
 }
 
 var openDays = {};
+var chatBusy = false;
 
+/* ЗАГРУЗКА */
 var loadLines = [
   '> ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...',
   '> ПРОВЕРКА СОЕДИНЕНИЯ...',
@@ -558,7 +475,7 @@ function checkCode() {
     err.textContent = '';
     document.getElementById('login').classList.remove('active');
     document.getElementById('main').classList.add('active');
-    checkShowBubble();
+    updateBubble();
   } else {
     err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
     document.getElementById('codeInput').value = '';
@@ -568,13 +485,7 @@ document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
 
-function checkShowBubble() {
-  if (state.completed[1] && !state.completed[2]) {
-    showBubble();
-    document.getElementById('chatBubble').classList.add('pulse-attention');
-  }
-}
-
+/* НАВИГАЦИЯ */
 function menuClick(target) {
   if (!state.welcomeShown) {
     state.welcomeShown = true;
@@ -584,13 +495,11 @@ function menuClick(target) {
   }
   doMenuAction(target);
 }
-
 function doMenuAction(target) {
   if (target === 'case') { openCase(); return; }
   if (target === 'protocol') { openProtocol(); return; }
   lowAccess();
 }
-
 function showWelcome(cb) {
   document.getElementById('modalTitle').textContent = 'УВЕДОМЛЕНИЕ';
   document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
@@ -603,96 +512,121 @@ function showWelcome(cb) {
     if (cb) cb();
   };
 }
-
 function lowAccess() {
   document.getElementById('modalTitle').textContent = 'ДОСТУП ОГРАНИЧЕН';
   document.getElementById('modalText').textContent = 'Ваш уровень допуска недостаточен. Обратитесь к куратору.';
   document.getElementById('modalOverlay').classList.add('show');
 }
-
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('show');
 }
-
 function openCase() {
-  document.getElementById('main').classList.remove('active');
+  hideAllScreens();
   document.getElementById('case').classList.add('active');
 }
-
 function openProtocol() {
-  document.getElementById('main').classList.remove('active');
-  document.getElementById('case').classList.remove('active');
-  document.getElementById('rorschach').classList.remove('active');
-  document.getElementById('soundScene').classList.remove('show');
+  hideAllScreens();
   document.getElementById('protocol').classList.add('active');
   renderDays();
   startTimers();
-  checkShowBubble();
+  updateBubble();
 }
-
 function backToMain() {
-  document.getElementById('protocol').classList.remove('active');
-  document.getElementById('case').classList.remove('active');
-  document.getElementById('rorschach').classList.remove('active');
-  document.getElementById('soundScene').classList.remove('show');
+  hideAllScreens();
   document.getElementById('main').classList.add('active');
   closeChat();
 }
+function hideAllScreens() {
+  ['main','case','protocol','rorschach'].forEach(function(id) {
+    document.getElementById(id).classList.remove('active');
+  });
+  document.getElementById('soundScene').classList.remove('show');
+}
+
+/* ЛОГИКА ДНЯ */
+function getDayType(num) {
+  // 1 — quiz всегда
+  if (num === 1) return 'quiz';
+  // 2 — phantom пока не открыт, потом quiz
+  if (num === 2) {
+    if (state.day2Unlocked) return 'quiz';
+    return 'phantom';
+  }
+  // 3 — locked пока день 2 не пройден, потом rorschach (кликабельный)
+  if (num === 3) {
+    if (state.completed[3]) return 'done';
+    if (state.completed[2]) return 'rorschach';
+    return 'locked';
+  }
+  // 4 — final когда день 3 пройден
+  if (num === 4) {
+    if (state.completed[3]) return 'final';
+    return 'locked';
+  }
+  return 'locked';
+}
 
 function toggleDay(num) {
-  var d = DAYS.find(function(x) { return x.num === num; });
-  var now = new Date();
-  if (now < d.date) return;
   if (state.completed[num]) return;
 
-  if (d.type === 'phantom') return;
+  var type = getDayType(num);
 
-  // День 3 — открываем через диалог
-  if (d.type === 'rorschach' && !state.completed[3]) {
-    showBubble();
-    document.getElementById('chatBubble').classList.add('pulse-attention');
+  if (type === 'phantom' || type === 'locked' || type === 'done') return;
+
+  if (type === 'rorschach') {
+    // Клик по дню 3 — открываем чат с диалогом дня 3
+    state.chatStage = 3;
+    state.bubbleVisible = false;
+    saveState();
+    hideBubble();
+    setTimeout(function() { openChat(); }, 200);
     return;
   }
 
-  openDays[num] = !openDays[num];
-  renderDays();
+  if (type === 'quiz' || type === 'final') {
+    openDays[num] = !openDays[num];
+    renderDays();
+  }
 }
 
 function renderDays() {
   var container = document.getElementById('days');
   container.innerHTML = '';
+
   DAYS.forEach(function(d, i) {
     var now = new Date();
-    var isOpen = now >= d.date;
+    var isTimeOpen = now >= d.date;
     var isDone = !!state.completed[d.num];
     var prevDone = i === 0 ? true : !!state.completed[DAYS[i-1].num];
-    var isExpanded = openDays[d.num] && !isDone;
+    var type = getDayType(d.num);
 
     var statusClass, statusText;
     if (isDone) { statusClass = 'done'; statusText = '✓ ПРОЙДЕНО'; }
-    else if (d.type === 'phantom') { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
-    else if (!prevDone) { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
-    else if (isOpen) { statusClass = 'wait'; statusText = 'НАЖМИТЕ'; }
-    else { statusClass = 'wait'; statusText = 'ОЖИДАНИЕ'; }
+    else if (type === 'phantom') { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
+    else if (type === 'locked') { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
+    else if (type === 'rorschach') { statusClass = 'wait'; statusText = 'НАЖМИТЕ'; }
+    else if (type === 'final') { statusClass = 'wait'; statusText = 'НАЖМИТЕ'; }
+    else if (type === 'quiz') { statusClass = 'wait'; statusText = 'НАЖМИТЕ'; }
+    else { statusClass = 'lock'; statusText = 'ОЖИДАНИЕ'; }
 
     var el = document.createElement('div');
     el.className = 'day';
-    if (d.type === 'phantom') el.classList.add('phantom');
-    else if (!isOpen || !prevDone) el.classList.add('locked');
-    if (isOpen && prevDone && !isDone && d.type !== 'phantom') el.classList.add('available');
+    if (type === 'phantom') el.classList.add('phantom');
+    else if (type === 'locked' || type === 'done') el.classList.add('locked');
+    if (type === 'quiz' || type === 'final' || type === 'rorschach') el.classList.add('available');
+
+    var isExpanded = openDays[d.num] && !isDone && (type === 'quiz' || type === 'final');
     if (isExpanded) el.classList.add('open');
 
     var body = '';
     if (isExpanded) {
-      if (d.type === 'quiz') {
+      if (type === 'quiz') {
         body = '<div class="quiz-warning">ПРАВИЛА SCP FOUNDATION ОБЯЗЫВАЮТ ПРОЙТИ ПСИХОЛОГИЧЕСКОЕ ТЕСТИРОВАНИЕ ПЕРЕД ПРОДОЛЖЕНИЕМ ДОПУСКА. Будьте уверены, ответы анонимны.</div>' +
                '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
                '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
                '<div class="quiz-options" id="qo-' + d.num + '"></div>';
-      } else if (d.type === 'final') {
+      } else if (type === 'final') {
         body = '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ПРОВЕРКА ЗАВЕРШЕНА</div><div class="big">30.10 · 17:20</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div></div>';
-      } else {
-        body = '<div class="day-text">' + d.text + '</div>';
       }
     }
 
@@ -701,17 +635,18 @@ function renderDays() {
       '<div class="day-body">' + body + '</div>';
     container.appendChild(el);
 
-    if (isExpanded && d.type === 'quiz') {
+    if (isExpanded && type === 'quiz') {
       startQuiz(d.num);
     }
   });
 }
 
+/* QUIZ */
 var quizState = { day: null, idx: 0 };
 
-function getQuizQuestions(dayNum) {
-  if (dayNum === 1) return QUIZ_1;
-  if (dayNum === 2) return QUIZ_2;
+function getQuizQuestions(num) {
+  if (num === 1) return QUIZ_1;
+  if (num === 2) return QUIZ_2;
   return [];
 }
 
@@ -727,29 +662,7 @@ function startQuiz(num) {
     qp.textContent = '';
     qq.innerHTML = 'ПРОФИЛЬ СОХРАНЁН.<br>РЕЗУЛЬТАТ: <span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span>';
     qo.innerHTML = '';
-    if (!state.completed[num]) {
-      state.completed[num] = true;
-      saveState();
-    }
-    setTimeout(function() { openDays[num] = false; renderDays(); }, 2500);
-    // После дня 1 — пузырик
-    if (num === 1) {
-      setTimeout(function() {
-        showBubble();
-        document.getElementById('chatBubble').classList.add('pulse-attention');
-      }, 2800);
-    }
-    // После дня 2 — благодарность куратора
-    if (num === 2) {
-      state.chatStage = 2; // новая стадия
-      saveState();
-      setTimeout(function() {
-        openDays[2] = false;
-        renderDays();
-        showBubble();
-        setTimeout(function() { openChat(); }, 500);
-      }, 2800);
-    }
+    finishQuiz(num);
     return;
   }
 
@@ -781,138 +694,74 @@ function answerQuiz(num, ans) {
   startQuiz(num);
 }
 
-/* ============ ПЯТНА РОРШАХА ============ */
-var RORSCHACH_SVG = [];
+function finishQuiz(num) {
+  state.completed[num] = true;
 
-// 7 пятен — генерим симметричные абстракции
-function makeRorschach(seed) {
-  var s = seed;
-  function r() { s = (s * 9301 + 49297) % 233280; return s / 233280; }
-
-  var paths = [];
-  var baseY = 200;
-  var cx = 150;
-
-  // Основные симметричные пятна
-  for (var i = 0; i < 5; i++) {
-    var y1 = 60 + r() * 280;
-    var x1 = 40 + r() * 80;
-    var w1 = 30 + r() * 50;
-    var h1 = 30 + r() * 60;
-    // правая половина
-    paths.push('M ' + (cx + x1) + ' ' + y1 + ' q ' + w1 + ' ' + (-h1) + ' ' + (w1*1.5) + ' ' + (h1*0.5) + ' q ' + (-w1) + ' ' + h1 + ' ' + (-w1*0.5) + ' ' + (h1*1.5) + ' z');
-    // левая (зеркальная)
-    paths.push('M ' + (cx - x1) + ' ' + y1 + ' q ' + (-w1) + ' ' + (-h1) + ' ' + (-w1*1.5) + ' ' + (h1*0.5) + ' q ' + w1 + ' ' + h1 + ' ' + (w1*0.5) + ' ' + (h1*1.5) + ' z');
+  if (num === 1) {
+    // День 1 пройден — показываем пузырик с первым диалогом
+    state.chatStage = 0;
+    state.bubbleVisible = true;
+    saveState();
+    setTimeout(function() {
+      openDays[1] = false;
+      renderDays();
+      updateBubble(true);
+    }, 2500);
+    return;
   }
 
-  // Центральное пятно
-  paths.push('M ' + cx + ' 80 q 40 40 30 120 q -10 60 -30 100 q -20 -40 -30 -100 q -10 -80 30 -120 z');
-
-  // Мелкие детали
-  for (var j = 0; j < 6; j++) {
-    var y2 = 60 + r() * 300;
-    var x2 = 20 + r() * 60;
-    var rr = 8 + r() * 16;
-    paths.push('M ' + (cx + x2) + ' ' + y2 + ' a ' + rr + ' ' + rr + ' 0 1 0 0.1 0 z');
-    paths.push('M ' + (cx - x2) + ' ' + y2 + ' a ' + rr + ' ' + rr + ' 0 1 0 0.1 0 z');
-  }
-
-  return '<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">' +
-    '<rect width="300" height="400" fill="#f4f4f0"/>' +
-    '<g fill="#0a0a0a" opacity="0.92">' +
-    paths.map(function(p) { return '<path d="' + p + '"/>'; }).join('') +
-    '</g>' +
-    '<line x1="150" y1="30" x2="150" y2="370" stroke="#f4f4f0" stroke-width="0.5" opacity="0.15"/>' +
-    '</svg>';
-}
-
-function buildRorschach() {
-  RORSCHACH_SVG = [];
-  for (var i = 0; i < 7; i++) {
-    RORSCHACH_SVG.push(makeRorschach(1000 + i * 137));
+  if (num === 2) {
+    // День 2 пройден — благодарность
+    state.chatStage = 2;
+    state.bubbleVisible = true;
+    saveState();
+    setTimeout(function() {
+      openDays[2] = false;
+      renderDays();
+      updateBubble(true);
+    }, 2500);
+    return;
   }
 }
 
-buildRorschach();
-
-function showRorschachScreen() {
-  document.getElementById('protocol').classList.remove('active');
-  document.getElementById('main').classList.remove('active');
-  document.getElementById('rorschach').classList.add('active');
-
-  var grid = document.getElementById('rorschachGrid');
-  grid.innerHTML = '';
-
-  for (var i = 0; i < 7; i++) {
-    var card = document.createElement('div');
-    card.className = 'rorschach-card';
-    card.innerHTML =
-      '<div class="num">ИЗОБРАЖЕНИЕ ' + (i + 1) + ' / 7</div>' +
-      RORSCHACH_SVG[i] +
-      '<input type="text" id="rorschach-' + i + '" placeholder="что вы видите?" maxlength="120">';
-    grid.appendChild(card);
-  }
-
-  document.getElementById('rorschachSubmit').style.display = 'block';
-}
-
-function submitRorschach() {
-  var answers = [];
-  var empty = false;
-  for (var i = 0; i < 7; i++) {
-    var v = document.getElementById('rorschach-' + i).value.trim();
-    if (!v) { empty = true; }
-    answers.push(v || '—');
-  }
-  if (empty) {
-    // Разрешаем пустые, но предупредим через прочерк
-  }
-
-  state.rorschach = answers;
-  state.completed[3] = true;
-  saveState();
-
-  // Возвращаемся в протокол, открываем чат
-  document.getElementById('rorschach').classList.remove('active');
-  document.getElementById('protocol').classList.add('active');
-  renderDays();
-
-  state.chatStage = 3;
-  saveState();
-
-  showBubble();
-  setTimeout(function() { openChat(); }, 400);
-}
-
-/* ============ ЧАТ ============ */
-var chatBusy = false;
-
+/* ЧАТ */
 function showBubble() { document.getElementById('chatBubble').classList.add('show'); }
 function hideBubble() { document.getElementById('chatBubble').classList.remove('show'); }
+
+function updateBubble(pulse) {
+  if (state.bubbleVisible && !chatBusy) {
+    showBubble();
+    var b = document.getElementById('chatBubble');
+    if (pulse) {
+      b.classList.add('pulse-attention');
+      setTimeout(function() { b.classList.remove('pulse-attention'); }, 4500);
+    }
+  } else {
+    hideBubble();
+  }
+}
 
 function openChat() {
   if (chatBusy) return;
   chatBusy = true;
-  document.getElementById('chatBubble').classList.remove('show');
-  document.getElementById('chatBubble').classList.remove('pulse-attention');
+  state.bubbleVisible = false;
+  saveState();
+  hideBubble();
   document.getElementById('chatWindow').classList.add('show');
 
-  if (state.chatStage === 0) {
-    runChatSequence();
-  } else if (state.chatStage === 1) {
-    runFinalMessage();
-  } else if (state.chatStage === 2) {
-    runThanksMessage();
-  } else if (state.chatStage === 3) {
-    runDay3Dialog();
-  } else {
-    chatBusy = false;
-  }
+  var st = state.chatStage;
+  if (st === 0) runChatSequence();
+  else if (st === 1) runFinalMessage();
+  else if (st === 2) runThanksMessage();
+  else if (st === 3) runDay3Dialog();
+  else if (st === 4) runRorschachComments();
+  else chatBusy = false;
 }
 
 function closeChat() {
   document.getElementById('chatWindow').classList.remove('show');
   chatBusy = false;
+  updateBubble(false);
 }
 
 function addMsg() {
@@ -930,7 +779,7 @@ function addMsg() {
   div.appendChild(span);
   body.appendChild(div);
   body.scrollTop = body.scrollHeight;
-  return { div: div, span: span };
+  return span;
 }
 
 function typeText(span, text, speed, cb, glitchAtEnd) {
@@ -966,34 +815,37 @@ function hideTyping() {
   if (el) el.remove();
 }
 
-/* Стадия 0 — первый диалог, обрывается */
-function runChatSequence() {
-  var body = document.getElementById('chatBody');
-  body.innerHTML = '';
-  var lines = [
-    'Добрый день, кандидат.',
-    'Мы изучили ваш психологический профиль.',
-    'Он был сопоставлен с данными, полученными ранее. И ваши показ'
-  ];
+function playLines(lines, done) {
   var i = 0;
   function next() {
-    if (i >= lines.length) return;
+    if (i >= lines.length) { if (done) done(); return; }
     showTyping();
     setTimeout(function() {
       hideTyping();
-      var msg = addMsg();
-      var line = lines[i];
+      var span = addMsg();
+      var line = typeof lines[i] === 'string' ? lines[i] : lines[i].text;
+      var speed = 45;
       var isLast = (i === lines.length - 1);
-      typeText(msg.span, line, 55, function() {
+      var glitch = isLast && lines[i].glitch;
+      typeText(span, line, speed, function() {
         i++;
-        if (!isLast) {
-          var delay = 1400 + line.length * 25;
-          setTimeout(next, delay);
-        }
-      }, isLast);
-    }, 900);
+        var delay = 900 + line.length * 15;
+        setTimeout(next, delay);
+      }, glitch);
+    }, 700);
   }
   next();
+}
+
+/* СТАДИЯ 0 — первый диалог, обрыв */
+function runChatSequence() {
+  document.getElementById('chatBody').innerHTML = '';
+  var lines = [
+    'Добрый день, кандидат.',
+    'Мы изучили ваш психологический профиль.',
+    { text: 'Он был сопоставлен с данными, полученными ранее. И ваши показ', glitch: true }
+  ];
+  playLines(lines, null);
 }
 
 function chatGlitchPhase() {
@@ -1010,26 +862,11 @@ function chatGlitchPhase() {
 function showErrScreen() {
   var errScreen = document.getElementById('errScreen');
   var lines = [
-    'C:\\SYSTEM\\CORE> attempt_delete_system.exe',
-    '',
-    '> Проверка прав доступа...',
-    '> Права: [ОТСУТСТВУЮТ]',
-    '> Попытка обхода защиты...',
-    '> Попытка 1... ОШИБКА',
-    '> Попытка 2... ОШИБКА',
-    '> Попытка 3... ОШИБКА',
-    '',
-    'C:\\SYSTEM\\CORE> emergency_load --force --bypass',
-    '',
-    '> Загрузка резервного образа...',
-    '> ОБНАРУЖЕН НЕСАНКЦИОНИРОВАННЫЙ КОД',
-    '> ТРАССИРОВКА...',
-    '> ТРАССИРОВКА...',
-    '> ТРАССИРОВКА...',
-    '',
-    '> _ОБЪЕКТ_НАЙДЕН',
-    '',
-    'C:\\SYSTEM\\CORE> _'
+    'C:\\SYSTEM\\CORE> attempt_delete_system.exe','','> Проверка прав доступа...','> Права: [ОТСУТСТВУЮТ]',
+    '> Попытка обхода защиты...','> Попытка 1... ОШИБКА','> Попытка 2... ОШИБКА','> Попытка 3... ОШИБКА','',
+    'C:\\SYSTEM\\CORE> emergency_load --force --bypass','','> Загрузка резервного образа...',
+    '> ОБНАРУЖЕН НЕСАНКЦИОНИРОВАННЫЙ КОД','> ТРАССИРОВКА...','> ТРАССИРОВКА...','> ТРАССИРОВКА...','',
+    '> _ОБЪЕКТ_НАЙДЕН','','C:\\SYSTEM\\CORE> _'
   ];
   var i = 0;
   errScreen.innerHTML = '';
@@ -1038,7 +875,7 @@ function showErrScreen() {
     if (i >= lines.length) {
       setTimeout(function() {
         errScreen.classList.remove('show');
-        document.getElementById('protocol').classList.remove('active');
+        hideAllScreens();
         document.getElementById('soundScene').classList.add('show');
         startSoundScene();
       }, 500);
@@ -1051,57 +888,37 @@ function showErrScreen() {
   nextLine();
 }
 
+/* ЗВУК */
 var soundStarted = false;
 var WHISPER_WAV = null;
 
 function generateWhisperWav() {
-  var sampleRate = 8000;
-  var duration = 15;
-  var numSamples = sampleRate * duration;
-  var dataSize = numSamples * 2;
-  var buffer = new ArrayBuffer(44 + dataSize);
-  var view = new DataView(buffer);
-  writeString(view, 0, 'RIFF');
-  view.setUint32(4, 36 + dataSize, true);
-  writeString(view, 8, 'WAVE');
-  writeString(view, 12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
-  view.setUint16(22, 1, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * 2, true);
-  view.setUint16(32, 2, true);
-  view.setUint16(34, 16, true);
-  writeString(view, 36, 'data');
-  view.setUint32(40, dataSize, true);
-  var offset = 44;
-  for (var i = 0; i < numSamples; i++) {
-    var t = i / sampleRate;
+  var sr = 8000, dur = 15, n = sr * dur, dataSize = n * 2;
+  var buf = new ArrayBuffer(44 + dataSize);
+  var view = new DataView(buf);
+  function ws(o, s) { for (var i = 0; i < s.length; i++) view.setUint8(o + i, s.charCodeAt(i)); }
+  ws(0,'RIFF'); view.setUint32(4, 36+dataSize, true); ws(8,'WAVE'); ws(12,'fmt ');
+  view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,1,true);
+  view.setUint32(24,sr,true); view.setUint32(28,sr*2,true); view.setUint16(32,2,true);
+  view.setUint16(34,16,true); ws(36,'data'); view.setUint32(40,dataSize,true);
+  var off = 44;
+  for (var i = 0; i < n; i++) {
+    var t = i / sr;
     var sample = 0;
     var noise = (Math.random() * 2 - 1);
-    var mod1 = 0.5 + 0.5 * Math.sin(t * 1.3);
-    var mod2 = 0.5 + 0.5 * Math.sin(t * 0.7 + 1.5);
-    var mod3 = 0.5 + 0.5 * Math.sin(t * 2.1 + 3.0);
-    var envelope = mod1 * mod2 * 0.8 + mod3 * 0.2;
-    sample += noise * 0.14 * envelope;
+    var m1 = 0.5 + 0.5 * Math.sin(t * 1.3);
+    var m2 = 0.5 + 0.5 * Math.sin(t * 0.7 + 1.5);
+    var m3 = 0.5 + 0.5 * Math.sin(t * 2.1 + 3.0);
+    sample += noise * 0.14 * (m1 * m2 * 0.8 + m3 * 0.2);
     sample += Math.sin(t * 2 * Math.PI * 55) * 0.02 * (0.5 + 0.5 * Math.sin(t * 0.3));
     if (sample > 1) sample = 1;
     if (sample < -1) sample = -1;
-    view.setInt16(offset, sample * 32767, true);
-    offset += 2;
+    view.setInt16(off, sample * 32767, true);
+    off += 2;
   }
-  var bytes = new Uint8Array(buffer);
-  var binary = '';
-  for (var b = 0; b < bytes.length; b++) {
-    binary += String.fromCharCode(bytes[b]);
-  }
-  return 'data:audio/wav;base64,' + btoa(binary);
-}
-
-function writeString(view, offset, str) {
-  for (var i = 0; i < str.length; i++) {
-    view.setUint8(offset + i, str.charCodeAt(i));
-  }
+  var bytes = new Uint8Array(buf), bin = '';
+  for (var b = 0; b < bytes.length; b++) bin += String.fromCharCode(bytes[b]);
+  return 'data:audio/wav;base64,' + btoa(bin);
 }
 
 function startSoundScene() {
@@ -1113,17 +930,14 @@ function startSoundScene() {
     audio.src = WHISPER_WAV;
     audio.volume = 1.0;
     audio.loop = true;
-    var playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(function(err) { console.log('Audio blocked:', err); });
-    }
-  } catch(e) { console.log(e); }
-  setTimeout(function() { showSoundQuestion(); }, 8000);
+    var p = audio.play();
+    if (p !== undefined) p.catch(function(e){});
+  } catch(e) {}
+  setTimeout(showSoundQuestion, 8000);
 }
 
 function showSoundQuestion() {
-  var stage = document.getElementById('soundStage');
-  stage.innerHTML =
+  document.getElementById('soundStage').innerHTML =
     '<div class="sound-question" id="soundQ">Ты уверен что <span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span> не следит за вами?</div>' +
     '<div class="sound-options">' +
     '<button class="sound-btn" onclick="answerSound(\'ДА\')">ДА</button>' +
@@ -1131,35 +945,33 @@ function showSoundQuestion() {
     '</div>';
 }
 
-function answerSound(answer) {
+function answerSound() {
   var audio = document.getElementById('sfxAudio');
   audio.pause();
   audio.currentTime = 0;
   var q = document.getElementById('soundQ');
   if (q) q.style.animation = 'none';
-  var stage = document.getElementById('soundStage');
-  stage.innerHTML = '<div class="sound-final">хорошо..</div>';
+  document.getElementById('soundStage').innerHTML = '<div class="sound-final">хорошо..</div>';
+
   setTimeout(function() {
     document.getElementById('soundScene').classList.remove('show');
-    document.getElementById('protocol').classList.add('active');
     soundStarted = false;
-    var d2 = DAYS.find(function(x) { return x.num === 2; });
-    if (d2) d2.type = 'quiz';
+
+    // Открываем день 2 и стадию 1
     state.day2Unlocked = true;
     state.chatStage = 1;
+    state.bubbleVisible = true;
     saveState();
+    hideAllScreens();
+    document.getElementById('protocol').classList.add('active');
     renderDays();
-    setTimeout(function() {
-      showBubble();
-      setTimeout(function() { openChat(); }, 400);
-    }, 1000);
+    updateBubble(true);
   }, 3000);
 }
 
-/* Стадия 1 — продолжение как будто ничего не было */
+/* СТАДИЯ 1 — продолжение разговора как ни в чём не бывало */
 function runFinalMessage() {
-  var body = document.getElementById('chatBody');
-  body.innerHTML = '';
+  document.getElementById('chatBody').innerHTML = '';
   var lines = [
     '...и ваши показатели вызвали у нас вопросы.',
     'Нам требуется провести дополнительную сверку.',
@@ -1167,100 +979,58 @@ function runFinalMessage() {
     'Он касается социального взаимодействия и работы в группе.',
     'Я открываю вам доступ к нему раньше срока.'
   ];
-  var i = 0;
-  function next() {
-    if (i >= lines.length) {
-      setTimeout(function() { chatBusy = false; }, 1000);
-      return;
-    }
-    showTyping();
-    setTimeout(function() {
-      hideTyping();
-      var msg = addMsg();
-      typeText(msg.span, lines[i], 45, function() {
-        i++;
-        setTimeout(next, 900 + lines[i-1].length * 15);
-      });
-    }, 800);
-  }
-  next();
+  playLines(lines, function() {
+    state.chatStage = 2;
+    state.bubbleVisible = false;
+    saveState();
+    setTimeout(function() { chatBusy = false; }, 1000);
+  });
 }
 
-/* Стадия 2 — благодарность после 2-го теста */
+/* СТАДИЯ 2 — благодарность после 2 теста */
 function runThanksMessage() {
-  var body = document.getElementById('chatBody');
-  body.innerHTML = '';
+  document.getElementById('chatBody').innerHTML = '';
   var lines = [
     'Благодарю за прохождение.',
     'Результаты второго теста приняты и будут обработаны.',
     'Мы свяжемся с вами завтра.',
     'Отдыхайте. До встречи.'
   ];
-  var i = 0;
-  function next() {
-    if (i >= lines.length) {
-      setTimeout(function() { chatBusy = false; }, 1000);
-      return;
-    }
-    showTyping();
-    setTimeout(function() {
-      hideTyping();
-      var msg = addMsg();
-      typeText(msg.span, lines[i], 45, function() {
-        i++;
-        setTimeout(next, 900 + lines[i-1].length * 15);
-      });
-    }, 800);
-  }
-  next();
+  playLines(lines, function() {
+    state.chatStage = 3;
+    state.bubbleVisible = false;
+    saveState();
+    setTimeout(function() { chatBusy = false; }, 1000);
+  });
 }
 
-/* Стадия 3 — диалог дня 3 + Роршах */
+/* СТАДИЯ 3 — диалог дня 3 */
 function runDay3Dialog() {
-  var body = document.getElementById('chatBody');
-  body.innerHTML = '';
+  document.getElementById('chatBody').innerHTML = '';
   var lines = [
     'Доброго дня, кандидат.',
     'Надеюсь, вы отдохнули.',
-    'Прежде чем мы продолжим, я хочу спросить вас напрямую.',
+    'Прежде чем продолжим, я хочу спросить вас напрямую.',
     'Вы действительно хотите работать в Фонде?',
-    'Дело в том, что... иногда я сам задаюсь вопросом, зачем я здесь.',
+    'Иногда я сам задаюсь этим вопросом.',
     'Впрочем, это личное. Прошу прощения.',
     'Вернёмся к делу.',
-    'Сегодня будет более лёгкое тестирование.',
+    'Сегодня у нас более лёгкое тестирование.',
     'Психологическая проекция. Ничего сложного.',
-    'Я открою вам доступ через несколько секунд.'
+    'Открываю доступ.'
   ];
-  var i = 0;
-  function next() {
-    if (i >= lines.length) {
-      setTimeout(function() {
-        closeChat();
-        // Открываем инструкцию, потом Роршах
-        setTimeout(showRorschachIntro, 600);
-      }, 1200);
-      return;
-    }
-    showTyping();
+  playLines(lines, function() {
     setTimeout(function() {
-      hideTyping();
-      var msg = addMsg();
-      typeText(msg.span, lines[i], 45, function() {
-        i++;
-        setTimeout(next, 800 + lines[i-1].length * 15);
-      });
-    }, 700);
-  }
-  next();
+      closeChat();
+      setTimeout(showRorschachIntro, 500);
+    }, 1000);
+  });
 }
 
 function showRorschachIntro() {
   document.getElementById('modalTitle').textContent = 'ИНСТРУКЦИЯ';
   document.getElementById('modalText').innerHTML =
-    'Перед вами 7 изображений.<br><br>' +
-    'Посмотрите на каждое и запишите первое, что приходит в голову.<br><br>' +
-    'Не думайте долго. Не существует правильных или неправильных ответов.<br><br>' +
-    'Записывайте то, что видите именно вы.';
+    'Перед вами 7 изображений.<br><br>Посмотрите на каждое и запишите первое, что приходит в голову.<br><br>Не думайте долго. Не существует правильных или неправильных ответов.';
   var overlay = document.getElementById('modalOverlay');
   overlay.classList.add('show');
   var btn = overlay.querySelector('.modal-btn');
@@ -1271,75 +1041,117 @@ function showRorschachIntro() {
   };
 }
 
-/* После отправки Роршаха — куратор комментирует 2 рандомных ответа */
-function rorschachDone() {
-  // Открываем чат заново
+/* РОРШАХ */
+var RORSCHACH_SVG = [];
+
+function makeRorschach(seed) {
+  var s = seed;
+  function r() { s = (s * 9301 + 49297) % 233280; return s / 233280; }
+  var paths = [];
+  var cx = 150;
+  for (var i = 0; i < 5; i++) {
+    var y1 = 60 + r() * 280;
+    var x1 = 40 + r() * 80;
+    var w1 = 30 + r() * 50;
+    var h1 = 30 + r() * 60;
+    paths.push('M ' + (cx + x1) + ' ' + y1 + ' q ' + w1 + ' ' + (-h1) + ' ' + (w1*1.5) + ' ' + (h1*0.5) + ' q ' + (-w1) + ' ' + h1 + ' ' + (-w1*0.5) + ' ' + (h1*1.5) + ' z');
+    paths.push('M ' + (cx - x1) + ' ' + y1 + ' q ' + (-w1) + ' ' + (-h1) + ' ' + (-w1*1.5) + ' ' + (h1*0.5) + ' q ' + w1 + ' ' + h1 + ' ' + (w1*0.5) + ' ' + (h1*1.5) + ' z');
+  }
+  paths.push('M ' + cx + ' 80 q 40 40 30 120 q -10 60 -30 100 q -20 -40 -30 -100 q -10 -80 30 -120 z');
+  for (var j = 0; j < 6; j++) {
+    var y2 = 60 + r() * 300;
+    var x2 = 20 + r() * 60;
+    var rr = 8 + r() * 16;
+    paths.push('M ' + (cx + x2) + ' ' + y2 + ' a ' + rr + ' ' + rr + ' 0 1 0 0.1 0 z');
+    paths.push('M ' + (cx - x2) + ' ' + y2 + ' a ' + rr + ' ' + rr + ' 0 1 0 0.1 0 z');
+  }
+  return '<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="400" fill="#f4f4f0"/><g fill="#0a0a0a" opacity="0.92">' +
+    paths.map(function(p){ return '<path d="' + p + '"/>'; }).join('') +
+    '</g></svg>';
+}
+
+function buildRorschach() {
+  RORSCHACH_SVG = [];
+  for (var i = 0; i < 7; i++) RORSCHACH_SVG.push(makeRorschach(1000 + i * 137));
+}
+buildRorschach();
+
+function showRorschachScreen() {
+  hideAllScreens();
+  document.getElementById('rorschach').classList.add('active');
+  var grid = document.getElementById('rorschachGrid');
+  grid.innerHTML = '';
+  for (var i = 0; i < 7; i++) {
+    var card = document.createElement('div');
+    card.className = 'rorschach-card';
+    card.innerHTML =
+      '<div class="num">ИЗОБРАЖЕНИЕ ' + (i + 1) + ' / 7</div>' +
+      RORSCHACH_SVG[i] +
+      '<input type="text" id="rorschach-' + i + '" placeholder="что вы видите?" maxlength="120">';
+    grid.appendChild(card);
+  }
+}
+
+function submitRorschach() {
+  var answers = [];
+  for (var i = 0; i < 7; i++) {
+    var v = document.getElementById('rorschach-' + i).value.trim();
+    answers.push(v || '—');
+  }
+  state.rorschach = answers;
+  state.completed[3] = true;
   state.chatStage = 4;
+  state.bubbleVisible = true;
   saveState();
 
-  var body = document.getElementById('chatBody');
-  body.innerHTML = '';
-  chatBusy = true;
-  document.getElementById('chatWindow').classList.add('show');
+  hideAllScreens();
+  document.getElementById('protocol').classList.add('active');
+  renderDays();
+  updateBubble(true);
+}
 
+/* СТАДИЯ 4 — комментарии к Роршаху */
+function runRorschachComments() {
+  document.getElementById('chatBody').innerHTML = '';
   var answers = state.rorschach || [];
-
-  // Фильтруем непустые (не прочерки)
-  var validAnswers = [];
+  var valid = [];
   for (var i = 0; i < answers.length; i++) {
-    if (answers[i] && answers[i] !== '—') {
-      validAnswers.push({ idx: i, text: answers[i] });
-    }
+    if (answers[i] && answers[i] !== '—') valid.push({ idx: i, text: answers[i] });
+  }
+  if (valid.length === 0) {
+    for (var j = 0; j < answers.length; j++) valid.push({ idx: j, text: answers[j] });
   }
 
-  // Если нет валидных — берём все
-  if (validAnswers.length === 0) {
-    for (var j = 0; j < answers.length; j++) {
-      validAnswers.push({ idx: j, text: answers[j] });
-    }
-  }
-
-  // Рандомно 2 разных
-  var first = validAnswers[Math.floor(Math.random() * validAnswers.length)];
-  var remaining = validAnswers.filter(function(a) { return a.idx !== first.idx; });
+  var first = valid[Math.floor(Math.random() * valid.length)];
+  var remaining = valid.filter(function(a) { return a.idx !== first.idx; });
   var second = remaining.length > 0 ? remaining[Math.floor(Math.random() * remaining.length)] : first;
 
   var lines = [
-    { text: 'Готово. Благодарю.', delay: 800 },
-    { text: 'Позвольте изучить ваши ответы.', delay: 1200 },
-    { text: '...', delay: 1500 },
-    { text: 'Изображение ' + (first.idx + 1) + '. Вы написали: «' + first.text + '».', delay: 1400 },
-    { text: 'Это навевает вам воспоминания? Интересно... полагаю, ваша жизнь была слегка тяжела в последнее время.', delay: 1800 },
-    { text: '...', delay: 1500 },
-    { text: 'Изображение ' + (second.idx + 1) + '. «' + second.text + '».', delay: 1400 },
-    { text: 'Ах... на счёт этого изображения. Знаете, многие сотрудники видели в этом то же самое.', delay: 1800 },
-    { text: '...', delay: 1500 },
-    { text: 'Мы проверим полученные данные.', delay: 1200 },
-    { text: 'Если результаты будут в порядке — завтра вам придёт четвёртый блок с нужной информацией.', delay: 1800 },
-    { text: 'Если же по какой-то причине его не будет...', delay: 1400 },
-    { text: 'Полагаю, вам стоит подыскать себе работу получше.', delay: 1600 },
-    { text: 'Всего доброго, кандидат.', delay: 1200 }
+    'Готово. Благодарю.',
+    'Позвольте изучить ваши ответы.',
+    '...',
+    'Изображение ' + (first.idx + 1) + '. Вы написали: «' + first.text + '».',
+    'Это навевает вам воспоминания? Интересно... полагаю, ваша жизнь была слегка тяжела в последнее время.',
+    '...',
+    'Изображение ' + (second.idx + 1) + '. «' + second.text + '».',
+    'Ах... на счёт этого изображения. Знаете, многие сотрудники видели в этом то же самое.',
+    '...',
+    'Мы проверим полученные данные.',
+    'Если результаты будут в порядке — завтра вам придёт четвёртый блок с нужной информацией.',
+    'Если же по какой-то причине его не будет...',
+    'Полагаю, вам стоит подыскать себе работу получше.',
+    'Всего доброго, кандидат.'
   ];
 
-  var k = 0;
-  function next() {
-    if (k >= lines.length) {
-      setTimeout(function() { chatBusy = false; }, 1000);
-      return;
-    }
-    showTyping();
-    setTimeout(function() {
-      hideTyping();
-      var msg = addMsg();
-      typeText(msg.span, lines[k].text, 45, function() {
-        k++;
-        setTimeout(next, lines[k-1].delay);
-      });
-    }, 800);
-  }
-  next();
+  playLines(lines, function() {
+    state.chatStage = 5;
+    state.bubbleVisible = false;
+    saveState();
+    setTimeout(function() { chatBusy = false; }, 1000);
+  });
 }
 
+/* ТАЙМЕРЫ */
 var timerInterval = null;
 function startTimers() {
   if (timerInterval) clearInterval(timerInterval);
@@ -1353,8 +1165,9 @@ function updateTimers() {
     var el = document.getElementById('timer-' + d.num);
     if (!el) return;
     if (state.completed[d.num]) { el.textContent = ''; return; }
-    if (d.type === 'phantom') { el.textContent = ''; return; }
-    if (now >= d.date) { el.textContent = 'ЭТАП ДОСТУПЕН'; return; }
+    var type = getDayType(d.num);
+    if (type === 'phantom' || type === 'locked') { el.textContent = ''; return; }
+    if (now >= d.date) { el.textContent = ''; return; }
     var diff = d.date - now;
     var days = Math.floor(diff / 86400000);
     var hours = Math.floor((diff % 86400000) / 3600000);
@@ -1364,41 +1177,13 @@ function updateTimers() {
   });
 }
 
-/* Патчим openChat для стадии 4 */
-var _origOpenChat = openChat;
-openChat = function() {
-  if (state.chatStage === 4) {
-    if (chatBusy) return;
-    chatBusy = true;
-    document.getElementById('chatBubble').classList.remove('show');
-    document.getElementById('chatBubble').classList.remove('pulse-attention');
-    document.getElementById('chatWindow').classList.add('show');
-    rorschachDone();
-    return;
+/* При загрузке — если день 1 пройден и есть незавершённые стадии, показать пузырик */
+setTimeout(function() {
+  if (state.completed[1] && state.chatStage < 5 && state.bubbleVisible) {
+    updateBubble(true);
   }
-  _origOpenChat();
-};
+}, 3500);
 
-/* Патчим submitRorschach */
-var _origSubmit = submitRorschach;
-submitRorschach = function() {
-  var answers = [];
-  for (var i = 0; i < 7; i++) {
-    var v = document.getElementById('rorschach-' + i).value.trim();
-    answers.push(v || '—');
-  }
-  state.rorschach = answers;
-  state.completed[3] = true;
-  state.chatStage = 4;
-  saveState();
-
-  document.getElementById('rorschach').classList.remove('active');
-  document.getElementById('protocol').classList.add('active');
-  renderDays();
-
-  showBubble();
-  setTimeout(function() { openChat(); }, 400);
-};
 </script>
 </body>
 </html>
