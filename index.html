@@ -10,6 +10,16 @@
   body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(139,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(139,0,0,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; pointer-events: none; }
   body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%); z-index: -1; pointer-events: none; }
 
+  /* Пока чат открыт — весь контент затемнён и заблокирован */
+  body.chat-open .screen.active {
+    filter: brightness(0.35);
+    pointer-events: none;
+    transition: filter 0.3s;
+  }
+  body.chat-open .chat-bubble {
+    pointer-events: none;
+  }
+
   #loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; transition: opacity 0.8s; }
   .loader-emblem { width: 130px; height: 130px; margin-bottom: 40px; animation: pulseGlow 2.5s infinite; }
   .loader-emblem svg { width: 100%; height: 100%; }
@@ -429,7 +439,8 @@ function loadState() {
     chatStage: 0,
     bubbleVisible: false,
     day2Unlocked: false,
-    rorschach: null
+    rorschach: null,
+    pendingDayUnlock: false
   };
 }
 function saveState() {
@@ -485,8 +496,31 @@ document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
 
+/* ================= БЛОКИРОВКА, ПОКА ЧАТ ОТКРЫТ ================= */
+function isChatOpen() {
+  return document.getElementById('chatWindow').classList.contains('show');
+}
+
+function isBlocked() {
+  // Чат открыт или идёт сцена — блокируем всё
+  if (isChatOpen()) return true;
+  if (document.getElementById('soundScene').classList.contains('show')) return true;
+  if (document.getElementById('errScreen').classList.contains('show')) return true;
+  if (document.getElementById('modalOverlay').classList.contains('show')) return true;
+  return false;
+}
+
+function openChatVisual() {
+  document.body.classList.add('chat-open');
+}
+function closeChatVisual() {
+  document.body.classList.remove('chat-open');
+}
+
 /* НАВИГАЦИЯ */
 function menuClick(target) {
+  if (isBlocked()) return;
+
   if (!state.welcomeShown) {
     state.welcomeShown = true;
     saveState();
@@ -532,6 +566,7 @@ function openProtocol() {
   updateBubble(false);
 }
 function backToMain() {
+  if (isBlocked()) return;
   hideAllScreens();
   document.getElementById('main').classList.add('active');
   closeChat();
@@ -545,7 +580,7 @@ function hideAllScreens() {
 
 /* ЛОГИКА ДНЯ */
 function getDayType(num) {
-  if (num === 1) return 'quiz';
+  if (num === 1) return state.completed[1] ? 'done' : 'quiz';
   if (num === 2) {
     if (state.completed[2]) return 'done';
     if (state.day2Unlocked) return 'quiz';
@@ -564,6 +599,7 @@ function getDayType(num) {
 }
 
 function toggleDay(num) {
+  if (isBlocked()) return;
   if (state.completed[num]) return;
   var type = getDayType(num);
   if (type === 'phantom' || type === 'locked' || type === 'done') return;
@@ -588,7 +624,6 @@ function renderDays() {
   container.innerHTML = '';
 
   DAYS.forEach(function(d, i) {
-    var now = new Date();
     var isDone = !!state.completed[d.num];
     var type = getDayType(d.num);
 
@@ -690,7 +725,6 @@ function finishQuiz(num) {
   state.completed[num] = true;
 
   if (num === 1) {
-    // День 1 пройден — стадия 0, показываем пузырик для первого диалога
     state.chatStage = 0;
     state.bubbleVisible = true;
     saveState();
@@ -703,7 +737,6 @@ function finishQuiz(num) {
   }
 
   if (num === 2) {
-    // День 2 пройден — стадия 2, благодарность
     state.chatStage = 2;
     state.bubbleVisible = true;
     saveState();
@@ -735,11 +768,13 @@ function updateBubble(pulse) {
 
 function openChat() {
   if (chatBusy) return;
+  if (isChatOpen()) return;
   chatBusy = true;
   state.bubbleVisible = false;
   saveState();
   hideBubble();
   document.getElementById('chatWindow').classList.add('show');
+  openChatVisual();
 
   var st = state.chatStage;
   if (st === 0) runChatSequence();
@@ -752,7 +787,17 @@ function openChat() {
 
 function closeChat() {
   document.getElementById('chatWindow').classList.remove('show');
+  closeChatVisual();
   chatBusy = false;
+
+  // Если куратор уже сообщил про ранний доступ — открываем день 2 ровно сейчас
+  if (state.pendingDayUnlock) {
+    state.pendingDayUnlock = false;
+    state.day2Unlocked = true;
+    saveState();
+    renderDays();
+  }
+
   updateBubble(false);
 }
 
@@ -948,8 +993,7 @@ function answerSound() {
     document.getElementById('soundScene').classList.remove('show');
     soundStarted = false;
 
-    // Возвращаемся в протокол. День 2 ВСЁ ЕЩЁ phantom.
-    // Показываем пузырик для стадии 1 — но день 2 ещё заблокирован.
+    // Возвращаемся в протокол. День 2 всё ещё phantom.
     state.chatStage = 1;
     state.bubbleVisible = true;
     saveState();
@@ -961,7 +1005,7 @@ function answerSound() {
   }, 3000);
 }
 
-/* СТАДИЯ 1 — продолжение разговора, ОТКРЫВАЕТ день 2 */
+/* СТАДИЯ 1 — продолжение. Куратор СООБЩАЕТ про ранний доступ */
 function runFinalMessage() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -972,15 +1016,12 @@ function runFinalMessage() {
     'Я открываю вам доступ к нему раньше срока.'
   ];
   playLines(lines, function() {
-    // Только теперь день 2 открыт
-    state.day2Unlocked = true;
+    // НЕ открываем день 2 сразу — ждём, пока игрок закроет чат
+    state.pendingDayUnlock = true;
     state.chatStage = 2;
     state.bubbleVisible = false;
     saveState();
-    setTimeout(function() {
-      chatBusy = false;
-      renderDays();
-    }, 1000);
+    setTimeout(function() { chatBusy = false; }, 1000);
   });
 }
 
@@ -1174,7 +1215,7 @@ function updateTimers() {
   });
 }
 
-/* При загрузке — если что-то «висит», показать пузырик */
+/* При загрузке — если есть висящий пузырик */
 setTimeout(function() {
   if (state.bubbleVisible && state.chatStage < 5) {
     updateBubble(false);
