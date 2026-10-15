@@ -3,84 +3,580 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Commission on Adoption</title>
+<title>SCP FOUNDATION</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; color: #c8c8c8; font-family: 'Courier New', monospace; min-height: 100vh; overflow-x: hidden; }
-  #loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; transition: opacity 0.8s; }
-  .emblem { width: 90px; height: 90px; border: 2px solid #8B0000; border-radius: 50%; position: relative; margin-bottom: 40px; animation: pulse 2s infinite; }
-  .emblem::before { content: ''; position: absolute; inset: 14px; border: 1px solid #8B0000; border-radius: 50%; }
-  .emblem::after { content: '82'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #8B0000; font-size: 24px; letter-spacing: 2px; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-  .load-text { color: #555; font-size: 11px; letter-spacing: 3px; line-height: 2.2; text-align: center; }
+
+  html, body {
+    background: #0a0a0a;
+    color: #c8c8c8;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Фоновый узор */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(139,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139,0,0,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* ================= ЗАГРУЗКА ================= */
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.8s;
+  }
+
+  .loader-emblem {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 40px;
+    position: relative;
+    animation: rotateSlow 20s linear infinite;
+  }
+
+  .loader-emblem svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 20px rgba(139,0,0,0.5));
+  }
+
+  @keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .load-text {
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 3px;
+    line-height: 2.2;
+    text-align: center;
+    min-height: 80px;
+  }
+
   .load-text span { color: #8B0000; }
-  .screen { display: none; min-height: 100vh; padding: 60px 24px; max-width: 720px; margin: 0 auto; }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 13px;
+    background: #8B0000;
+    animation: blink 1s infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* ================= ЭКРАНЫ ================= */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    padding: 60px 24px;
+    max-width: 720px;
+    margin: 0 auto;
+    animation: fadeIn 0.6s ease;
+  }
+
   .screen.active { display: block; }
-  #login { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ================= ВХОД ================= */
+  #login {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
   #login.active { display: flex; }
-  .login-title { color: #8B0000; font-size: 12px; letter-spacing: 4px; margin-bottom: 12px; }
-  .login-sub { color: #d4d4d4; font-size: 18px; letter-spacing: 2px; margin-bottom: 48px; }
-  .code-input { width: 100%; max-width: 340px; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 22px; padding: 14px 0; letter-spacing: 6px; text-align: center; outline: none; }
-  .code-input:focus { border-color: #8B0000; }
+
+  .login-emblem {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 32px;
+    animation: pulseGlow 3s infinite;
+  }
+
+  .login-emblem svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 12px rgba(139,0,0,0.4));
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { filter: drop-shadow(0 0 12px rgba(139,0,0,0.4)); }
+    50% { filter: drop-shadow(0 0 24px rgba(139,0,0,0.8)); }
+  }
+
+  .login-title {
+    color: #8B0000;
+    font-size: 12px;
+    letter-spacing: 6px;
+    margin-bottom: 12px;
+  }
+
+  .login-sub {
+    color: #d4d4d4;
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 48px;
+  }
+
+  .code-input {
+    width: 100%;
+    max-width: 340px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    color: #d4d4d4;
+    font-family: 'Courier New', monospace;
+    font-size: 22px;
+    padding: 14px 0;
+    letter-spacing: 6px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .code-input:focus { border-color: #8B0000; box-shadow: 0 4px 12px -8px #8B0000; }
   .code-input::placeholder { color: #2a2a2a; letter-spacing: 4px; }
-  .login-btn { margin-top: 32px; padding: 14px 48px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; }
-  .login-btn:hover { background: #8B0000; color: #0a0a0a; }
-  .login-footer { margin-top: 48px; color: #1f1f1f; font-size: 10px; letter-spacing: 3px; }
-  .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1f1f1f; padding-bottom: 20px; margin-bottom: 40px; }
+
+  .login-btn {
+    margin-top: 32px;
+    padding: 14px 48px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .login-btn:hover {
+    background: #8B0000;
+    color: #0a0a0a;
+    box-shadow: 0 0 24px rgba(139,0,0,0.6);
+    transform: translateY(-1px);
+  }
+
+  .login-footer {
+    margin-top: 48px;
+    color: #1f1f1f;
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+
+  .error-msg {
+    color: #8B0000;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 16px;
+    min-height: 16px;
+    animation: shake 0.4s;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  /* ================= ГЛАВНАЯ ================= */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #1f1f1f;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .topbar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 60px;
+    height: 1px;
+    background: #8B0000;
+  }
+
   .topbar-left { display: flex; align-items: center; gap: 16px; }
-  .mini-emblem { width: 32px; height: 32px; border: 1px solid #8B0000; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #8B0000; font-size: 11px; }
-  .topbar-title { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
-  .topbar-status { color: #444; font-size: 10px; letter-spacing: 2px; }
+
+  .topbar-emblem {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+  }
+
+  .topbar-emblem svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 6px rgba(139,0,0,0.5));
+  }
+
+  .topbar-title { color: #d4d4d4; font-size: 12px; letter-spacing: 3px; line-height: 1.4; }
+  .topbar-status { color: #8B0000; font-size: 10px; letter-spacing: 2px; animation: blink 2s infinite; }
+
   .menu { display: flex; flex-direction: column; gap: 2px; }
-  .menu-item { padding: 18px 24px; border: 1px solid #1a1a1a; color: #777; font-size: 12px; letter-spacing: 3px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-  .menu-item:hover { border-color: #8B0000; color: #d4d4d4; }
-  .menu-item .arrow { color: #333; }
+
+  .menu-item {
+    padding: 18px 24px;
+    border: 1px solid #1a1a1a;
+    color: #777;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #8B0000;
+    transform: scaleY(0);
+    transition: transform 0.25s;
+  }
+
+  .menu-item:hover {
+    border-color: #3a1010;
+    color: #d4d4d4;
+    background: rgba(139,0,0,0.04);
+    padding-left: 30px;
+  }
+
+  .menu-item:hover::before { transform: scaleY(1); }
+
+  .menu-item .arrow { color: #333; transition: all 0.25s; }
+  .menu-item:hover .arrow { color: #8B0000; transform: translateX(4px); }
+
   .menu-item.protocol { border-color: #3a1010; color: #8B0000; }
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 500; align-items: center; justify-content: center; padding: 24px; }
+  .menu-item.protocol .arrow { color: #8B0000; }
+
+  /* ================= МОДАЛКА ================= */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    backdrop-filter: blur(3px);
+  }
+
   .modal-overlay.show { display: flex; }
-  .modal { max-width: 480px; width: 100%; background: #0d0d0d; border: 1px solid #8B0000; padding: 40px 32px; }
-  .modal-title { color: #8B0000; font-size: 12px; letter-spacing: 4px; margin-bottom: 24px; text-align: center; }
-  .modal-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 32px; text-align: center; }
-  .modal-btn { display: block; width: 100%; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; }
-  .modal-btn:hover { background: #8B0000; color: #0a0a0a; }
-  .protocol-header { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 8px; }
-  .protocol-title { color: #d4d4d4; font-size: 18px; letter-spacing: 2px; margin-bottom: 40px; }
-  .day { border: 1px solid #1a1a1a; padding: 24px; margin-bottom: 16px; }
-  .day.locked { opacity: 0.45; }
+
+  .modal {
+    max-width: 480px;
+    width: 100%;
+    background: #0d0d0d;
+    border: 1px solid #8B0000;
+    padding: 40px 32px;
+    position: relative;
+    animation: modalIn 0.4s ease;
+    box-shadow: 0 0 60px rgba(139,0,0,0.2);
+  }
+
+  .modal::before, .modal::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #8B0000;
+  }
+
+  .modal::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .modal::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-title {
+    color: #8B0000;
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .modal-text {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .modal-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .modal-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
+
+  /* ================= ПРОТОКОЛ ================= */
+  .protocol-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 8px;
+  }
+
+  .protocol-emblem {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .protocol-emblem svg { width: 100%; height: 100%; }
+
+  .protocol-header {
+    color: #8B0000;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 4px;
+  }
+
+  .protocol-title {
+    color: #d4d4d4;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .protocol-divider {
+    height: 1px;
+    background: linear-gradient(90deg, #8B0000, transparent);
+    margin: 20px 0 40px;
+  }
+
+  .day {
+    border: 1px solid #1a1a1a;
+    padding: 24px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .day.locked { opacity: 0.4; cursor: not-allowed; }
   .day.available { border-color: #8B0000; }
-  .day-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .day.available:hover { background: rgba(139,0,0,0.05); transform: translateX(4px); }
+  .day.open { border-color: #8B0000; background: rgba(139,0,0,0.03); }
+
+  .day.open::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    bottom: -1px;
+    width: 3px;
+    background: #8B0000;
+  }
+
+  .day-head { display: flex; justify-content: space-between; align-items: center; }
   .day-num { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
   .day-status { font-size: 10px; letter-spacing: 2px; }
   .day-status.done { color: #4a7a4a; }
-  .day-status.wait { color: #8B0000; }
+  .day-status.wait { color: #8B0000; animation: blink 2s infinite; }
   .day-status.lock { color: #333; }
+
   .day-timer { color: #555; font-size: 11px; letter-spacing: 2px; margin-top: 8px; }
-  .day-body { margin-top: 20px; padding-top: 20px; border-top: 1px solid #1a1a1a; display: none; }
-  .day.open .day-body { display: block; }
-  .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
-  .day-code-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 16px; padding: 10px 0; letter-spacing: 4px; outline: none; margin-bottom: 16px; }
+
+  .day-body {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #1a1a1a;
+    display: none;
+  }
+
+  .day.open .day-body { display: block; animation: fadeIn 0.4s ease; }
+
+  .day-text {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 20px;
+    white-space: pre-line;
+  }
+
+  .day-code-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    color: #d4d4d4;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    padding: 10px 0;
+    letter-spacing: 4px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.3s;
+  }
+
   .day-code-input:focus { border-color: #8B0000; }
-  .day-btn { padding: 10px 28px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 3px; cursor: pointer; }
-  .day-btn:hover { background: #8B0000; color: #0a0a0a; }
+
+  .day-btn {
+    padding: 10px 28px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .day-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 16px rgba(139,0,0,0.5); }
+
   .day-result { margin-top: 16px; font-size: 12px; letter-spacing: 2px; min-height: 18px; }
   .day-result.ok { color: #4a7a4a; }
-  .day-result.err { color: #8B0000; }
-  .back-link { display: inline-block; margin-top: 32px; color: #555; font-size: 11px; letter-spacing: 3px; cursor: pointer; }
-  .back-link:hover { color: #8B0000; }
-  .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; }
-  .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; }
+  .day-result.err { color: #8B0000; animation: shake 0.4s; }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 32px;
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover { color: #8B0000; transform: translateX(-4px); }
+
+  .final-message {
+    border: 1px solid #8B0000;
+    padding: 40px 32px;
+    text-align: center;
+    margin-top: 24px;
+    position: relative;
+    background: rgba(139,0,0,0.04);
+    box-shadow: inset 0 0 40px rgba(139,0,0,0.1);
+  }
+
+  .final-message::before, .final-message::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #8B0000;
+  }
+
+  .final-message::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .final-message::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .final-message .big {
+    color: #8B0000;
+    font-size: 22px;
+    letter-spacing: 6px;
+    margin: 20px 0;
+    text-shadow: 0 0 20px rgba(139,0,0,0.5);
+  }
+
+  /* ================= МОБИЛЬНОЕ ================= */
+  @media (max-width: 500px) {
+    .screen { padding: 40px 16px; }
+    .topbar-title { font-size: 10px; letter-spacing: 2px; }
+    .topbar-status { display: none; }
+    .day-num { font-size: 12px; }
+    .login-sub { font-size: 15px; letter-spacing: 2px; }
+  }
 </style>
 </head>
 <body>
 
+<!-- SVG ЛОГОТИП SCP — определяется один раз -->
+<svg style="display:none">
+  <symbol id="scp-logo" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#8B0000" stroke-width="2"/>
+    <circle cx="50" cy="50" r="36" fill="none" stroke="#8B0000" stroke-width="1" opacity="0.5"/>
+    <circle cx="50" cy="50" r="8" fill="#8B0000"/>
+    <!-- Три стрелки -->
+    <g stroke="#8B0000" stroke-width="2" fill="none">
+      <line x1="50" y1="42" x2="50" y2="14"/>
+      <polyline points="44,20 50,14 56,20" fill="none"/>
+      <line x1="43" y1="54" x2="19" y2="68"/>
+      <polyline points="19,60 19,68 27,68" fill="none"/>
+      <line x1="57" y1="54" x2="81" y2="68"/>
+      <polyline points="73,68 81,68 81,60" fill="none"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- ================= ЗАГРУЗКА ================= -->
 <div id="loader">
-  <div class="emblem"></div>
-  <div class="load-text">ИНИЦИАЛИЗАЦИЯ...<br>ПРОВЕРКА СОЕДИНЕНИЯ...<br><span>ДОСТУП К СИСТЕМЕ...</span></div>
+  <div class="loader-emblem">
+    <svg><use href="#scp-logo"/></svg>
+  </div>
+  <div class="load-text" id="loadText"></div>
 </div>
 
+<!-- ================= ВХОД ================= -->
 <div class="screen" id="login">
-  <div class="login-title">COMMISSION ON ADOPTION</div>
+  <div class="login-emblem">
+    <svg><use href="#scp-logo"/></svg>
+  </div>
+  <div class="login-title">SCP FOUNDATION</div>
   <div class="login-sub">ВВЕДИТЕ ИДЕНТИФИКАТОР</div>
   <input type="text" class="code-input" id="codeInput" placeholder="_ _ _ - _ _ - _ _ _" autocomplete="off">
   <button class="login-btn" onclick="checkCode()">ПОДТВЕРДИТЬ</button>
@@ -88,13 +584,16 @@
   <div class="login-footer">Исх. № 641\88-6 · ДСП</div>
 </div>
 
+<!-- ================= ГЛАВНАЯ ================= -->
 <div class="screen" id="main">
   <div class="topbar">
     <div class="topbar-left">
-      <div class="mini-emblem">82</div>
-      <div class="topbar-title">ФОНД · ЛИЧНЫЙ КАБИНЕТ</div>
+      <div class="topbar-emblem">
+        <svg><use href="#scp-logo"/></svg>
+      </div>
+      <div class="topbar-title">SCP FOUNDATION<br>ЛИЧНЫЙ КАБИНЕТ</div>
     </div>
-    <div class="topbar-status">ДОПУСК: ОГРАНИЧЕН</div>
+    <div class="topbar-status">● ДОПУСК: ОГРАНИЧЕН</div>
   </div>
   <div class="menu">
     <div class="menu-item" onclick="lowAccess()">АРХИВ <span class="arrow">→</span></div>
@@ -105,13 +604,23 @@
   </div>
 </div>
 
+<!-- ================= ПРОТОКОЛ ================= -->
 <div class="screen" id="protocol">
-  <div class="protocol-header">РЕГЛАМЕНТ ДОПОЛНИТЕЛЬНЫХ ПРОВЕРОК</div>
-  <div class="protocol-title">ПРОТОКОЛ</div>
+  <div class="protocol-head">
+    <div class="protocol-emblem">
+      <svg><use href="#scp-logo"/></svg>
+    </div>
+    <div>
+      <div class="protocol-header">РЕГЛАМЕНТ ДОПОЛНИТЕЛЬНЫХ ПРОВЕРОК</div>
+      <div class="protocol-title">ПРОТОКОЛ</div>
+    </div>
+  </div>
+  <div class="protocol-divider"></div>
   <div id="days"></div>
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
+<!-- ================= МОДАЛКА ================= -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-title" id="modalTitle">ДОСТУП ОГРАНИЧЕН</div>
@@ -140,6 +649,31 @@ var DAYS = [
 
 var groupSize = 4;
 var completedDays = {};
+var openDays = {};
+
+/* ============ ЗАГРУЗКА С ТЕРМИНАЛЬНЫМ ТЕКСТОМ ============ */
+var loadLines = [
+  '> ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...',
+  '> ПРОВЕРКА СОЕДИНЕНИЯ...',
+  '> ПОИСК ЗАЩИЩЁННОГО КАНАЛА...',
+  '> <span>УСТАНОВЛЕНО.</span>',
+  '> ЗАГРУЗКА ПРОТОКОЛА 641\\88-6...',
+  '> <span>ДОСТУП К СИСТЕМЕ...</span>'
+];
+
+var loadIdx = 0;
+var loadTextEl = document.getElementById('loadText');
+
+function typeLine() {
+  if (loadIdx >= loadLines.length) return;
+  var line = loadLines[loadIdx];
+  var full = loadTextEl.innerHTML;
+  loadTextEl.innerHTML = full + (full ? '<br>' : '') + line + '<span class="cursor"></span>';
+  loadIdx++;
+  setTimeout(typeLine, 450);
+}
+
+typeLine();
 
 setTimeout(function() {
   document.getElementById('loader').style.opacity = '0';
@@ -149,6 +683,7 @@ setTimeout(function() {
   }, 800);
 }, 3200);
 
+/* ============ ЛОГИКА ============ */
 function checkCode() {
   var val = document.getElementById('codeInput').value.trim();
   var err = document.getElementById('errorMsg');
@@ -195,6 +730,14 @@ function backToMain() {
   document.getElementById('main').classList.add('active');
 }
 
+function toggleDay(num) {
+  var d = DAYS.find(function(x) { return x.num === num; });
+  var now = new Date();
+  if (now < d.date) return;
+  if (openDays[num]) { openDays[num] = false; } else { openDays[num] = true; }
+  renderDays();
+}
+
 function renderDays() {
   var container = document.getElementById('days');
   container.innerHTML = '';
@@ -203,10 +746,12 @@ function renderDays() {
     var isOpen = now >= d.date;
     var isDone = completedDays[d.num];
     var prevDone = i === 0 ? true : completedDays[DAYS[i-1].num];
+    var isExpanded = openDays[d.num];
+
     var statusClass, statusText;
     if (isDone) { statusClass = 'done'; statusText = 'ВЫПОЛНЕНО'; }
     else if (!prevDone) { statusClass = 'lock'; statusText = 'ЗАБЛОКИРОВАНО'; }
-    else if (isOpen) { statusClass = 'wait'; statusText = 'ДОСТУПНО'; }
+    else if (isOpen) { statusClass = 'wait'; statusText = 'НАЖМИТЕ'; }
     else { statusClass = 'wait'; statusText = 'ОЖИДАНИЕ'; }
 
     var el = document.createElement('div');
@@ -214,8 +759,9 @@ function renderDays() {
     if (isDone) el.classList.add('open');
     if (!isOpen || !prevDone) el.classList.add('locked');
     if (isOpen && prevDone && !isDone) el.classList.add('available');
+    if (isExpanded) el.classList.add('open');
 
-    el.innerHTML = '<div class="day-head"><div class="day-num">ДЕНЬ ' + d.num + '</div><div class="day-status ' + statusClass + '">' + statusText + '</div></div>' +
+    el.innerHTML = '<div class="day-head" onclick="toggleDay(' + d.num + ')"><div class="day-num">ДЕНЬ ' + d.num + '</div><div class="day-status ' + statusClass + '">' + statusText + '</div></div>' +
       '<div class="day-timer" id="timer-' + d.num + '"></div>' +
       '<div class="day-body"><div class="day-text">' + d.text + '</div>' + renderDayInput(d) + '<div class="day-result" id="result-' + d.num + '"></div></div>';
     container.appendChild(el);
@@ -242,7 +788,7 @@ function submitDay(num) {
     completedDays[num] = true;
     res.className = 'day-result ok';
     res.textContent = 'ПРИНЯТО.';
-    renderDays();
+    setTimeout(renderDays, 600);
     return;
   }
   if (d.calcAnswer) {
@@ -250,7 +796,7 @@ function submitDay(num) {
       completedDays[num] = true;
       res.className = 'day-result ok';
       res.textContent = 'ВЕРНО.';
-      renderDays();
+      setTimeout(renderDays, 600);
     } else { res.className = 'day-result err'; res.textContent = 'НЕВЕРНО.'; }
     return;
   }
@@ -259,7 +805,7 @@ function submitDay(num) {
       completedDays[num] = true;
       res.className = 'day-result ok';
       res.textContent = 'ВЕРНО.';
-      renderDays();
+      setTimeout(renderDays, 600);
     } else { res.className = 'day-result err'; res.textContent = 'НЕВЕРНО.'; }
   }
 }
@@ -277,15 +823,7 @@ function updateTimers() {
     var el = document.getElementById('timer-' + d.num);
     if (!el) return;
     if (completedDays[d.num]) { el.textContent = ''; return; }
-    if (now >= d.date) { el.textContent = 'ДОСТУП ОТКРЫТ'; return; }
+    if (now >= d.date) { el.textContent = 'ДЕНЬ ДОСТУПЕН'; return; }
     var diff = d.date - now;
     var days = Math.floor(diff / 86400000);
-    var hours = Math.floor((diff % 86400000) / 3600000);
-    var mins = Math.floor((diff % 3600000) / 60000);
-    var secs = Math.floor((diff % 60000) / 1000);
-    el.textContent = 'ОТКРЫТИЕ ЧЕРЕЗ: ' + days + 'д ' + hours + 'ч ' + mins + 'м ' + secs + 'с';
-  });
-}
-</script>
-</body>
-</html>
+    var hours = Math.floor((diff % 86400000) / 3600000
