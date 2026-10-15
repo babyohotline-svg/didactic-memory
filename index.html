@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COMMITTEE FOR DATA VERIFICATION</title>
+<title>SCP FOUNDATION</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: #0a0a0a; color: #c8c8c8; font-family: 'Courier New', monospace; min-height: 100vh; overflow-x: hidden; }
@@ -43,7 +43,7 @@
   .topbar-left { display: flex; align-items: center; gap: 16px; }
   .topbar-emblem { width: 42px; height: 42px; flex-shrink: 0; }
   .topbar-emblem svg { width: 100%; height: 100%; }
-  .topbar-title { color: #d4d4d4; font-size: 11px; letter-spacing: 2px; line-height: 1.5; }
+  .topbar-title { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; line-height: 1.5; }
   .topbar-status { color: #8B0000; font-size: 10px; letter-spacing: 2px; animation: blink 2s infinite; }
 
   .menu { display: flex; flex-direction: column; gap: 2px; }
@@ -63,7 +63,6 @@
   .case-val { color: #d4d4d4; }
   .case-val.red { color: #8B0000; }
 
-  /* Черная плашка как в SCP */
   .redacted {
     background: #000;
     color: #000;
@@ -73,6 +72,7 @@
     letter-spacing: 0;
     font-style: normal;
     border-radius: 1px;
+    transition: opacity 0.6s;
   }
 
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 500; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(3px); }
@@ -111,7 +111,7 @@
   .day.open .day-body { display: block; animation: fadeIn 0.4s ease; }
   .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
 
-  .quiz-warning { color: #8B0000; font-size: 10px; letter-spacing: 2px; line-height: 1.7; padding: 12px; border: 1px solid #3a1010; margin-bottom: 20px; background: rgba(139,0,0,0.03); }
+  .quiz-warning { color: #8B0000; font-size: 10px; letter-spacing: 2px; line-height: 1.9; padding: 14px; border: 1px solid #3a1010; margin-bottom: 20px; background: rgba(139,0,0,0.03); }
   .quiz-question { color: #d4d4d4; font-size: 14px; letter-spacing: 1px; line-height: 1.8; margin: 24px 0 28px; min-height: 60px; }
   .quiz-options { display: flex; gap: 12px; margin-top: 20px; }
   .quiz-btn { flex: 1; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
@@ -217,6 +217,7 @@
     flex-direction: column;
     text-align: center;
     padding: 40px;
+    overflow: hidden;
   }
   .sound-scene.show { display: flex; animation: fadeIn 0.4s ease; }
 
@@ -297,6 +298,81 @@
     text-shadow: 0 0 20px rgba(139,0,0,0.6);
   }
 
+  /* Еле заметные глаза */
+  .eyes {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s;
+    z-index: 810;
+  }
+  .eyes.show { opacity: 1; }
+  .eye {
+    position: absolute;
+    width: 70px;
+    height: 35px;
+    opacity: 0.13;
+  }
+  .eye::before, .eye::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background: #8B0000;
+    border-radius: 50%;
+    top: 4px;
+  }
+  .eye::before { left: 6px; }
+  .eye::after { right: 6px; }
+  .eye .pupil {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    top: 13px;
+    animation: pupilMove 4s infinite;
+  }
+  .eye .pupil.left { left: 15px; }
+  .eye .pupil.right { right: 15px; }
+
+  @keyframes pupilMove {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-2px, 1px); }
+    50% { transform: translate(2px, -1px); }
+    75% { transform: translate(-1px, 2px); }
+  }
+
+  .eye-1 { top: 15%; left: 12%; }
+  .eye-2 { top: 22%; right: 10%; }
+  .eye-3 { top: 45%; left: 6%; }
+  .eye-4 { top: 55%; right: 8%; }
+  .eye-5 { bottom: 18%; left: 20%; }
+  .eye-6 { bottom: 12%; right: 18%; }
+  .eye-7 { top: 35%; left: 48%; }
+  .eye-8 { bottom: 30%; left: 38%; }
+
+  /* ЭКРАН С КОДОМ */
+  .err-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 750;
+    display: none;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 40px;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    white-space: pre-wrap;
+    overflow: hidden;
+  }
+  .err-screen.show { display: block; }
+
   @keyframes jitter {
     0% { transform: translate(0); }
     25% { transform: translate(-1px, 1px); }
@@ -307,7 +383,7 @@
 
   @media (max-width: 500px) {
     .screen { padding: 40px 16px; }
-    .topbar-title { font-size: 9px; letter-spacing: 1px; }
+    .topbar-title { font-size: 11px; letter-spacing: 2px; }
     .topbar-status { display: none; }
     .login-sub { font-size: 15px; letter-spacing: 2px; }
     .quiz-options { flex-direction: column; }
@@ -332,6 +408,20 @@
   </symbol>
 </svg>
 
+<!-- ЕЛЕ ЗАМЕТНЫЕ ГЛАЗА -->
+<div class="eyes" id="eyesLayer">
+  <div class="eye eye-1"><div class="pupil left"></div><div class="pupil right"></div></div>
+  <div class="eye eye-2"><div class="pupil left"></div><div class="pupil right"></div></div>
+  <div class="eye eye-3"><div class="pupil left"></div><div class="pupil right"></div></div>
+  <div class="eye eye-4"><div class="pupil left"></div><div class="pupil right"></div></div>
+  <div class="eye eye-5"><div class="pupil left"></div><div class="pupil right"></div></div>
+  <div class="eye eye-6"><div class="pupil left"></div><div class="pupil right"></div></div>
+  <div class="eye eye-7"><div class="pupil left"></div><div class="pupil right"></div></div>
+  <div class="eye eye-8"><div class="pupil left"></div><div class="pupil right"></div></div>
+</div>
+
+<div class="err-screen" id="errScreen"></div>
+
 <div id="loader">
   <div class="loader-emblem"><svg><use href="#logo-82"/></svg></div>
   <div class="load-text" id="loadText"></div>
@@ -339,7 +429,7 @@
 
 <div class="screen" id="login">
   <div class="login-emblem"><svg><use href="#logo-82"/></svg></div>
-  <div class="login-title">COMMITTEE FOR DATA VERIFICATION</div>
+  <div class="login-title">SCP FOUNDATION</div>
   <div class="login-sub">ВВЕДИТЕ ИДЕНТИФИКАТОР</div>
   <input type="text" class="code-input" id="codeInput" placeholder="_ _ _ - _ _ - _ _ _" autocomplete="off">
   <button class="login-btn" onclick="checkCode()">ПОДТВЕРДИТЬ</button>
@@ -351,7 +441,7 @@
   <div class="topbar">
     <div class="topbar-left">
       <div class="topbar-emblem"><svg><use href="#logo-82"/></svg></div>
-      <div class="topbar-title">COMMITTEE FOR DATA VERIFICATION<br>ЛИЧНЫЙ КАБИНЕТ</div>
+      <div class="topbar-title">ЛИЧНЫЙ КАБИНЕТ</div>
     </div>
     <div class="topbar-status">● ДОПУСК: ОГРАНИЧЕН</div>
   </div>
@@ -399,7 +489,6 @@
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
-<!-- ЗВУКОВАЯ СЦЕНА -->
 <div class="sound-scene" id="soundScene">
   <div class="sound-pulse"></div>
   <div class="sound-caption">ʇы слышал это</div>
@@ -535,7 +624,7 @@ function lowAccess() {
 
 function showWelcome() {
   document.getElementById('modalTitle').textContent = 'УВЕДОМЛЕНИЕ';
-  document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Комитет ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
+  document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
   document.getElementById('modalOverlay').classList.add('show');
 }
 
@@ -605,7 +694,7 @@ function renderDays() {
     var body = '';
     if (isExpanded) {
       if (d.type === 'quiz') {
-        body = '<div class="quiz-warning">ПРАВИЛА КОМИТЕТА ОБЯЗЫВАЮТ ПРОЙТИ ПСИХОЛОГИЧЕСКОЕ ТЕСТИРОВАНИЕ ПЕРЕД ПРОДОЛЖЕНИЕМ ДОПУСКА. ОТВЕТЫ НЕ ПРОВЕРЯЮТСЯ. ОНИ СОХРАНЯЮТСЯ.</div>' +
+        body = '<div class="quiz-warning">ПРАВИЛА SCP FOUNDATION ОБЯЗЫВАЮТ ПРОЙТИ ПСИХОЛОГИЧЕСКОЕ ТЕСТИРОВАНИЕ ПЕРЕД ПРОДОЛЖЕНИЕМ ДОПУСКА. Будьте уверены, ответы анонимны.</div>' +
                '<div class="quiz-progress" id="qprog-' + d.num + '"></div>' +
                '<div class="quiz-question" id="qq-' + d.num + '"></div>' +
                '<div class="quiz-options" id="qo-' + d.num + '"></div>';
@@ -638,7 +727,7 @@ function startQuiz(num) {
 
   if (quizState.idx >= QUIZ_QUESTIONS.length) {
     qp.textContent = '';
-    qq.textContent = 'ПРОФИЛЬ СОХРАНЁН.\nРЕЗУЛЬТАТ: [ДАННЫЕ УДАЛЕНЫ]';
+    qq.innerHTML = 'ПРОФИЛЬ СОХРАНЁН.<br>РЕЗУЛЬТАТ: <span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span>';
     qo.innerHTML = '';
     if (!state.completed[num]) {
       state.completed[num] = true;
@@ -785,29 +874,69 @@ function chatGlitchPhase() {
     hideBubble();
     chatWin.classList.remove('glitching');
 
-    document.getElementById('protocol').classList.remove('active');
-    document.getElementById('soundScene').classList.add('show');
-
-    startSoundScene();
+    // Экран с кодом восстановления
+    showErrScreen();
   }, 1200);
+}
+
+function showErrScreen() {
+  var errScreen = document.getElementById('errScreen');
+  var lines = [
+    'C:\\SYSTEM\\CORE> attempt_delete_system.exe',
+    '',
+    '> Проверка прав доступа...',
+    '> Права: [ОТСУТСТВУЮТ]',
+    '> Попытка обхода защиты...',
+    '> Попытка 1... ОШИБКА',
+    '> Попытка 2... ОШИБКА',
+    '> Попытка 3... ОШИБКА',
+    '',
+    'C:\\SYSTEM\\CORE> emergency_load --force --bypass',
+    '',
+    '> Загрузка резервного образа...',
+    '> ОБНАРУЖЕН НЕСАНКЦИОНИРОВАННЫЙ КОД',
+    '> ТРАССИРОВКА...',
+    '> ТРАССИРОВКА...',
+    '> ТРАССИРОВКА...',
+    '',
+    '> _ОБЪЕКТ_НАЙДЕН',
+    '',
+    'C:\\SYSTEM\\CORE> _'
+  ];
+
+  var i = 0;
+  errScreen.innerHTML = '';
+  errScreen.classList.add('show');
+
+  function nextLine() {
+    if (i >= lines.length) {
+      setTimeout(function() {
+        errScreen.classList.remove('show');
+        document.getElementById('protocol').classList.remove('active');
+        document.getElementById('soundScene').classList.add('show');
+        startSoundScene();
+      }, 500);
+      return;
+    }
+    errScreen.innerHTML += lines[i] + '\n';
+    i++;
+    setTimeout(nextLine, 60);
+  }
+  nextLine();
 }
 
 /* ============ ЗВУКОВАЯ СЦЕНА ============ */
 var soundStarted = false;
-
-/* WAV с шёпотом и стуком — генерируется один раз и вставляется в base64 */
 var WHISPER_WAV = null;
 
 function generateWhisperWav() {
-  // Создаём WAV вручную: 12 секунд, 8000 Гц, моно, 16 бит
   var sampleRate = 8000;
-  var duration = 12;
+  var duration = 15;
   var numSamples = sampleRate * duration;
   var dataSize = numSamples * 2;
   var buffer = new ArrayBuffer(44 + dataSize);
   var view = new DataView(buffer);
 
-  // RIFF header
   writeString(view, 0, 'RIFF');
   view.setUint32(4, 36 + dataSize, true);
   writeString(view, 8, 'WAVE');
@@ -822,32 +951,26 @@ function generateWhisperWav() {
   writeString(view, 36, 'data');
   view.setUint32(40, dataSize, true);
 
-  // Генерируем звук: смесь шума и низкочастотных стуков
-  var knockTimes = [1.2, 1.45, 3.5, 3.75, 5.9, 6.15, 8.2, 8.45, 10.3, 10.55];
   var offset = 44;
 
   for (var i = 0; i < numSamples; i++) {
     var t = i / sampleRate;
     var sample = 0;
 
-    // Шёпот — фильтрованный шум
+    // Шёпот — плавный шум, без резких пиков, чтобы не было слышно зацикливание
     var noise = (Math.random() * 2 - 1);
-    // Модуляция шёпота по времени (волнами)
-    var whisperMod = 0.3 + 0.7 * Math.abs(Math.sin(t * 0.8));
-    // Полосовая фильтрация грубая: оставляем середину
-    sample += noise * 0.08 * whisperMod;
+    // Медленная модуляция для плавности
+    var mod1 = 0.5 + 0.5 * Math.sin(t * 1.3);
+    var mod2 = 0.5 + 0.5 * Math.sin(t * 0.7 + 1.5);
+    var mod3 = 0.5 + 0.5 * Math.sin(t * 2.1 + 3.0);
+    var envelope = mod1 * mod2 * 0.8 + mod3 * 0.2;
 
-    // Стуки
-    for (var k = 0; k < knockTimes.length; k++) {
-      var kt = knockTimes[k];
-      var dt = t - kt;
-      if (dt >= 0 && dt < 0.15) {
-        // Затухающий синус 70 Гц
-        sample += Math.sin(dt * 2 * Math.PI * 70) * 0.35 * Math.exp(-dt * 20);
-      }
-    }
+    // Создаём "шёпот" через модулированный шум
+    sample += noise * 0.14 * envelope;
 
-    // Мягкое ограничение
+    // Плавная составляющая — низкочастотный гул
+    sample += Math.sin(t * 2 * Math.PI * 55) * 0.02 * (0.5 + 0.5 * Math.sin(t * 0.3));
+
     if (sample > 1) sample = 1;
     if (sample < -1) sample = -1;
 
@@ -855,7 +978,6 @@ function generateWhisperWav() {
     offset += 2;
   }
 
-  // Кодируем в base64
   var bytes = new Uint8Array(buffer);
   var binary = '';
   for (var b = 0; b < bytes.length; b++) {
@@ -874,13 +996,13 @@ function startSoundScene() {
   if (soundStarted) return;
   soundStarted = true;
 
-  // Генерируем звук и запускаем
+  // Запускаем звук
   try {
     if (!WHISPER_WAV) WHISPER_WAV = generateWhisperWav();
     var audio = document.getElementById('sfxAudio');
     audio.src = WHISPER_WAV;
-    audio.volume = 0.7;
-    audio.loop = false;
+    audio.volume = 1.0;
+    audio.loop = true;
     var playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise.catch(function(err) {
@@ -918,33 +1040,36 @@ function answerSound(answer) {
   var stage = document.getElementById('soundStage');
   stage.innerHTML = '<div class="sound-final">хорошо..</div>';
 
-  // Через 2 сек возвращаемся
+  // Еле заметные глаза
   setTimeout(function() {
+    document.getElementById('eyesLayer').classList.add('show');
+  }, 300);
+
+  // Через 3 секунды возвращаемся
+  setTimeout(function() {
+    document.getElementById('eyesLayer').classList.remove('show');
     document.getElementById('soundScene').classList.remove('show');
     document.getElementById('protocol').classList.add('active');
     soundStarted = false;
 
-    // Помечаем день 2 как пройденный
     if (!state.completed[2]) {
       state.completed[2] = true;
       saveState();
     }
     renderDays();
 
-    // Показываем чат снова с финальным сообщением
+    // Возвращаем чат
     setTimeout(function() {
       showBubble();
       setTimeout(function() {
         openChat();
-        // Через секунду печатаем последнее сообщение
         setTimeout(runFinalMessage, 1200);
       }, 300);
     }, 800);
-  }, 2000);
+  }, 3000);
 }
 
 function runFinalMessage() {
-  // Очищаем поле чата и печатаем финальное сообщение
   var body = document.getElementById('chatBody');
   body.innerHTML = '';
 
@@ -952,7 +1077,7 @@ function runFinalMessage() {
   setTimeout(function() {
     hideTyping();
     var msg = addMsg();
-    typeText(msg.span, 'Проверка продолжена. Завтра — следующий этап. Не пропускайте.', 45);
+    typeText(msg.span, 'Проверка засчитана. Продолжение — по расписанию. Не отвлекайтесь от наблюдения.', 45);
   }, 900);
 }
 
