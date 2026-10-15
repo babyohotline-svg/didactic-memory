@@ -10,15 +10,12 @@
   body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(139,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(139,0,0,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; pointer-events: none; }
   body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%); z-index: -1; pointer-events: none; }
 
-  /* Пока чат открыт — весь контент затемнён и заблокирован */
   body.chat-open .screen.active {
     filter: brightness(0.35);
     pointer-events: none;
     transition: filter 0.3s;
   }
-  body.chat-open .chat-bubble {
-    pointer-events: none;
-  }
+  body.chat-open .chat-bubble { pointer-events: none; }
 
   #loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; transition: opacity 0.8s; }
   .loader-emblem { width: 130px; height: 130px; margin-bottom: 40px; animation: pulseGlow 2.5s infinite; }
@@ -110,7 +107,6 @@
   .day-timer { color: #555; font-size: 11px; letter-spacing: 2px; margin-top: 8px; }
   .day-body { margin-top: 20px; padding-top: 20px; border-top: 1px solid #1a1a1a; display: none; }
   .day.open .day-body { display: block; }
-  .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
 
   .quiz-warning { color: #8B0000; font-size: 10px; letter-spacing: 2px; line-height: 1.9; padding: 14px; border: 1px solid #3a1010; margin-bottom: 20px; background: rgba(139,0,0,0.03); }
   .quiz-question { color: #d4d4d4; font-size: 14px; letter-spacing: 1px; line-height: 1.8; margin: 24px 0 28px; min-height: 60px; }
@@ -449,6 +445,9 @@ function saveState() {
 
 var openDays = {};
 var chatBusy = false;
+var currentChatLines = null;
+var currentChatIndex = 0;
+var currentChatDone = null;
 
 /* ЗАГРУЗКА */
 var loadLines = [
@@ -496,13 +495,12 @@ document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
 
-/* ================= БЛОКИРОВКА, ПОКА ЧАТ ОТКРЫТ ================= */
+/* БЛОКИРОВКА */
 function isChatOpen() {
   return document.getElementById('chatWindow').classList.contains('show');
 }
 
 function isBlocked() {
-  // Чат открыт или идёт сцена — блокируем всё
   if (isChatOpen()) return true;
   if (document.getElementById('soundScene').classList.contains('show')) return true;
   if (document.getElementById('errScreen').classList.contains('show')) return true;
@@ -510,17 +508,12 @@ function isBlocked() {
   return false;
 }
 
-function openChatVisual() {
-  document.body.classList.add('chat-open');
-}
-function closeChatVisual() {
-  document.body.classList.remove('chat-open');
-}
+function openChatVisual() { document.body.classList.add('chat-open'); }
+function closeChatVisual() { document.body.classList.remove('chat-open'); }
 
 /* НАВИГАЦИЯ */
 function menuClick(target) {
   if (isBlocked()) return;
-
   if (!state.welcomeShown) {
     state.welcomeShown = true;
     saveState();
@@ -569,7 +562,6 @@ function backToMain() {
   if (isBlocked()) return;
   hideAllScreens();
   document.getElementById('main').classList.add('active');
-  closeChat();
 }
 function hideAllScreens() {
   ['main','case','protocol','rorschach'].forEach(function(id) {
@@ -623,7 +615,7 @@ function renderDays() {
   var container = document.getElementById('days');
   container.innerHTML = '';
 
-  DAYS.forEach(function(d, i) {
+  DAYS.forEach(function(d) {
     var isDone = !!state.completed[d.num];
     var type = getDayType(d.num);
 
@@ -767,15 +759,21 @@ function updateBubble(pulse) {
 }
 
 function openChat() {
-  if (chatBusy) return;
   if (isChatOpen()) return;
+  document.getElementById('chatWindow').classList.add('show');
+  openChatVisual();
   chatBusy = true;
   state.bubbleVisible = false;
   saveState();
   hideBubble();
-  document.getElementById('chatWindow').classList.add('show');
-  openChatVisual();
 
+  // Если диалог был прерван — продолжаем
+  if (currentChatLines !== null && currentChatIndex < currentChatLines.length) {
+    playLinesFrom(currentChatLines, currentChatIndex, currentChatDone);
+    return;
+  }
+
+  // Иначе — новый диалог
   var st = state.chatStage;
   if (st === 0) runChatSequence();
   else if (st === 1) runFinalMessage();
@@ -790,7 +788,6 @@ function closeChat() {
   closeChatVisual();
   chatBusy = false;
 
-  // Если куратор уже сообщил про ранний доступ — открываем день 2 ровно сейчас
   if (state.pendingDayUnlock) {
     state.pendingDayUnlock = false;
     state.day2Unlocked = true;
@@ -798,7 +795,15 @@ function closeChat() {
     renderDays();
   }
 
-  updateBubble(false);
+  // Если диалог прерван — показать пузырик, чтобы можно было вернуться
+  if (currentChatLines !== null && currentChatIndex < currentChatLines.length) {
+    showBubble();
+    var b = document.getElementById('chatBubble');
+    b.classList.add('pulse-attention');
+    setTimeout(function() { b.classList.remove('pulse-attention'); }, 3000);
+  } else if (state.bubbleVisible) {
+    showBubble();
+  }
 }
 
 function addMsg() {
@@ -819,24 +824,6 @@ function addMsg() {
   return span;
 }
 
-function typeText(span, text, speed, cb, glitchAtEnd) {
-  var i = 0;
-  function tick() {
-    if (i >= text.length) { if (cb) cb(); return; }
-    span.textContent += text[i];
-    i++;
-    document.getElementById('chatBody').scrollTop = document.getElementById('chatBody').scrollHeight;
-    if (glitchAtEnd && i === text.length - 4) {
-      var msgDiv = span.parentNode;
-      msgDiv.classList.add('text-glitch');
-      setTimeout(function() { chatGlitchPhase(); }, 400);
-      return;
-    }
-    setTimeout(tick, speed);
-  }
-  tick();
-}
-
 function showTyping() {
   var body = document.getElementById('chatBody');
   var div = document.createElement('div');
@@ -853,11 +840,26 @@ function hideTyping() {
 }
 
 function playLines(lines, done) {
-  var i = 0;
+  currentChatLines = lines;
+  currentChatDone = done;
+  currentChatIndex = 0;
+  playLinesFrom(lines, 0, done);
+}
+
+function playLinesFrom(lines, startIdx, done) {
+  var i = startIdx;
   function next() {
-    if (i >= lines.length) { if (done) done(); return; }
+    if (!isChatOpen()) { currentChatIndex = i; return; }
+    if (i >= lines.length) {
+      currentChatLines = null;
+      currentChatIndex = 0;
+      currentChatDone = null;
+      if (done) done();
+      return;
+    }
     showTyping();
     setTimeout(function() {
+      if (!isChatOpen()) { hideTyping(); currentChatIndex = i; return; }
       hideTyping();
       var span = addMsg();
       var line = typeof lines[i] === 'string' ? lines[i] : lines[i].text;
@@ -865,12 +867,32 @@ function playLines(lines, done) {
       var glitch = isLast && lines[i].glitch;
       typeText(span, line, 45, function() {
         i++;
+        currentChatIndex = i;
         var delay = 900 + line.length * 15;
         setTimeout(next, delay);
       }, glitch);
     }, 700);
   }
   next();
+}
+
+function typeText(span, text, speed, cb, glitchAtEnd) {
+  var i = 0;
+  function tick() {
+    if (!isChatOpen()) return;
+    if (i >= text.length) { if (cb) cb(); return; }
+    span.textContent += text[i];
+    i++;
+    document.getElementById('chatBody').scrollTop = document.getElementById('chatBody').scrollHeight;
+    if (glitchAtEnd && i === text.length - 4) {
+      var msgDiv = span.parentNode;
+      msgDiv.classList.add('text-glitch');
+      setTimeout(function() { chatGlitchPhase(); }, 400);
+      return;
+    }
+    setTimeout(tick, speed);
+  }
+  tick();
 }
 
 /* СТАДИЯ 0 — первый диалог, обрыв */
@@ -888,7 +910,12 @@ function chatGlitchPhase() {
   var chatWin = document.getElementById('chatWindow');
   chatWin.classList.add('glitching');
   setTimeout(function() {
-    closeChat();
+    document.getElementById('chatWindow').classList.remove('show');
+    closeChatVisual();
+    chatBusy = false;
+    currentChatLines = null;
+    currentChatIndex = 0;
+    currentChatDone = null;
     hideBubble();
     chatWin.classList.remove('glitching');
     showErrScreen();
@@ -993,7 +1020,6 @@ function answerSound() {
     document.getElementById('soundScene').classList.remove('show');
     soundStarted = false;
 
-    // Возвращаемся в протокол. День 2 всё ещё phantom.
     state.chatStage = 1;
     state.bubbleVisible = true;
     saveState();
@@ -1016,7 +1042,6 @@ function runFinalMessage() {
     'Я открываю вам доступ к нему раньше срока.'
   ];
   playLines(lines, function() {
-    // НЕ открываем день 2 сразу — ждём, пока игрок закроет чат
     state.pendingDayUnlock = true;
     state.chatStage = 2;
     state.bubbleVisible = false;
@@ -1059,7 +1084,9 @@ function runDay3Dialog() {
   ];
   playLines(lines, function() {
     setTimeout(function() {
-      closeChat();
+      document.getElementById('chatWindow').classList.remove('show');
+      closeChatVisual();
+      chatBusy = false;
       setTimeout(showRorschachIntro, 500);
     }, 1000);
   });
