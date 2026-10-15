@@ -6,16 +6,8 @@
 <title>SCP FOUNDATION</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #0a0a0a; color: #c8c8c8; font-family: 'Courier New', monospace; min-height: 100vh; overflow-x: hidden; }
 
-  html, body {
-    background: #0a0a0a;
-    color: #c8c8c8;
-    font-family: 'Courier New', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Фоновый узор */
   body::before {
     content: '';
     position: fixed;
@@ -27,7 +19,6 @@
     z-index: -2;
     pointer-events: none;
   }
-
   body::after {
     content: '';
     position: fixed;
@@ -37,7 +28,6 @@
     pointer-events: none;
   }
 
-  /* ================= ЗАГРУЗКА ================= */
   #loader {
     position: fixed;
     inset: 0;
@@ -54,19 +44,13 @@
     width: 120px;
     height: 120px;
     margin-bottom: 40px;
-    position: relative;
-    animation: rotateSlow 20s linear infinite;
+    animation: pulseGlow 2.5s infinite;
   }
+  .loader-emblem svg { width: 100%; height: 100%; }
 
-  .loader-emblem svg {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 0 20px rgba(139,0,0,0.5));
-  }
-
-  @keyframes rotateSlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  @keyframes pulseGlow {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(139,0,0,0.5)); }
+    50% { filter: drop-shadow(0 0 30px rgba(139,0,0,0.9)); }
   }
 
   .load-text {
@@ -75,11 +59,9 @@
     letter-spacing: 3px;
     line-height: 2.2;
     text-align: center;
-    min-height: 80px;
+    min-height: 100px;
   }
-
   .load-text span { color: #8B0000; }
-
   .cursor {
     display: inline-block;
     width: 8px;
@@ -89,13 +71,8 @@
     vertical-align: middle;
     margin-left: 2px;
   }
+  @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-
-  /* ================= ЭКРАНЫ ================= */
   .screen {
     display: none;
     min-height: 100vh;
@@ -104,15 +81,12 @@
     margin: 0 auto;
     animation: fadeIn 0.6s ease;
   }
-
   .screen.active { display: block; }
-
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ================= ВХОД ================= */
   #login {
     display: none;
     flex-direction: column;
@@ -120,7 +94,6 @@
     justify-content: center;
     text-align: center;
   }
-
   #login.active { display: flex; }
 
   .login-emblem {
@@ -129,31 +102,10 @@
     margin-bottom: 32px;
     animation: pulseGlow 3s infinite;
   }
+  .login-emblem svg { width: 100%; height: 100%; }
 
-  .login-emblem svg {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 0 12px rgba(139,0,0,0.4));
-  }
-
-  @keyframes pulseGlow {
-    0%, 100% { filter: drop-shadow(0 0 12px rgba(139,0,0,0.4)); }
-    50% { filter: drop-shadow(0 0 24px rgba(139,0,0,0.8)); }
-  }
-
-  .login-title {
-    color: #8B0000;
-    font-size: 12px;
-    letter-spacing: 6px;
-    margin-bottom: 12px;
-  }
-
-  .login-sub {
-    color: #d4d4d4;
-    font-size: 18px;
-    letter-spacing: 3px;
-    margin-bottom: 48px;
-  }
+  .login-title { color: #8B0000; font-size: 12px; letter-spacing: 6px; margin-bottom: 12px; }
+  .login-sub { color: #d4d4d4; font-size: 18px; letter-spacing: 3px; margin-bottom: 48px; }
 
   .code-input {
     width: 100%;
@@ -170,7 +122,6 @@
     outline: none;
     transition: border-color 0.3s;
   }
-
   .code-input:focus { border-color: #8B0000; box-shadow: 0 4px 12px -8px #8B0000; }
   .code-input::placeholder { color: #2a2a2a; letter-spacing: 4px; }
 
@@ -186,37 +137,17 @@
     cursor: pointer;
     transition: all 0.3s;
   }
+  .login-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); transform: translateY(-1px); }
 
-  .login-btn:hover {
-    background: #8B0000;
-    color: #0a0a0a;
-    box-shadow: 0 0 24px rgba(139,0,0,0.6);
-    transform: translateY(-1px);
-  }
+  .login-footer { margin-top: 48px; color: #1f1f1f; font-size: 10px; letter-spacing: 3px; }
 
-  .login-footer {
-    margin-top: 48px;
-    color: #1f1f1f;
-    font-size: 10px;
-    letter-spacing: 3px;
-  }
-
-  .error-msg {
-    color: #8B0000;
-    font-size: 11px;
-    letter-spacing: 2px;
-    margin-top: 16px;
-    min-height: 16px;
-    animation: shake 0.4s;
-  }
-
+  .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; animation: shake 0.4s; }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-6px); }
     75% { transform: translateX(6px); }
   }
 
-  /* ================= ГЛАВНАЯ ================= */
   .topbar {
     display: flex;
     align-items: center;
@@ -226,7 +157,6 @@
     margin-bottom: 40px;
     position: relative;
   }
-
   .topbar::after {
     content: '';
     position: absolute;
@@ -236,26 +166,13 @@
     height: 1px;
     background: #8B0000;
   }
-
   .topbar-left { display: flex; align-items: center; gap: 16px; }
-
-  .topbar-emblem {
-    width: 38px;
-    height: 38px;
-    flex-shrink: 0;
-  }
-
-  .topbar-emblem svg {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 0 6px rgba(139,0,0,0.5));
-  }
-
+  .topbar-emblem { width: 38px; height: 38px; flex-shrink: 0; }
+  .topbar-emblem svg { width: 100%; height: 100%; }
   .topbar-title { color: #d4d4d4; font-size: 12px; letter-spacing: 3px; line-height: 1.4; }
   .topbar-status { color: #8B0000; font-size: 10px; letter-spacing: 2px; animation: blink 2s infinite; }
 
   .menu { display: flex; flex-direction: column; gap: 2px; }
-
   .menu-item {
     padding: 18px 24px;
     border: 1px solid #1a1a1a;
@@ -270,7 +187,6 @@
     position: relative;
     overflow: hidden;
   }
-
   .menu-item::before {
     content: '';
     position: absolute;
@@ -282,23 +198,13 @@
     transform: scaleY(0);
     transition: transform 0.25s;
   }
-
-  .menu-item:hover {
-    border-color: #3a1010;
-    color: #d4d4d4;
-    background: rgba(139,0,0,0.04);
-    padding-left: 30px;
-  }
-
+  .menu-item:hover { border-color: #3a1010; color: #d4d4d4; background: rgba(139,0,0,0.04); padding-left: 30px; }
   .menu-item:hover::before { transform: scaleY(1); }
-
   .menu-item .arrow { color: #333; transition: all 0.25s; }
   .menu-item:hover .arrow { color: #8B0000; transform: translateX(4px); }
-
   .menu-item.protocol { border-color: #3a1010; color: #8B0000; }
   .menu-item.protocol .arrow { color: #8B0000; }
 
-  /* ================= МОДАЛКА ================= */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -310,9 +216,7 @@
     padding: 24px;
     backdrop-filter: blur(3px);
   }
-
   .modal-overlay.show { display: flex; }
-
   .modal {
     max-width: 480px;
     width: 100%;
@@ -323,7 +227,6 @@
     animation: modalIn 0.4s ease;
     box-shadow: 0 0 60px rgba(139,0,0,0.2);
   }
-
   .modal::before, .modal::after {
     content: '';
     position: absolute;
@@ -331,31 +234,14 @@
     height: 12px;
     border: 1px solid #8B0000;
   }
-
   .modal::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
   .modal::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
-
   @keyframes modalIn {
     from { opacity: 0; transform: translateY(20px) scale(0.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
-
-  .modal-title {
-    color: #8B0000;
-    font-size: 12px;
-    letter-spacing: 4px;
-    margin-bottom: 24px;
-    text-align: center;
-  }
-
-  .modal-text {
-    color: #aaa;
-    font-size: 13px;
-    line-height: 1.9;
-    margin-bottom: 32px;
-    text-align: center;
-  }
-
+  .modal-title { color: #8B0000; font-size: 12px; letter-spacing: 4px; margin-bottom: 24px; text-align: center; }
+  .modal-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 32px; text-align: center; }
   .modal-btn {
     display: block;
     width: 100%;
@@ -369,43 +255,14 @@
     cursor: pointer;
     transition: all 0.3s;
   }
-
   .modal-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 24px rgba(139,0,0,0.6); }
 
-  /* ================= ПРОТОКОЛ ================= */
-  .protocol-head {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 8px;
-  }
-
-  .protocol-emblem {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-  }
-
+  .protocol-head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
+  .protocol-emblem { width: 44px; height: 44px; flex-shrink: 0; }
   .protocol-emblem svg { width: 100%; height: 100%; }
-
-  .protocol-header {
-    color: #8B0000;
-    font-size: 11px;
-    letter-spacing: 4px;
-    margin-bottom: 4px;
-  }
-
-  .protocol-title {
-    color: #d4d4d4;
-    font-size: 18px;
-    letter-spacing: 2px;
-  }
-
-  .protocol-divider {
-    height: 1px;
-    background: linear-gradient(90deg, #8B0000, transparent);
-    margin: 20px 0 40px;
-  }
+  .protocol-header { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 4px; }
+  .protocol-title { color: #d4d4d4; font-size: 18px; letter-spacing: 2px; }
+  .protocol-divider { height: 1px; background: linear-gradient(90deg, #8B0000, transparent); margin: 20px 0 40px; }
 
   .day {
     border: 1px solid #1a1a1a;
@@ -415,12 +272,10 @@
     transition: all 0.3s;
     position: relative;
   }
-
   .day.locked { opacity: 0.4; cursor: not-allowed; }
   .day.available { border-color: #8B0000; }
   .day.available:hover { background: rgba(139,0,0,0.05); transform: translateX(4px); }
   .day.open { border-color: #8B0000; background: rgba(139,0,0,0.03); }
-
   .day.open::before {
     content: '';
     position: absolute;
@@ -430,33 +285,16 @@
     width: 3px;
     background: #8B0000;
   }
-
   .day-head { display: flex; justify-content: space-between; align-items: center; }
   .day-num { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
   .day-status { font-size: 10px; letter-spacing: 2px; }
   .day-status.done { color: #4a7a4a; }
   .day-status.wait { color: #8B0000; animation: blink 2s infinite; }
   .day-status.lock { color: #333; }
-
   .day-timer { color: #555; font-size: 11px; letter-spacing: 2px; margin-top: 8px; }
-
-  .day-body {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #1a1a1a;
-    display: none;
-  }
-
+  .day-body { margin-top: 20px; padding-top: 20px; border-top: 1px solid #1a1a1a; display: none; }
   .day.open .day-body { display: block; animation: fadeIn 0.4s ease; }
-
-  .day-text {
-    color: #aaa;
-    font-size: 13px;
-    line-height: 1.9;
-    margin-bottom: 20px;
-    white-space: pre-line;
-  }
-
+  .day-text { color: #aaa; font-size: 13px; line-height: 1.9; margin-bottom: 20px; white-space: pre-line; }
   .day-code-input {
     width: 100%;
     background: transparent;
@@ -471,9 +309,7 @@
     margin-bottom: 16px;
     transition: border-color 0.3s;
   }
-
   .day-code-input:focus { border-color: #8B0000; }
-
   .day-btn {
     padding: 10px 28px;
     background: transparent;
@@ -485,9 +321,7 @@
     cursor: pointer;
     transition: all 0.3s;
   }
-
   .day-btn:hover { background: #8B0000; color: #0a0a0a; box-shadow: 0 0 16px rgba(139,0,0,0.5); }
-
   .day-result { margin-top: 16px; font-size: 12px; letter-spacing: 2px; min-height: 18px; }
   .day-result.ok { color: #4a7a4a; }
   .day-result.err { color: #8B0000; animation: shake 0.4s; }
@@ -501,7 +335,6 @@
     cursor: pointer;
     transition: all 0.3s;
   }
-
   .back-link:hover { color: #8B0000; transform: translateX(-4px); }
 
   .final-message {
@@ -513,7 +346,6 @@
     background: rgba(139,0,0,0.04);
     box-shadow: inset 0 0 40px rgba(139,0,0,0.1);
   }
-
   .final-message::before, .final-message::after {
     content: '';
     position: absolute;
@@ -521,10 +353,8 @@
     height: 14px;
     border: 1px solid #8B0000;
   }
-
   .final-message::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
   .final-message::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
-
   .final-message .big {
     color: #8B0000;
     font-size: 22px;
@@ -533,48 +363,69 @@
     text-shadow: 0 0 20px rgba(139,0,0,0.5);
   }
 
-  /* ================= МОБИЛЬНОЕ ================= */
   @media (max-width: 500px) {
     .screen { padding: 40px 16px; }
     .topbar-title { font-size: 10px; letter-spacing: 2px; }
     .topbar-status { display: none; }
-    .day-num { font-size: 12px; }
     .login-sub { font-size: 15px; letter-spacing: 2px; }
   }
 </style>
 </head>
 <body>
 
-<!-- SVG ЛОГОТИП SCP — определяется один раз -->
+<!-- НАСТОЯЩИЙ ЗНАК SCP FOUNDATION -->
 <svg style="display:none">
-  <symbol id="scp-logo" viewBox="0 0 100 100">
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#8B0000" stroke-width="2"/>
-    <circle cx="50" cy="50" r="36" fill="none" stroke="#8B0000" stroke-width="1" opacity="0.5"/>
-    <circle cx="50" cy="50" r="8" fill="#8B0000"/>
-    <!-- Три стрелки -->
-    <g stroke="#8B0000" stroke-width="2" fill="none">
-      <line x1="50" y1="42" x2="50" y2="14"/>
-      <polyline points="44,20 50,14 56,20" fill="none"/>
-      <line x1="43" y1="54" x2="19" y2="68"/>
-      <polyline points="19,60 19,68 27,68" fill="none"/>
-      <line x1="57" y1="54" x2="81" y2="68"/>
-      <polyline points="73,68 81,68 81,60" fill="none"/>
+  <symbol id="scp-logo" viewBox="0 0 200 200">
+    <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square">
+      <!-- Внешнее кольцо с тремя разрывами -->
+      <path d="M 100 15
+               A 85 85 0 0 1 173.6 57.5
+               L 190 50
+               L 190 90
+               L 155 82
+               A 85 85 0 0 1 155 140
+               L 173.6 142.5
+               L 148 175
+               L 120 150
+               A 85 85 0 0 1 80 150
+               L 52 175
+               L 26.4 142.5
+               L 45 140
+               A 85 85 0 0 1 45 82
+               L 10 90
+               L 10 50
+               L 26.4 57.5
+               A 85 85 0 0 1 100 15 Z"
+            stroke="#8B0000" fill="none" stroke-width="5"/>
+
+      <!-- Внутреннее кольцо -->
+      <circle cx="100" cy="100" r="38" stroke="#8B0000" stroke-width="5"/>
+
+      <!-- Три стрелки к центру -->
+      <line x1="100" y1="30" x2="100" y2="75" stroke="#8B0000" stroke-width="5"/>
+      <polygon points="100,85 90,65 110,65" fill="#8B0000"/>
+
+      <line x1="42" y1="135" x2="75" y2="115" stroke="#8B0000" stroke-width="5"/>
+      <polygon points="82,110 65,105 73,124" fill="#8B0000"/>
+
+      <line x1="158" y1="135" x2="125" y2="115" stroke="#8B0000" stroke-width="5"/>
+      <polygon points="118,110 135,105 127,124" fill="#8B0000"/>
     </g>
   </symbol>
 </svg>
 
-<!-- ================= ЗАГРУЗКА ================= -->
+<!-- ЗАГРУЗКА -->
 <div id="loader">
   <div class="loader-emblem">
-    <svg><use href="#scp-logo"/></svg>
+    <svg style="color:#8B0000"><use href="#scp-logo"/></svg>
   </div>
   <div class="load-text" id="loadText"></div>
 </div>
 
-<!-- ================= ВХОД ================= -->
+<!-- ВХОД -->
 <div class="screen" id="login">
   <div class="login-emblem">
-    <svg><use href="#scp-logo"/></svg>
+    <svg style="color:#8B0000"><use href="#scp-logo"/></svg>
   </div>
   <div class="login-title">SCP FOUNDATION</div>
   <div class="login-sub">ВВЕДИТЕ ИДЕНТИФИКАТОР</div>
@@ -584,13 +435,11 @@
   <div class="login-footer">Исх. № 641\88-6 · ДСП</div>
 </div>
 
-<!-- ================= ГЛАВНАЯ ================= -->
+<!-- ГЛАВНАЯ -->
 <div class="screen" id="main">
   <div class="topbar">
     <div class="topbar-left">
-      <div class="topbar-emblem">
-        <svg><use href="#scp-logo"/></svg>
-      </div>
+      <div class="topbar-emblem"><svg style="color:#8B0000"><use href="#scp-logo"/></svg></div>
       <div class="topbar-title">SCP FOUNDATION<br>ЛИЧНЫЙ КАБИНЕТ</div>
     </div>
     <div class="topbar-status">● ДОПУСК: ОГРАНИЧЕН</div>
@@ -604,12 +453,10 @@
   </div>
 </div>
 
-<!-- ================= ПРОТОКОЛ ================= -->
+<!-- ПРОТОКОЛ -->
 <div class="screen" id="protocol">
   <div class="protocol-head">
-    <div class="protocol-emblem">
-      <svg><use href="#scp-logo"/></svg>
-    </div>
+    <div class="protocol-emblem"><svg style="color:#8B0000"><use href="#scp-logo"/></svg></div>
     <div>
       <div class="protocol-header">РЕГЛАМЕНТ ДОПОЛНИТЕЛЬНЫХ ПРОВЕРОК</div>
       <div class="protocol-title">ПРОТОКОЛ</div>
@@ -620,7 +467,7 @@
   <div class="back-link" onclick="backToMain()">← НАЗАД</div>
 </div>
 
-<!-- ================= МОДАЛКА ================= -->
+<!-- МОДАЛКА -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-title" id="modalTitle">ДОСТУП ОГРАНИЧЕН</div>
@@ -651,7 +498,6 @@ var groupSize = 4;
 var completedDays = {};
 var openDays = {};
 
-/* ============ ЗАГРУЗКА С ТЕРМИНАЛЬНЫМ ТЕКСТОМ ============ */
 var loadLines = [
   '> ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...',
   '> ПРОВЕРКА СОЕДИНЕНИЯ...',
@@ -667,10 +513,10 @@ var loadTextEl = document.getElementById('loadText');
 function typeLine() {
   if (loadIdx >= loadLines.length) return;
   var line = loadLines[loadIdx];
-  var full = loadTextEl.innerHTML;
-  loadTextEl.innerHTML = full + (full ? '<br>' : '') + line + '<span class="cursor"></span>';
+  var cur = loadTextEl.innerHTML;
+  loadTextEl.innerHTML = cur + (cur ? '<br>' : '') + line + '<span class="cursor"></span>';
   loadIdx++;
-  setTimeout(typeLine, 450);
+  setTimeout(typeLine, 400);
 }
 
 typeLine();
@@ -681,9 +527,8 @@ setTimeout(function() {
     document.getElementById('loader').style.display = 'none';
     document.getElementById('login').classList.add('active');
   }, 800);
-}, 3200);
+}, 3400);
 
-/* ============ ЛОГИКА ============ */
 function checkCode() {
   var val = document.getElementById('codeInput').value.trim();
   var err = document.getElementById('errorMsg');
@@ -734,7 +579,7 @@ function toggleDay(num) {
   var d = DAYS.find(function(x) { return x.num === num; });
   var now = new Date();
   if (now < d.date) return;
-  if (openDays[num]) { openDays[num] = false; } else { openDays[num] = true; }
+  openDays[num] = !openDays[num];
   renderDays();
 }
 
@@ -826,4 +671,12 @@ function updateTimers() {
     if (now >= d.date) { el.textContent = 'ДЕНЬ ДОСТУПЕН'; return; }
     var diff = d.date - now;
     var days = Math.floor(diff / 86400000);
-    var hours = Math.floor((diff % 86400000) / 3600000
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+    var secs = Math.floor((diff % 60000) / 1000);
+    el.textContent = 'ОТКРЫТИЕ ЧЕРЕЗ: ' + days + 'д ' + hours + 'ч ' + mins + 'м ' + secs + 'с';
+  });
+}
+</script>
+</body>
+</html>
