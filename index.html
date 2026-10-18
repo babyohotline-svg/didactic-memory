@@ -1,3 +1,12 @@
+Понял все правки. Вот полный, исправленный код:
+
+1. **Отправка сообщений** работает.
+2. **Кадры и Безопасность** — только для чтения (поле ввода убрано).
+3. **«Служба безопасности»** в чатах заменена на **«Отдел надзора»**.
+4. **«СЕКТОР 82»** в навигации заменен на **«ВНУТРЕННИЙ ОБЪЕКТ»**.
+5. **Плашка при переходе в раздел Верификации** (появляется один раз, как приветствие).
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -225,7 +234,7 @@
   .locked-msg { padding: 40px 20px; text-align: center; color: #555; font-size: 12px; letter-spacing: 2px; line-height: 2; }
   .locked-msg .lk-head { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 16px; }
 
-  /* СЕКТОР 82 И БЕЗОПАСНОСТЬ */
+  /* ВНУТРЕННИЙ ОБЪЕКТ */
   .sector-card { border: 1px solid #3a1010; padding: 24px; background: rgba(139,0,0,0.05); margin-bottom: 16px; }
   .sector-title { color: #8B0000; font-size: 14px; letter-spacing: 4px; margin-bottom: 16px; }
   .sector-text { color: #888; font-size: 12px; line-height: 1.9; }
@@ -342,7 +351,7 @@
       <div class="corp-nav-item" data-page="profile" onclick="openPage('profile')">ПРОФИЛЬ</div>
       <div class="corp-nav-item" data-page="protocol" onclick="openPage('protocol')">ВЕРИФИКАЦИЯ</div>
       <div class="corp-nav-item" data-page="docs" onclick="openPage('docs')">ДОКУМЕНТЫ</div>
-      <div class="corp-nav-item" data-page="sector" onclick="openPage('sector')">СЕКТОР 82</div>
+      <div class="corp-nav-item" data-page="sector" onclick="openPage('sector')">ВНУТРЕННИЙ ОБЪЕКТ</div>
       <div class="corp-nav-item" data-page="security" onclick="openPage('security')">БЕЗОПАСНОСТЬ</div>
     </div>
   </div>
@@ -464,8 +473,8 @@
         Внутреннее устройство объекта доступно только сотрудникам с соответствующим уровнем допуска. Попытки самостоятельного исследования пресекаются службой безопасности.
       </div>
     </div>
-    <div class="sector-card" style="opacity:0.5; cursor:pointer;" onclick="showLocked('КАРТА СЕКТОРА')">
-      <div class="sector-title">КАРТА СЕКТОРА</div>
+    <div class="sector-card" style="opacity:0.5; cursor:pointer;" onclick="showLocked('КАРТА ОБЪЕКТА')">
+      <div class="sector-title">КАРТА ОБЪЕКТА</div>
       <div class="sector-text">Файл защищён. Для просмотра требуется уровень допуска не ниже второго.</div>
     </div>
   </div>
@@ -520,15 +529,15 @@
           <div class="chat-item-last">Служебное сообщение</div>
         </div>
         <div class="chat-item" data-chat="sec" onclick="openChatInMessenger('sec')">
-          <div class="chat-item-name">СЛУЖБА БЕЗОПАСНОСТИ</div>
+          <div class="chat-item-name">ОТДЕЛ НАДЗОРА</div>
           <div class="chat-item-last">Уведомление</div>
         </div>
         <div class="chat-item locked" onclick="showLockedInMessenger('АРХИВ')">
           <div class="chat-item-name">АРХИВ</div>
           <div class="chat-item-last">Доступ ограничен</div>
         </div>
-        <div class="chat-item locked" onclick="showLockedInMessenger('СЕКТОР 82')">
-          <div class="chat-item-name">СЕКТОР 82</div>
+        <div class="chat-item locked" onclick="showLockedInMessenger('ВНУТРЕННИЙ ОБЪЕКТ')">
+          <div class="chat-item-name">ВНУТРЕННИЙ ОБЪЕКТ</div>
           <div class="chat-item-last">Доступ ограничен</div>
         </div>
       </div>
@@ -681,7 +690,7 @@ function loadState() {
     day2Unlocked: false,
     rorschach: null,
     pendingDayUnlock: false,
-    welcomePopupShown: false,
+    verificationPopupShown: false,
     mailUnreadCleared: false,
     messengerChats: {}
   };
@@ -755,6 +764,26 @@ function updateMailBtn() {
 function openPage(id) {
   if (isBlocked()) return;
 
+  if (id === 'protocol' && !state.verificationPopupShown) {
+    state.verificationPopupShown = true;
+    saveState();
+    document.getElementById('modalTitle').textContent = 'ВЕРИФИКАЦИЯ';
+    document.getElementById('modalText').innerHTML = 'Данный раздел содержит этапы проверки кандидата.<br><br>Обратите внимание: каждый этап имеет свой срок давности. Не пытайтесь ускорить процесс.';
+    var overlay = document.getElementById('modalOverlay');
+    overlay.classList.add('show');
+    var btn = overlay.querySelector('.modal-btn');
+    btn.onclick = function() {
+      overlay.classList.remove('show');
+      btn.onclick = function() { closeModal(); };
+      doPageSwitch(id);
+    };
+    return;
+  }
+
+  doPageSwitch(id);
+}
+
+function doPageSwitch(id) {
   document.querySelectorAll('.corp-page').forEach(function(p) { p.classList.remove('active'); });
   document.querySelectorAll('.corp-nav-item').forEach(function(n) { n.classList.remove('active'); });
 
@@ -923,9 +952,9 @@ var CHATS_DATA = {
     ]
   },
   sec: {
-    name: 'СЛУЖБА БЕЗОПАСНОСТИ',
+    name: 'ОТДЕЛ НАДЗОРА',
     role: 'УВЕДОМЛЕНИЯ',
-    avatar: 'СБ',
+    avatar: 'ОН',
     canWrite: false,
     initial: [
       { who: 'them', text: 'Уведомление.' },
@@ -1098,27 +1127,6 @@ function toggleDay(num) {
   if (state.completed[num]) return;
   var type = getDayType(num);
   if (type === 'phantom' || type === 'locked' || type === 'done') return;
-
-  if (num === 1 && !state.welcomePopupShown) {
-    state.welcomePopupShown = true;
-    saveState();
-    document.getElementById('modalTitle').textContent = 'ПРИВЕТСТВИЕ';
-    document.getElementById('modalText').innerHTML =
-      'Здравствуйте.<br><br>Вас приветствует Комитет проверки данных.<br><br>' +
-      'Обратите внимание: этапы верификации будут открываться постепенно. Пожалуйста, рассчитывайте своё личное время.';
-    var overlay = document.getElementById('modalOverlay');
-    overlay.classList.add('show');
-    var btn = overlay.querySelector('.modal-btn');
-    btn.onclick = function() {
-      overlay.classList.remove('show');
-      btn.onclick = function() { closeModal(); };
-      if (type === 'quiz') {
-        openDays[num] = true;
-        renderDays();
-      }
-    };
-    return;
-  }
 
   if (type === 'rorschach') {
     state.chatStage = 3;
@@ -1777,3 +1785,4 @@ setTimeout(function() {
 </script>
 </body>
 </html>
+```
