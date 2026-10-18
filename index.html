@@ -11,7 +11,6 @@
   body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%); z-index: -1; pointer-events: none; }
 
   body.chat-open .screen.active { filter: brightness(0.35); pointer-events: none; transition: filter 0.3s; }
-  body.chat-open .chat-bubble { pointer-events: none; }
 
   #loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; transition: opacity 0.8s; }
   .loader-emblem { width: 130px; height: 130px; margin-bottom: 40px; animation: pulseGlow 2.5s infinite; }
@@ -40,7 +39,6 @@
   .login-footer { margin-top: 48px; color: #1f1f1f; font-size: 10px; letter-spacing: 3px; }
   .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; }
 
-  /* ШАПКА */
   .corp-header { border-bottom: 1px solid #1f1f1f; padding-bottom: 24px; margin-bottom: 32px; position: relative; }
   .corp-header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 80px; height: 2px; background: #8B0000; }
   .corp-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
@@ -51,45 +49,25 @@
   .corp-brand-title { color: #d4d4d4; font-size: 14px; letter-spacing: 3px; }
   .corp-brand-sub { color: #555; font-size: 10px; letter-spacing: 2px; margin-top: 2px; }
 
-  .corp-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .corp-actions { display: flex; align-items: center; gap: 16px; }
   .corp-mail-btn {
-    width: 36px;
-    height: 36px;
-    border: 1px solid #3a1010;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s;
+    width: 36px; height: 36px; border: 1px solid #3a1010;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative; transition: all 0.2s;
   }
   .corp-mail-btn:hover { border-color: #8B0000; background: rgba(139,0,0,0.05); }
   .corp-mail-btn svg { width: 18px; height: 18px; fill: #8B0000; }
-  .corp-mail-btn::after {
-    content: '';
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #8B0000;
-    animation: blink 1.5s infinite;
+  .corp-mail-btn.has-unread::after {
+    content: ''; position: absolute; top: 4px; right: 4px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #8B0000; animation: blink 1.5s infinite;
   }
+  .corp-status { font-size: 10px; letter-spacing: 2px; color: #8B0000; }
 
-  .corp-status { font-size: 10px; letter-spacing: 2px; color: #8B0000; display: flex; align-items: center; gap: 8px; }
-  .corp-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #8B0000; animation: blink 2s infinite; }
-
-  /* НАВИГАЦИЯ */
   .corp-nav { display: flex; flex-wrap: wrap; border-top: 1px solid #141414; border-bottom: 1px solid #141414; }
   .corp-nav-item {
     padding: 14px 18px; color: #666; font-size: 11px; letter-spacing: 2px;
-    cursor: pointer; transition: all 0.2s; border-right: 1px solid #141414;
-    position: relative;
+    cursor: pointer; transition: all 0.2s; border-right: 1px solid #141414; position: relative;
   }
   .corp-nav-item:last-child { border-right: none; }
   .corp-nav-item:hover { color: #d4d4d4; background: rgba(139,0,0,0.04); }
@@ -99,7 +77,6 @@
     height: 2px; background: #8B0000;
   }
 
-  /* КОНТЕНТ */
   .corp-page { display: none; animation: fadeIn 0.4s ease; }
   .corp-page.active { display: block; }
   .page-title { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 8px; }
@@ -124,23 +101,6 @@
   .case-val.red { color: #8B0000; }
   .redacted { background: #000; color: #000; padding: 1px 6px; user-select: none; display: inline-block; border-radius: 1px; }
 
-  /* ПОЧТА */
-  .mail-item { border: 1px solid #1a1a1a; padding: 18px 24px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-  .mail-item:hover { border-color: #3a1010; background: rgba(139,0,0,0.03); }
-  .mail-item.unread { border-left: 3px solid #8B0000; }
-  .mail-item-left { flex: 1; }
-  .mail-from { color: #8B0000; font-size: 10px; letter-spacing: 2px; margin-bottom: 4px; }
-  .mail-subj { color: #d4d4d4; font-size: 12px; letter-spacing: 1px; }
-  .mail-date { color: #555; font-size: 10px; letter-spacing: 2px; }
-
-  .mail-view { border: 1px solid #3a1010; padding: 32px; background: rgba(139,0,0,0.02); margin-bottom: 24px; }
-  .mail-view-head { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
-  .mail-view-from { color: #8B0000; font-size: 10px; letter-spacing: 3px; margin-bottom: 8px; }
-  .mail-view-subj { color: #d4d4d4; font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; }
-  .mail-view-date { color: #555; font-size: 10px; letter-spacing: 2px; }
-  .mail-view-body { color: #aaa; font-size: 13px; line-height: 1.9; }
-
-  /* ДОКУМЕНТЫ */
   .doc-item { border: 1px solid #1a1a1a; padding: 18px 24px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; }
   .doc-item:hover { border-color: #3a1010; background: rgba(139,0,0,0.03); }
   .doc-name { color: #d4d4d4; font-size: 12px; letter-spacing: 1px; }
@@ -150,17 +110,16 @@
   .doc-item.locked .doc-name { color: #555; }
   .doc-item.locked .doc-status { color: #444; }
 
-  /* СВЯЗЬ */
-  .contact-block { border: 1px solid #1a1a1a; padding: 24px; margin-bottom: 16px; }
-  .contact-line { display: flex; padding: 10px 0; font-size: 12px; letter-spacing: 1px; border-bottom: 1px solid #141414; }
-  .contact-line:last-child { border-bottom: none; }
-  .contact-line-key { color: #555; width: 180px; flex-shrink: 0; }
-  .contact-line-val { color: #d4d4d4; }
-  .contact-line-val.redacted-line { color: transparent; background: #000; padding: 0 40px; user-select: none; }
-  .contact-btn { display: inline-block; margin-top: 16px; padding: 10px 24px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
-  .contact-btn:hover { background: #8B0000; color: #0a0a0a; }
+  .doc-view { border: 1px solid #3a1010; padding: 32px; background: rgba(139,0,0,0.02); margin-bottom: 24px; }
+  .doc-view-head { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
+  .doc-view-from { color: #8B0000; font-size: 10px; letter-spacing: 3px; margin-bottom: 8px; }
+  .doc-view-subj { color: #d4d4d4; font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; }
+  .doc-view-date { color: #555; font-size: 10px; letter-spacing: 2px; }
+  .doc-view-body { color: #aaa; font-size: 13px; line-height: 1.9; }
 
-  /* МОДАЛКА */
+  .back-link { display: inline-block; margin-top: 32px; color: #555; font-size: 11px; letter-spacing: 3px; cursor: pointer; }
+  .back-link:hover { color: #8B0000; }
+
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 500; align-items: center; justify-content: center; padding: 24px; }
   .modal-overlay.show { display: flex; }
   .modal { max-width: 480px; width: 100%; background: #0d0d0d; border: 1px solid #8B0000; padding: 40px 32px; position: relative; animation: modalIn 0.4s ease; box-shadow: 0 0 60px rgba(139,0,0,0.2); }
@@ -173,7 +132,6 @@
   .modal-btn { display: block; width: 100%; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
   .modal-btn:hover { background: #8B0000; color: #0a0a0a; }
 
-  /* ПРОТОКОЛ */
   .protocol-head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
   .protocol-emblem { width: 48px; height: 48px; flex-shrink: 0; }
   .protocol-emblem svg { width: 100%; height: 100%; }
@@ -212,68 +170,131 @@
   }
   .quiz-progress { color: #555; font-size: 10px; letter-spacing: 3px; margin-bottom: 12px; }
 
-  .back-link { display: inline-block; margin-top: 32px; color: #555; font-size: 11px; letter-spacing: 3px; cursor: pointer; }
-  .back-link:hover { color: #8B0000; }
-
   .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; background: rgba(139,0,0,0.04); }
   .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
 
-  /* ЧАТ */
-  .chat-bubble {
-    position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
-    border-radius: 50%; background: #0d0d0d; border: 1px solid #8B0000;
-    display: none; align-items: center; justify-content: center;
-    cursor: pointer; z-index: 900; box-shadow: 0 0 24px rgba(139,0,0,0.4);
+  /* МЕССЕНДЖЕР */
+  .messenger-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    backdrop-filter: blur(3px);
   }
-  .chat-bubble.show { display: flex; }
-  .chat-bubble:hover { transform: scale(1.08); }
-  .chat-bubble svg { width: 24px; height: 24px; fill: #8B0000; }
-  .chat-bubble::after { content: ''; position: absolute; top: 4px; right: 4px; width: 10px; height: 10px; border-radius: 50%; background: #8B0000; animation: blink 1.5s infinite; }
-  .chat-bubble.pulse-attention { animation: bubblePulse 1s ease infinite; border-color: #ff0000; }
-  @keyframes bubblePulse {
-    0%, 100% { box-shadow: 0 0 24px rgba(139,0,0,0.4); transform: scale(1); }
-    50% { box-shadow: 0 0 48px rgba(255,0,0,0.9); transform: scale(1.15); }
+  .messenger-overlay.show { display: flex; }
+  .messenger {
+    width: 780px;
+    max-width: 100%;
+    height: 560px;
+    max-height: calc(100vh - 48px);
+    background: #0c0c0c;
+    border: 1px solid #8B0000;
+    display: flex;
+    box-shadow: 0 0 80px rgba(139,0,0,0.3);
+    animation: modalIn 0.4s ease;
+    overflow: hidden;
   }
+  .messenger-sidebar {
+    width: 220px;
+    border-right: 1px solid #1a1a1a;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .messenger-sidebar-head {
+    padding: 16px;
+    border-bottom: 1px solid #1a1a1a;
+    color: #8B0000;
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+  .messenger-chats {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .messenger-chats::-webkit-scrollbar { width: 3px; }
+  .messenger-chats::-webkit-scrollbar-thumb { background: #3a1010; }
+  .chat-item {
+    padding: 14px 16px;
+    border-bottom: 1px solid #141414;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chat-item:hover { background: rgba(139,0,0,0.05); }
+  .chat-item.active { background: rgba(139,0,0,0.08); border-left: 2px solid #8B0000; }
+  .chat-item.locked { opacity: 0.5; cursor: not-allowed; }
+  .chat-item.locked:hover { background: transparent; }
+  .chat-item-name { color: #d4d4d4; font-size: 11px; letter-spacing: 1px; margin-bottom: 4px; }
+  .chat-item-last { color: #555; font-size: 10px; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chat-item.locked .chat-item-name { color: #555; }
+  .chat-item.locked .chat-item-last { color: #333; }
 
-  .chat-window {
-    position: fixed; bottom: 24px; right: 24px; width: 380px;
-    max-width: calc(100vw - 48px); height: 520px; max-height: calc(100vh - 48px);
-    background: #0c0c0c; border: 1px solid #8B0000;
-    display: none; flex-direction: column; z-index: 950;
-    box-shadow: 0 0 60px rgba(139,0,0,0.25);
+  .messenger-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
-  .chat-window.show { display: flex; }
-  .chat-window.glitching { animation: chatGlitch 0.1s infinite; }
-  @keyframes chatGlitch {
-    0% { transform: translate(0, 0); filter: hue-rotate(0deg); }
-    20% { transform: translate(-4px, 2px); filter: hue-rotate(-40deg) contrast(1.5); }
-    40% { transform: translate(4px, -2px); filter: hue-rotate(40deg); }
-    60% { transform: translate(-2px, -4px); filter: hue-rotate(-20deg) contrast(1.3); }
-    80% { transform: translate(2px, 4px); filter: hue-rotate(20deg); }
-    100% { transform: translate(0, 0); filter: hue-rotate(0deg); }
+  .messenger-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0d0d0d;
   }
-
-  .chat-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid #1a1a1a; background: #0d0d0d; }
-  .chat-top-left { display: flex; align-items: center; gap: 10px; }
-  .chat-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #8B0000; display: flex; align-items: center; justify-content: center; color: #8B0000; font-size: 11px; }
-  .chat-name { color: #d4d4d4; font-size: 12px; letter-spacing: 2px; }
-  .chat-status { color: #4a7a4a; font-size: 9px; letter-spacing: 1px; }
-  .chat-close { color: #555; font-size: 20px; cursor: pointer; line-height: 1; }
-  .chat-close:hover { color: #8B0000; }
-
-  .chat-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-  .chat-body::-webkit-scrollbar { width: 4px; }
-  .chat-body::-webkit-scrollbar-thumb { background: #3a1010; }
-
-  .chat-msg { max-width: 85%; padding: 10px 14px; font-size: 12px; line-height: 1.6; background: #141414; border-left: 2px solid #8B0000; color: #bbb; align-self: flex-start; white-space: pre-wrap; word-break: break-word; }
-  .chat-msg.text-glitch { animation: textGlitch 0.08s infinite; }
-  @keyframes textGlitch {
-    0% { transform: translate(0); color: #bbb; }
-    25% { transform: translate(-2px, 1px); color: #8B0000; }
-    50% { transform: translate(2px, -1px); color: #d4d4d4; }
-    75% { transform: translate(-1px, -2px); color: #ff0000; }
-    100% { transform: translate(1px, 2px); color: #bbb; }
+  .messenger-head-left { display: flex; align-items: center; gap: 10px; }
+  .messenger-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid #8B0000; display: flex;
+    align-items: center; justify-content: center;
+    color: #8B0000; font-size: 11px; flex-shrink: 0;
   }
+  .messenger-name { color: #d4d4d4; font-size: 12px; letter-spacing: 2px; }
+  .messenger-role { color: #555; font-size: 9px; letter-spacing: 1px; margin-top: 2px; }
+  .messenger-close {
+    color: #555; font-size: 22px; cursor: pointer;
+    line-height: 1; padding: 4px 8px;
+  }
+  .messenger-close:hover { color: #8B0000; }
+
+  .messenger-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .messenger-body::-webkit-scrollbar { width: 4px; }
+  .messenger-body::-webkit-scrollbar-thumb { background: #3a1010; }
+
+  .msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    background: #141414;
+    border-left: 2px solid #8B0000;
+    color: #bbb;
+    align-self: flex-start;
+    white-space: pre-wrap;
+    word-break: break-word;
+    animation: msgIn 0.3s ease;
+  }
+  .msg.mine {
+    align-self: flex-end;
+    border-left: none;
+    border-right: 2px solid #8B0000;
+    color: #d4d4d4;
+    background: #101010;
+  }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
   .typing-dots { display: inline-flex; gap: 3px; }
   .typing-dots span { width: 4px; height: 4px; background: #8B0000; border-radius: 50%; animation: dotPulse 1.2s infinite; }
@@ -281,9 +302,55 @@
   .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
   @keyframes dotPulse { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
 
-  .chat-footer { border-top: 1px solid #1a1a1a; padding: 12px; background: #0d0d0d; }
-  .chat-readonly { color: #444; font-size: 10px; letter-spacing: 2px; text-align: center; padding: 8px 0; border: 1px dashed #1f1f1f; background: #0a0a0a; }
+  .messenger-footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 12px;
+    background: #0d0d0d;
+    display: flex;
+    gap: 8px;
+  }
+  .messenger-input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid #333;
+    color: #d4d4d4;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 10px 14px;
+    outline: none;
+    letter-spacing: 1px;
+  }
+  .messenger-input:focus { border-color: #8B0000; }
+  .messenger-input::placeholder { color: #333; }
+  .messenger-send {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .messenger-send:hover { background: #8B0000; color: #0a0a0a; }
 
+  .locked-msg {
+    padding: 40px 20px;
+    text-align: center;
+    color: #555;
+    font-size: 12px;
+    letter-spacing: 2px;
+    line-height: 2;
+  }
+  .locked-msg .lk-head {
+    color: #8B0000;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* ЗВУК / ГЛЮКИ */
   .sound-scene { display: none; position: fixed; inset: 0; background: #000; z-index: 800; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 40px; overflow: hidden; }
   .sound-scene.show { display: flex; }
   .sound-pulse { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #8B0000; position: relative; margin-bottom: 40px; animation: soundPulse 1.5s infinite; }
@@ -328,9 +395,10 @@
     .corp-nav-item:last-child { border-bottom: none; }
     .corp-top { flex-direction: column; align-items: flex-start; gap: 16px; }
     .quiz-options { flex-direction: column; }
-    .chat-window { width: calc(100vw - 16px); right: 8px; bottom: 8px; height: 80vh; }
-    .chat-bubble { bottom: 16px; right: 16px; }
     .sound-options { flex-direction: column; gap: 12px; }
+    .messenger { flex-direction: column; height: 90vh; }
+    .messenger-sidebar { width: 100%; height: 40%; border-right: none; border-bottom: 1px solid #1a1a1a; }
+    .messenger-main { height: 60%; }
   }
 </style>
 </head>
@@ -382,26 +450,20 @@
         </div>
       </div>
       <div class="corp-actions">
-        <div class="corp-mail-btn" onclick="openPage('mail')" title="Внутренняя связь">
+        <div class="corp-mail-btn has-unread" id="mailBtn" onclick="openMessenger()" title="Внутренняя связь">
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
         </div>
-        <div class="corp-status">
-          <div class="corp-status-dot"></div>
-          <span>ДОПУСК: НУЛЕВОЙ</span>
-        </div>
+        <div class="corp-status">ДОПУСК: НУЛЕВОЙ</div>
       </div>
     </div>
     <div class="corp-nav">
       <div class="corp-nav-item active" data-page="home" onclick="openPage('home')">ГЛАВНАЯ</div>
       <div class="corp-nav-item" data-page="profile" onclick="openPage('profile')">ПРОФИЛЬ</div>
-      <div class="corp-nav-item" data-page="protocol" onclick="openPage('protocol')">ИСПЫТАНИЯ</div>
-      <div class="corp-nav-item" data-page="mail" onclick="openPage('mail')">ВНУТРЕННЯЯ СВЯЗЬ</div>
+      <div class="corp-nav-item" data-page="protocol" onclick="openPage('protocol')">ПРОВЕРКИ</div>
       <div class="corp-nav-item" data-page="docs" onclick="openPage('docs')">ДОКУМЕНТЫ</div>
-      <div class="corp-nav-item" data-page="contacts" onclick="openPage('contacts')">СВЯЗЬ</div>
     </div>
   </div>
 
-  <!-- ГЛАВНАЯ -->
   <div class="corp-page active" id="page-home">
     <div class="page-title">ОБЪЯВЛЕНИЯ</div>
     <div class="page-sub">СЕКТОР 82</div>
@@ -437,7 +499,6 @@
     </div>
   </div>
 
-  <!-- ПРОФИЛЬ -->
   <div class="corp-page" id="page-profile">
     <div class="page-title">ЛИЧНОЕ ДЕЛО</div>
     <div class="page-sub">СТАЖЁР</div>
@@ -454,151 +515,56 @@
     </div>
   </div>
 
-  <!-- ИСПЫТАНИЯ -->
   <div class="corp-page" id="page-protocol">
     <div class="protocol-head">
       <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
       <div>
-        <div class="protocol-header">ОБЯЗАТЕЛЬНЫЕ ЭТАПЫ ПРОВЕРКИ</div>
-        <div class="protocol-title">ИСПЫТАНИЯ</div>
+        <div class="protocol-header">ЭТАПЫ ПРОВЕРКИ КАНДИДАТА</div>
+        <div class="protocol-title">ПРОВЕРКИ</div>
       </div>
     </div>
     <div class="protocol-divider"></div>
     <div id="days"></div>
   </div>
 
-  <!-- ПОЧТА -->
-  <div class="corp-page" id="page-mail">
-    <div class="page-title">ВНУТРЕННЯЯ СВЯЗЬ</div>
-    <div class="page-sub">ВХОДЯЩИЕ</div>
-    <div class="page-divider"></div>
-
-    <div id="mailList">
-      <div class="mail-item unread" onclick="openMail('welcome')">
-        <div class="mail-item-left">
-          <div class="mail-from">ОТДЕЛ КАДРОВ</div>
-          <div class="mail-subj">Приветственное сообщение</div>
-        </div>
-        <div class="mail-date">23.10.26</div>
-      </div>
-      <div class="mail-item" onclick="openMail('locked')">
-        <div class="mail-item-left">
-          <div class="mail-from">СЕКТОР 82</div>
-          <div class="mail-subj">[ЗАКРЫТО] Служебная записка</div>
-        </div>
-        <div class="mail-date">[УДАЛЕНО]</div>
-      </div>
-      <div class="mail-item" onclick="openMail('locked')">
-        <div class="mail-item-left">
-          <div class="mail-from">К. ВЕРЕС</div>
-          <div class="mail-subj">[ЗАКРЫТО] По результатам проверки</div>
-        </div>
-        <div class="mail-date">[УДАЛЕНО]</div>
-      </div>
-      <div class="mail-item" onclick="openMail('locked')">
-        <div class="mail-item-left">
-          <div class="mail-from">АРХИВ</div>
-          <div class="mail-subj">[ЗАКРЫТО] Файл №641\88-6</div>
-        </div>
-        <div class="mail-date">[УДАЛЕНО]</div>
-      </div>
-      <div class="mail-item" onclick="openMail('locked')">
-        <div class="mail-item-left">
-          <div class="mail-from">СЛУЖБА БЕЗОПАСНОСТИ</div>
-          <div class="mail-subj">[ЗАКРЫТО] Уведомление о наблюдении</div>
-        </div>
-        <div class="mail-date">[УДАЛЕНО]</div>
-      </div>
-      <div class="mail-item" onclick="openMail('locked')">
-        <div class="mail-item-left">
-          <div class="mail-from">ОТДЕЛ КАДРОВ</div>
-          <div class="mail-subj">[ЗАКРЫТО] Обновление личного дела</div>
-        </div>
-        <div class="mail-date">[УДАЛЕНО]</div>
-      </div>
-    </div>
-
-    <div id="mailView" style="display:none;">
-      <div class="mail-view">
-        <div class="mail-view-head">
-          <div class="mail-view-from" id="mailViewFrom"></div>
-          <div class="mail-view-subj" id="mailViewSubj"></div>
-          <div class="mail-view-date" id="mailViewDate"></div>
-        </div>
-        <div class="mail-view-body" id="mailViewBody"></div>
-      </div>
-      <div class="back-link" onclick="backToMailList()">← К СПИСКУ</div>
-    </div>
-  </div>
-
-  <!-- ДОКУМЕНТЫ -->
   <div class="corp-page" id="page-docs">
     <div class="page-title">АРХИВ</div>
     <div class="page-sub">ДОКУМЕНТЫ</div>
     <div class="page-divider"></div>
 
-    <div class="doc-item" onclick="openDoc()">
-      <div class="doc-name">Приложение №641\88-6<span class="ext">.PDF</span></div>
-      <div class="doc-status">ДОСТУПНО</div>
-    </div>
-    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
-      <div class="doc-name">Протокол совещания сектора 82<span class="ext">.PDF</span></div>
-      <div class="doc-status">ОГРАНИЧЕНО</div>
-    </div>
-    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
-      <div class="doc-name">Список сотрудников<span class="ext">.XLSX</span></div>
-      <div class="doc-status">ОГРАНИЧЕНО</div>
-    </div>
-    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
-      <div class="doc-name">Отчёт о происшествии №82-А<span class="ext">.PDF</span></div>
-      <div class="doc-status">ОГРАНИЧЕНО</div>
-    </div>
-    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
-      <div class="doc-name">[ИМЯ УДАЛЕНО]<span class="ext">.TXT</span></div>
-      <div class="doc-status">ОГРАНИЧЕНО</div>
+    <div id="docList">
+      <div class="doc-item" onclick="openDoc()">
+        <div class="doc-name">Приложение №641\88-6<span class="ext">.PDF</span></div>
+        <div class="doc-status">ДОСТУПНО</div>
+      </div>
+      <div class="doc-item" onclick="openDocCoop()">
+        <div class="doc-name">Сотрудничество с сектором 82<span class="ext">.PDF</span></div>
+        <div class="doc-status">ДОСТУПНО</div>
+      </div>
+      <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
+        <div class="doc-name">Протокол совещания сектора 82<span class="ext">.PDF</span></div>
+        <div class="doc-status">ОГРАНИЧЕНО</div>
+      </div>
+      <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
+        <div class="doc-name">Отчёт о происшествии №82-А<span class="ext">.PDF</span></div>
+        <div class="doc-status">ОГРАНИЧЕНО</div>
+      </div>
+      <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
+        <div class="doc-name">Данные удалены<span class="ext">.TXT</span></div>
+        <div class="doc-status">ОГРАНИЧЕНО</div>
+      </div>
     </div>
 
     <div id="docView" style="display:none;">
-      <div class="mail-view">
-        <div class="mail-view-head">
-          <div class="mail-view-from">ПРИЛОЖЕНИЕ №641\88-6</div>
-          <div class="mail-view-subj">ПРАВИЛА ПРИЁМА</div>
-          <div class="mail-view-date">23.10.2026</div>
+      <div class="doc-view">
+        <div class="doc-view-head">
+          <div class="doc-view-from" id="docViewFrom"></div>
+          <div class="doc-view-subj" id="docViewSubj"></div>
+          <div class="doc-view-date" id="docViewDate"></div>
         </div>
-        <div class="mail-view-body">
-          1. Кандидат обязан пройти все этапы проверки.<br><br>
-          2. На каждом этапе кандидату не сообщается полная информация.<br><br>
-          3. Самостоятельный поиск данных о секторе 82 запрещён.<br><br>
-          4. В случае обнаружения несоответствий — доложить куратору.<br><br>
-          5. [ДАННЫЕ УДАЛЕНЫ]<br><br>
-          6. [ДАННЫЕ УДАЛЕНЫ]<br><br>
-          7. По завершении проверки кандидат получает допуск.<br><br>
-          8. При неудовлетворительных результатах — кандидат исключается из списка.
-        </div>
+        <div class="doc-view-body" id="docViewBody"></div>
       </div>
       <div class="back-link" onclick="backToDocs()">← К СПИСКУ</div>
-    </div>
-  </div>
-
-  <!-- СВЯЗЬ -->
-  <div class="corp-page" id="page-contacts">
-    <div class="page-title">СВЯЗЬ</div>
-    <div class="page-sub">КАНАЛЫ</div>
-    <div class="page-divider"></div>
-
-    <div class="contact-block">
-      <div class="contact-line"><div class="contact-line-key">КУРАТОР</div><div class="contact-line-val">К. ВЕРЕС</div></div>
-      <div class="contact-line"><div class="contact-line-key">КАНАЛ</div><div class="contact-line-val">ЗАЩИЩЁННЫЙ</div></div>
-      <div class="contact-line"><div class="contact-line-key">СТАТУС</div><div class="contact-line-val">ТОЛЬКО ДЛЯ ЧТЕНИЯ</div></div>
-    </div>
-
-    <button class="contact-btn" onclick="contactCurator()">ОТКРЫТЬ ПЕРЕПИСКУ</button>
-
-    <div class="contact-block" style="margin-top:32px;">
-      <div class="contact-line"><div class="contact-line-key">АДРЕС</div><div class="contact-line-val redacted-line">........</div></div>
-      <div class="contact-line"><div class="contact-line-key">ТЕЛЕФОН</div><div class="contact-line-val redacted-line">........</div></div>
-      <div class="contact-line"><div class="contact-line-key">ЭЛ. ПОЧТА</div><div class="contact-line-val redacted-line">........</div></div>
-      <div class="contact-line"><div class="contact-line-key">ГРАФИК</div><div class="contact-line-val">Круглосуточно</div></div>
     </div>
   </div>
 </div>
@@ -620,6 +586,54 @@
   <button class="rorschach-submit" onclick="submitRorschach()">ОТПРАВИТЬ РЕЗУЛЬТАТЫ</button>
 </div>
 
+<!-- МЕССЕНДЖЕР -->
+<div class="messenger-overlay" id="messengerOverlay">
+  <div class="messenger">
+    <div class="messenger-sidebar">
+      <div class="messenger-sidebar-head">ВНУТРЕННЯЯ СВЯЗЬ</div>
+      <div class="messenger-chats" id="messengerChats">
+        <div class="chat-item" data-chat="veres" onclick="openChatInMessenger('veres')">
+          <div class="chat-item-name">К. ВЕРЕС</div>
+          <div class="chat-item-last">Куратор · на связи</div>
+        </div>
+        <div class="chat-item" data-chat="hr" onclick="openChatInMessenger('hr')">
+          <div class="chat-item-name">ОТДЕЛ КАДРОВ</div>
+          <div class="chat-item-last">Служебное сообщение</div>
+        </div>
+        <div class="chat-item" data-chat="sec" onclick="openChatInMessenger('sec')">
+          <div class="chat-item-name">СЛУЖБА БЕЗОПАСНОСТИ</div>
+          <div class="chat-item-last">Уведомление</div>
+        </div>
+        <div class="chat-item locked" onclick="showLockedInMessenger('АРХИВ')">
+          <div class="chat-item-name">АРХИВ</div>
+          <div class="chat-item-last">Доступ ограничен</div>
+        </div>
+        <div class="chat-item locked" onclick="showLockedInMessenger('СЕКТОР 82')">
+          <div class="chat-item-name">СЕКТОР 82</div>
+          <div class="chat-item-last">Доступ ограничен</div>
+        </div>
+      </div>
+    </div>
+    <div class="messenger-main">
+      <div class="messenger-head">
+        <div class="messenger-head-left">
+          <div class="messenger-avatar" id="mAvatar">КВ</div>
+          <div>
+            <div class="messenger-name" id="mName">К. ВЕРЕС</div>
+            <div class="messenger-role" id="mRole">КУРАТОР</div>
+          </div>
+        </div>
+        <div class="messenger-close" onclick="closeMessenger()">×</div>
+      </div>
+      <div class="messenger-body" id="messengerBody"></div>
+      <div class="messenger-footer" id="messengerFooter">
+        <input type="text" class="messenger-input" id="messengerInput" placeholder="Введите сообщение..." autocomplete="off">
+        <button class="messenger-send" onclick="sendMessage()">ОТПРАВИТЬ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="sound-scene" id="soundScene">
   <div class="sound-pulse"></div>
   <div class="sound-caption">ʇы слышал это</div>
@@ -628,25 +642,9 @@
 
 <audio id="sfxAudio" preload="auto"></audio>
 
-<div class="chat-bubble" id="chatBubble" onclick="openChat()">
-  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-</div>
-
-<div class="chat-window" id="chatWindow">
-  <div class="chat-top">
-    <div class="chat-top-left">
-      <div class="chat-avatar">КВ</div>
-      <div>
-        <div class="chat-name">К. ВЕРЕС</div>
-        <div class="chat-status">● В СЕТИ</div>
-      </div>
-    </div>
-    <div class="chat-close" onclick="closeChat()">×</div>
-  </div>
-  <div class="chat-body" id="chatBody"></div>
-  <div class="chat-footer">
-    <div class="chat-readonly">КАНАЛ ТОЛЬКО ДЛЯ ЧТЕНИЯ</div>
-  </div>
+<!-- Плавающий чат для сюжетных диалогов -->
+<div class="chat-bubble" id="chatBubble" onclick="openChat()" style="display:none; position:fixed; bottom:24px; right:24px; width:56px; height:56px; border-radius:50%; background:#0d0d0d; border:1px solid #8B0000; align-items:center; justify-content:center; cursor:pointer; z-index:900; box-shadow:0 0 24px rgba(139,0,0,0.4);">
+  <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:#8B0000;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -656,6 +654,52 @@
     <button class="modal-btn" onclick="closeModal()">ПРИНЯТО</button>
   </div>
 </div>
+
+<!-- Плавающее окно для сюжетного чата -->
+<div id="storyChatWindow" style="display:none; position:fixed; bottom:24px; right:24px; width:380px; max-width:calc(100vw - 48px); height:520px; max-height:calc(100vh - 48px); background:#0c0c0c; border:1px solid #8B0000; flex-direction:column; z-index:950; box-shadow:0 0 60px rgba(139,0,0,0.25);">
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #1a1a1a; background:#0d0d0d;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:30px; height:30px; border-radius:50%; border:1px solid #8B0000; display:flex; align-items:center; justify-content:center; color:#8B0000; font-size:11px;">КВ</div>
+      <div>
+        <div style="color:#d4d4d4; font-size:12px; letter-spacing:2px;">К. ВЕРЕС</div>
+        <div style="color:#4a7a4a; font-size:9px; letter-spacing:1px;">● В СЕТИ</div>
+      </div>
+    </div>
+    <div style="color:#555; font-size:20px; cursor:pointer; line-height:1;" onclick="closeChat()">×</div>
+  </div>
+  <div id="storyChatBody" style="flex:1; overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:12px;"></div>
+  <div style="border-top:1px solid #1a1a1a; padding:12px; background:#0d0d0d;">
+    <div style="color:#444; font-size:10px; letter-spacing:2px; text-align:center; padding:8px 0; border:1px dashed #1f1f1f; background:#0a0a0a;">КАНАЛ ТОЛЬКО ДЛЯ ЧТЕНИЯ</div>
+  </div>
+</div>
+
+<style>
+  .chat-bubble.show { display: flex !important; }
+  .chat-bubble.pulse-attention { animation: bubblePulse 1s ease infinite; border-color: #ff0000; }
+  @keyframes bubblePulse {
+    0%, 100% { box-shadow: 0 0 24px rgba(139,0,0,0.4); transform: scale(1); }
+    50% { box-shadow: 0 0 48px rgba(255,0,0,0.9); transform: scale(1.15); }
+  }
+  .chat-msg { max-width:85%; padding:10px 14px; font-size:12px; line-height:1.6; background:#141414; border-left:2px solid #8B0000; color:#bbb; align-self:flex-start; white-space:pre-wrap; word-break:break-word; animation:msgIn 0.4s ease; }
+  .chat-msg.text-glitch { animation: textGlitch 0.08s infinite; }
+  @keyframes textGlitch {
+    0% { transform: translate(0); color: #bbb; }
+    25% { transform: translate(-2px, 1px); color: #8B0000; }
+    50% { transform: translate(2px, -1px); color: #d4d4d4; }
+    75% { transform: translate(-1px, -2px); color: #ff0000; }
+    100% { transform: translate(1px, 2px); color: #bbb; }
+  }
+  #storyChatWindow.show { display: flex !important; }
+  #storyChatWindow.glitching { animation: chatGlitch 0.1s infinite; }
+  @keyframes chatGlitch {
+    0% { transform: translate(0, 0); filter: hue-rotate(0deg); }
+    20% { transform: translate(-4px, 2px); filter: hue-rotate(-40deg) contrast(1.5); }
+    40% { transform: translate(4px, -2px); filter: hue-rotate(40deg); }
+    60% { transform: translate(-2px, -4px); filter: hue-rotate(-20deg) contrast(1.3); }
+    80% { transform: translate(2px, 4px); filter: hue-rotate(20deg); }
+    100% { transform: translate(0, 0); filter: hue-rotate(0deg); }
+  }
+</style>
 
 <script>
 var VALID_CODES = ['619-33-012','844-01-902','038-02-048','028-99-539','394-39-002','381-39-289'];
@@ -719,7 +763,10 @@ function loadState() {
     bubbleVisible: false,
     day2Unlocked: false,
     rorschach: null,
-    pendingDayUnlock: false
+    pendingDayUnlock: false,
+    welcomePopupShown: false,
+    mailUnreadCleared: false,
+    messengerChats: {}
   };
 }
 function saveState() {
@@ -769,6 +816,7 @@ function checkCode() {
     document.getElementById('main').classList.add('active');
     openPage('home');
     updateBubble(false);
+    updateMailBtn();
   } else {
     err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
     document.getElementById('codeInput').value = '';
@@ -777,6 +825,15 @@ function checkCode() {
 document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
+
+function updateMailBtn() {
+  var btn = document.getElementById('mailBtn');
+  if (state.mailUnreadCleared) {
+    btn.classList.remove('has-unread');
+  } else {
+    btn.classList.add('has-unread');
+  }
+}
 
 function openPage(id) {
   if (isBlocked()) return;
@@ -794,18 +851,18 @@ function openPage(id) {
     renderDays();
     startTimers();
   }
-  if (id === 'mail') backToMailList();
   if (id === 'docs') backToDocs();
 }
 
 function isChatOpen() {
-  return document.getElementById('chatWindow').classList.contains('show');
+  return document.getElementById('storyChatWindow').classList.contains('show');
 }
 function isBlocked() {
   if (isChatOpen()) return true;
   if (document.getElementById('soundScene').classList.contains('show')) return true;
   if (document.getElementById('errScreen').classList.contains('show')) return true;
   if (document.getElementById('modalOverlay').classList.contains('show')) return true;
+  if (document.getElementById('messengerOverlay').classList.contains('show')) return true;
   return false;
 }
 function openChatVisual() { document.body.classList.add('chat-open'); }
@@ -821,68 +878,278 @@ function closeModal() {
   document.getElementById('modalOverlay').classList.remove('show');
 }
 
-function openMail(id) {
-  if (isBlocked()) return;
-  document.getElementById('mailList').style.display = 'none';
-  document.getElementById('mailView').style.display = 'block';
-
-  var from = document.getElementById('mailViewFrom');
-  var subj = document.getElementById('mailViewSubj');
-  var date = document.getElementById('mailViewDate');
-  var body = document.getElementById('mailViewBody');
-
-  if (id === 'welcome') {
-    from.textContent = 'ОТДЕЛ КАДРОВ';
-    subj.textContent = 'Приветственное сообщение';
-    date.textContent = '23.10.2026';
-    body.innerHTML = 'Уважаемый стажёр.<br><br>' +
-      'Добро пожаловать в штат Комитета проверки данных.<br><br>' +
-      'Вы приняты на должность стажёра с нулевым уровнем допуска. По мере прохождения проверок уровень допуска будет повышаться.<br><br>' +
-      'Ознакомьтесь с правилами. Раздел «Испытания» содержит перечень предстоящих этапов.<br><br>' +
-      'По вопросам обращайтесь к куратору К. Вересу.<br><br>' +
-      'С уважением,<br>Отдел кадров';
-  } else {
-    from.textContent = '[СКРЫТО]';
-    subj.textContent = '[ЗАКРЫТО]';
-    date.textContent = '[УДАЛЕНО]';
-    body.innerHTML = '<span style="color:#8B0000;letter-spacing:4px;">ДОСТУП ОГРАНИЧЕН.</span><br><br>' +
-      'Это письмо доступно только сотрудникам с соответствующим уровнем допуска.';
-  }
-}
-
-function backToMailList() {
-  document.getElementById('mailList').style.display = 'block';
-  document.getElementById('mailView').style.display = 'none';
-}
-
 function openDoc() {
   if (isBlocked()) return;
+  document.getElementById('docList').style.display = 'none';
   document.getElementById('docView').style.display = 'block';
-  var items = document.querySelectorAll('#page-docs .doc-item');
-  items.forEach(function(i) { i.style.display = 'none'; });
-}
-function backToDocs() {
-  document.getElementById('docView').style.display = 'none';
-  var items = document.querySelectorAll('#page-docs .doc-item');
-  items.forEach(function(i) { i.style.display = 'flex'; });
+  document.getElementById('docViewFrom').textContent = 'ПРИЛОЖЕНИЕ №641\\88-6';
+  document.getElementById('docViewSubj').textContent = 'ПРАВИЛА ПРИЁМА';
+  document.getElementById('docViewDate').textContent = '23.10.2026';
+  document.getElementById('docViewBody').innerHTML =
+    '1. Кандидат обязан пройти все этапы проверки.<br><br>' +
+    '2. На каждом этапе кандидату не сообщается полная информация.<br><br>' +
+    '3. Самостоятельный поиск данных о секторе 82 запрещён.<br><br>' +
+    '4. В случае обнаружения несоответствий — доложить куратору.<br><br>' +
+    '5. <span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span><br><br>' +
+    '6. <span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span><br><br>' +
+    '7. По завершении проверки кандидат получает допуск.<br><br>' +
+    '8. При неудовлетворительных результатах — кандидат исключается из списка.';
 }
 
-function contactCurator() {
+function openDocCoop() {
   if (isBlocked()) return;
-  if (state.bubbleVisible) {
-    openChat();
-  } else {
-    // Если нет активного диалога — показать чат (пусть думает, что поговорил)
-    document.getElementById('chatWindow').classList.add('show');
-    openChatVisual();
-    var body = document.getElementById('chatBody');
-    body.innerHTML = '';
+  document.getElementById('docList').style.display = 'none';
+  document.getElementById('docView').style.display = 'block';
+  document.getElementById('docViewFrom').textContent = 'ОТДЕЛ КАДРОВ';
+  document.getElementById('docViewSubj').textContent = 'СОТРУДНИЧЕСТВО С СЕКТОРОМ 82';
+  document.getElementById('docViewDate').textContent = '22.10.2026';
+  document.getElementById('docViewBody').innerHTML =
+    'Комитет проверки данных продолжает набор кандидатов для работы в секторе 82.<br><br>' +
+    'Требования к кандидатам:<br>' +
+    '— Внимательность.<br>' +
+    '— Готовность к работе с закрытой информацией.<br>' +
+    '— Отсутствие родственных связей с действующими сотрудниками.<br><br>' +
+    'Порядок оформления — индивидуальный. Все кандидаты проходят процедуры согласно регламенту.<br><br>' +
+    'Заявки принимаются в порядке поступления.';
+}
+
+function backToDocs() {
+  document.getElementById('docView').style.display = 'none';
+  document.getElementById('docList').style.display = 'block';
+}
+
+/* =============== МЕССЕНДЖЕР =============== */
+
+var CHATS_DATA = {
+  veres: {
+    name: 'К. ВЕРЕС',
+    role: 'КУРАТОР',
+    avatar: 'КВ',
+    canWrite: true,
+    initial: [
+      { who: 'them', text: 'Добрый день.' },
+      { who: 'them', text: 'Если у вас есть вопросы — задавайте. Я постараюсь ответить в рабочее время.' }
+    ],
+    keywords: [
+      { words: ['привет','здравствуй','здравствуйте','добрый','хай','доброе'], reply: 'Здравствуйте. Слушаю вас внимательно.' },
+      { words: ['приём','набор','работа','работать','трудоустройство','вакансия'], reply: 'Набор продолжается. Все кандидаты проходят обязательные проверки. Подробности — в разделе «Проверки».' },
+      { words: ['куратор','верес','вы'], reply: 'Я на связи. Задавайте вопросы по существу.' },
+      { words: ['зона','82','восемьдесят','сектор'], reply: 'Информация о расположении и внутреннем устройстве закрыта. Не пытайтесь получить её самостоятельно.' },
+      { words: ['документ','документы','бумаги','файл','архив'], reply: 'Документы доступны в соответствующем разделе. Часть материалов закрыта по регламенту.' },
+      { words: ['когда','сроки','скоро','сколько'], reply: 'Сроки устанавливаются индивидуально. Следите за обновлениями на главной странице.' },
+      { words: ['помощь','помогите','подскажите','помоги'], reply: 'Если вам требуется помощь — изложите суть. Я передам куда следует.' },
+      { words: ['тест','тесты','проверка','проверки','испытание'], reply: 'Проверки обязательны для всех кандидатов. Результаты обрабатываются индивидуально.' },
+      { words: ['что','делать','дальше','план'], reply: 'Следуйте текущему этапу. Следующий откроется после завершения предыдущего.' },
+      { words: ['спасибо','благодарю','ок','хорошо','понял','поняла'], reply: 'Принято.' },
+      { words: ['кто','ты','вы','звать','имя'], reply: 'Меня зовут К. Верес. Я ваш куратор.' },
+      { words: ['директор','начальство','главный','босс'], reply: 'Информация о руководстве закрыта. Не задавайте лишних вопросов.' },
+      { words: ['опасно','опасность','угроза','риск','страшно'], reply: 'Опасность — понятие относительное. Соблюдайте инструкции, и всё будет в порядке.' },
+      { words: ['выход','уйти','уволиться','отказаться'], reply: 'Заявку на выход можно оставить. Но рассмотрение занимает время.' },
+      { words: ['деньги','зарплата','оплата','платят'], reply: 'Условия оплаты обсуждаются индивидуально. Не по этому каналу.' },
+      { words: ['есть','пить','обед','перерыв'], reply: 'Перерывы предусмотрены. График — в личном деле.' },
+      { words: ['почему','зачем','смысл'], reply: 'У каждого действия есть причина. Ваша задача — понять её самостоятельно.' },
+      { words: ['не','хочу','устал','надоело'], reply: 'Это нормально. Отдохните. Продолжим завтра.' },
+      { words: ['кто','я','зачем','здесь'], reply: 'Вы — стажёр. Пока что. Всё остальное — в процессе.' },
+      { words: ['сны','сон','снится','снилось'], reply: 'Сны — это реакция психики. Записывайте их. Возможно, они пригодятся.' },
+      { words: ['голос','шёпот','шепот','шум','звук'], reply: 'Звуки в секторе — обычное дело. Не реагируйте слишком остро.' },
+      { words: ['тень','тени','силуэт'], reply: 'Если вы что-то видите — запишите. Мы проверим.' },
+      { words: ['дверь','двери','стук','стучится'], reply: 'Не открывайте. Дождитесь указаний.' },
+      { words: ['зеркало','отражение'], reply: 'Избегайте долгого зрительного контакта с отражающими поверхностями.' },
+      { words: ['пусто','пустота','тишина','темно','темнота'], reply: 'В тишине легче услышать важное. Не бойтесь.' },
+      { words: ['кровь','страх','боль','кричать','крик'], reply: 'Если вы это слышите — не выходите из помещения. Оставайтесь на месте.' },
+      { words: ['смех','смеётся','смеется','хохочет'], reply: 'Смех может быть признаком... нестабильности. Наблюдайте.' },
+      { words: ['ребёнок','ребенок','дети','детский'], reply: 'Детей в секторе 82 нет. Если вы видите ребёнка — сообщите немедленно.' },
+      { words: ['врач','медик','больница','лекарство'], reply: 'Медицинская помощь предоставляется по запросу через отдел кадров.' },
+      { words: ['вода','еда','голод','жажда'], reply: 'Всё необходимое есть. Не покидайте помещение без указаний.' },
+      { words: ['часы','время','сколько','сейчас'], reply: 'Время — понятие условное. Не ориентируйтесь на часы в секторе.' },
+      { words: ['зеркало','стекло','отражение','окно'], reply: 'Не всматривайтесь. Если отражение не совпадает с движениями — отойдите.' },
+      { words: ['провод','кабель','питание','свет'], reply: 'Свет работает в штатном режиме. Если он гаснет — ждите.' },
+      { words: ['камера','наблюдение','следят','следит'], reply: 'Наблюдение ведётся постоянно. Это часть работы.' },
+      { words: ['документ','справка','копия','оригинал'], reply: 'Оригиналы не выдаются. Копии — по запросу.' },
+      { words: ['вопрос','вопросы','спросить','можно'], reply: 'Задавайте. Я отвечу, если это в моей компетенции.' },
+      { words: ['отчёт','отчет','доклад','донесение'], reply: 'Отчёт — после завершения этапа. Пока рано.' },
+      { words: ['куратор','сменить','другой','другого'], reply: 'Куратор назначается приказом. Замена возможна только в исключительных случаях.' },
+      { words: ['отпуск','отдых','каникулы','выходной'], reply: 'Отпуск — по завершении проверок. Сейчас не время.' },
+      { words: ['сегодня','завтра','вчера','сейчас'], reply: 'Ориентируйтесь на текущий момент. Он важнее, чем кажется.' },
+      { words: ['дом','семья','родные','родители'], reply: 'Личные контакты ограничены. Это временно.' },
+      { words: ['телефон','связь','интернет','сеть'], reply: 'Внешняя связь ограничена. Внутренняя — работает.' },
+      { words: ['бог','религия','вера','молиться'], reply: 'В секторе 82 нет религиозных практик. Есть только наблюдение.' },
+      { words: ['смерть','умереть','умер','похороны'], reply: 'Не задавайте таких вопросов. Это не в вашей компетенции.' },
+      { words: ['суицид','убить','покончить'], reply: 'Эти мысли — признак стресса. Обратитесь к медику.' },
+      { words: ['вижу','видел','видела','кажется'], reply: 'Запишите, что именно. Время, место, детали. Это важно.' },
+      { words: ['голоса','голос','слышу','слышал','слышала'], reply: 'Голоса — не всегда патология. Иногда это просто шум в канале. Но иногда — нет.' },
+      { words: ['ошибка','баг','сбой','глюк','не работает'], reply: 'Сбой зафиксирован. Мы разберёмся. Не предпринимайте самостоятельных действий.' },
+      { words: ['программа','система','код','пароль'], reply: 'Доступ к системам — по регламенту. Пароли не разглашаются.' },
+      { words: ['правила','инструкция','регламент','порядок'], reply: 'Правила — в документах. Читайте внимательно.' },
+      { words: ['наблюдатель','наблюдатели','объект','объекты'], reply: 'Это внутренняя терминология. Вам пока рано её использовать.' },
+      { words: ['восемь','два','82'], reply: 'Это просто номер. Не ищите скрытого смысла. Пока.' },
+      { words: ['конец','финал','завершение','готово'], reply: 'Конец — понятие относительное. Работа продолжается.' }
+    ]
+  },
+  hr: {
+    name: 'ОТДЕЛ КАДРОВ',
+    role: 'СЛУЖЕБНЫЙ КАНАЛ',
+    avatar: 'ОК',
+    canWrite: false,
+    locked: false,
+    initial: [
+      { who: 'them', text: 'Здравствуйте.' },
+      { who: 'them', text: 'Это канал отдела кадров. Здесь публикуются служебные уведомления.' },
+      { who: 'them', text: 'Если у вас возникли вопросы по оформлению, графику или условиям — обратитесь к куратору. Он передаст информацию нам.' },
+      { who: 'them', text: 'Служебное время: понедельник — пятница, с 09:00 до 17:00.' },
+      { who: 'them', text: 'Не отвечайте на это сообщение — канал работает в режиме уведомлений.' }
+    ]
+  },
+  sec: {
+    name: 'СЛУЖБА БЕЗОПАСНОСТИ',
+    role: 'УВЕДОМЛЕНИЯ',
+    avatar: 'СБ',
+    canWrite: false,
+    locked: false,
+    initial: [
+      { who: 'them', text: 'Уведомление.' },
+      { who: 'them', text: 'В секторе 82 ведётся постоянное наблюдение. Все действия сотрудников фиксируются.' },
+      { who: 'them', text: 'При обнаружении посторонних объектов, лиц или явлений — немедленно сообщите куратору.' },
+      { who: 'them', text: 'Не пытайтесь покинуть сектор самостоятельно. Не пытайтесь установить внешние контакты.' },
+      { who: 'them', text: 'Не оставляйте личные вещи в местах общего доступа.' }
+    ]
+  }
+};
+
+var currentMessengerChat = null;
+
+function openMessenger() {
+  if (isBlocked() && !document.getElementById('messengerOverlay').classList.contains('show')) return;
+  document.getElementById('messengerOverlay').classList.add('show');
+
+  // Точка прочитанного
+  if (!state.mailUnreadCleared) {
+    state.mailUnreadCleared = true;
+    saveState();
+    updateMailBtn();
+  }
+
+  if (!currentMessengerChat) openChatInMessenger('veres');
+}
+
+function closeMessenger() {
+  document.getElementById('messengerOverlay').classList.remove('show');
+  currentMessengerChat = null;
+}
+
+function openChatInMessenger(id) {
+  var chat = CHATS_DATA[id];
+  if (!chat) return;
+
+  currentMessengerChat = id;
+  document.getElementById('mName').textContent = chat.name;
+  document.getElementById('mRole').textContent = chat.role;
+  document.getElementById('mAvatar').textContent = chat.avatar;
+
+  // Активный чат
+  document.querySelectorAll('.chat-item').forEach(function(el) {
+    el.classList.remove('active');
+    if (el.getAttribute('data-chat') === id) el.classList.add('active');
+  });
+
+  var body = document.getElementById('messengerBody');
+  body.innerHTML = '';
+
+  var history = state.messengerChats[id] || chat.initial;
+  history.forEach(function(m) {
     var div = document.createElement('div');
-    div.className = 'chat-msg';
-    div.innerHTML = '<div style="color:#8B0000;font-size:10px;letter-spacing:2px;margin-bottom:4px;">К. ВЕРЕС</div>В данный момент я не могу ответить. Оставьте сообщение после сигнала.';
+    div.className = 'msg' + (m.who === 'me' ? ' mine' : '');
+    div.textContent = m.text;
     body.appendChild(div);
+  });
+  body.scrollTop = body.scrollHeight;
+
+  // Поле ввода
+  var footer = document.getElementById('messengerFooter');
+  if (chat.canWrite) {
+    footer.style.display = 'flex';
+    document.getElementById('messengerInput').placeholder = 'Введите сообщение...';
+  } else {
+    footer.innerHTML = '<div style="width:100%; text-align:center; color:#444; font-size:10px; letter-spacing:2px; padding:8px 0; border:1px dashed #1f1f1f; background:#0a0a0a;">КАНАЛ ТОЛЬКО ДЛЯ ЧТЕНИЯ</div>';
   }
 }
+
+function sendMessage() {
+  if (!currentMessengerChat) return;
+  var chat = CHATS_DATA[currentMessengerChat];
+  if (!chat || !chat.canWrite) return;
+
+  var input = document.getElementById('messengerInput');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  // Сохраняем историю
+  if (!state.messengerChats[currentMessengerChat]) {
+    state.messengerChats[currentMessengerChat] = chat.initial.slice();
+  }
+  state.messengerChats[currentMessengerChat].push({ who: 'me', text: text });
+  saveState();
+
+  var body = document.getElementById('messengerBody');
+  var div = document.createElement('div');
+  div.className = 'msg mine';
+  div.textContent = text;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+
+  // Ищем ключевые слова
+  var reply = findReply(chat.keywords, text);
+
+  // Показываем "печатает"
+  var typing = document.createElement('div');
+  typing.className = 'msg';
+  typing.id = 'chatTypingIndicator';
+  typing.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+  body.appendChild(typing);
+  body.scrollTop = body.scrollHeight;
+
+  setTimeout(function() {
+    var ind = document.getElementById('chatTypingIndicator');
+    if (ind) ind.remove();
+
+    state.messengerChats[currentMessengerChat].push({ who: 'them', text: reply });
+    saveState();
+
+    var div2 = document.createElement('div');
+    div2.className = 'msg';
+    div2.textContent = reply;
+    body.appendChild(div2);
+    body.scrollTop = body.scrollHeight;
+  }, 1400 + Math.random() * 1200);
+}
+
+function findReply(keywords, text) {
+  var lower = text.toLowerCase();
+  // Проходим по списку ключевых слов в порядке приоритета
+  for (var i = 0; i < keywords.length; i++) {
+    var k = keywords[i];
+    for (var j = 0; j < k.words.length; j++) {
+      if (lower.indexOf(k.words[j]) !== -1) {
+        return k.reply;
+      }
+    }
+  }
+  // Если ничего не нашли
+  return 'Принято. Я передам это куда следует. Ожидайте.';
+}
+
+function showLockedInMessenger(what) {
+  var body = document.getElementById('messengerBody');
+  document.getElementById('mName').textContent = what;
+  document.getElementById('mRole').textContent = 'ЗАКРЫТЫЙ КАНАЛ';
+  document.getElementById('mAvatar').textContent = '??';
+
+  body.innerHTML = '<div class="locked-msg"><div class="lk-head">ДОСТУП ОГРАНИЧЕН</div>Этот канал недоступен для вашего уровня допуска.</div>';
+  document.getElementById('messengerFooter').innerHTML = '<div style="width:100%; text-align:center; color:#444; font-size:10px; letter-spacing:2px; padding:8px 0; border:1px dashed #1f1f1f; background:#0a0a0a;">ТОЛЬКО ДЛЯ ЧТЕНИЯ</div>';
+}
+
+/* =============== КОНЕЦ МЕССЕНДЖЕРА =============== */
 
 function getDayType(num) {
   var now = new Date();
@@ -916,6 +1183,28 @@ function toggleDay(num) {
   if (state.completed[num]) return;
   var type = getDayType(num);
   if (type === 'phantom' || type === 'locked' || type === 'done') return;
+
+  // Для первого этапа — приветствие
+  if (num === 1 && !state.welcomePopupShown) {
+    state.welcomePopupShown = true;
+    saveState();
+    document.getElementById('modalTitle').textContent = 'ПРИВЕТСТВИЕ';
+    document.getElementById('modalText').innerHTML =
+      'Здравствуйте.<br><br>Вас приветствует Комитет проверки данных.<br><br>' +
+      'Обратите внимание: этапы проверки будут открываться постепенно. Пожалуйста, рассчитывайте своё личное время.';
+    var overlay = document.getElementById('modalOverlay');
+    overlay.classList.add('show');
+    var btn = overlay.querySelector('.modal-btn');
+    btn.onclick = function() {
+      overlay.classList.remove('show');
+      btn.onclick = function() { closeModal(); };
+      if (type === 'quiz') {
+        openDays[num] = true;
+        renderDays();
+      }
+    };
+    return;
+  }
 
   if (type === 'rorschach') {
     state.chatStage = 3;
@@ -1062,8 +1351,14 @@ function finishQuiz(num) {
   }
 }
 
-function showBubble() { document.getElementById('chatBubble').classList.add('show'); }
-function hideBubble() { document.getElementById('chatBubble').classList.remove('show'); }
+/* =============== СЮЖЕТНЫЙ ЧАТ =============== */
+function showBubble() {
+  var b = document.getElementById('chatBubble');
+  b.classList.add('show');
+}
+function hideBubble() {
+  document.getElementById('chatBubble').classList.remove('show');
+}
 
 function updateBubble(pulse) {
   if (state.bubbleVisible && !chatBusy) {
@@ -1079,8 +1374,9 @@ function updateBubble(pulse) {
 }
 
 function openChat() {
-  if (isChatOpen()) return;
-  document.getElementById('chatWindow').classList.add('show');
+  var win = document.getElementById('storyChatWindow');
+  if (win.classList.contains('show')) return;
+  win.classList.add('show');
   openChatVisual();
   chatBusy = true;
   state.bubbleVisible = false;
@@ -1102,7 +1398,7 @@ function openChat() {
 }
 
 function closeChat() {
-  document.getElementById('chatWindow').classList.remove('show');
+  document.getElementById('storyChatWindow').classList.remove('show');
   closeChatVisual();
   chatBusy = false;
 
@@ -1123,8 +1419,8 @@ function closeChat() {
   }
 }
 
-function addMsg() {
-  var body = document.getElementById('chatBody');
+function addMsgToStory() {
+  var body = document.getElementById('storyChatBody');
   var div = document.createElement('div');
   div.className = 'chat-msg';
   var who = document.createElement('div');
@@ -1141,18 +1437,18 @@ function addMsg() {
   return span;
 }
 
-function showTyping() {
-  var body = document.getElementById('chatBody');
+function showTypingStory() {
+  var body = document.getElementById('storyChatBody');
   var div = document.createElement('div');
   div.className = 'chat-msg';
   div.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
-  div.id = 'typingIndicator';
+  div.id = 'storyTypingIndicator';
   body.appendChild(div);
   body.scrollTop = body.scrollHeight;
 }
 
-function hideTyping() {
-  var el = document.getElementById('typingIndicator');
+function hideTypingStory() {
+  var el = document.getElementById('storyTypingIndicator');
   if (el) el.remove();
 }
 
@@ -1174,15 +1470,15 @@ function playLinesFrom(lines, startIdx, done) {
       if (done) done();
       return;
     }
-    showTyping();
+    showTypingStory();
     setTimeout(function() {
-      if (!isChatOpen()) { hideTyping(); currentChatIndex = i; return; }
-      hideTyping();
-      var span = addMsg();
+      if (!isChatOpen()) { hideTypingStory(); currentChatIndex = i; return; }
+      hideTypingStory();
+      var span = addMsgToStory();
       var line = typeof lines[i] === 'string' ? lines[i] : lines[i].text;
       var isLast = (i === lines.length - 1);
       var glitch = isLast && lines[i].glitch;
-      typeText(span, line, 45, function() {
+      typeTextStory(span, line, 45, function() {
         i++;
         currentChatIndex = i;
         var delay = 900 + line.length * 15;
@@ -1193,14 +1489,14 @@ function playLinesFrom(lines, startIdx, done) {
   next();
 }
 
-function typeText(span, text, speed, cb, glitchAtEnd) {
+function typeTextStory(span, text, speed, cb, glitchAtEnd) {
   var i = 0;
   function tick() {
     if (!isChatOpen()) return;
     if (i >= text.length) { if (cb) cb(); return; }
     span.textContent += text[i];
     i++;
-    document.getElementById('chatBody').scrollTop = document.getElementById('chatBody').scrollHeight;
+    document.getElementById('storyChatBody').scrollTop = document.getElementById('storyChatBody').scrollHeight;
     if (glitchAtEnd && i === text.length - 4) {
       var msgDiv = span.parentNode;
       msgDiv.classList.add('text-glitch');
@@ -1213,7 +1509,7 @@ function typeText(span, text, speed, cb, glitchAtEnd) {
 }
 
 function runChatSequence() {
-  document.getElementById('chatBody').innerHTML = '';
+  document.getElementById('storyChatBody').innerHTML = '';
   var lines = [
     'Добрый день, кандидат.',
     'Мы изучили ваш психологический профиль.',
@@ -1223,10 +1519,10 @@ function runChatSequence() {
 }
 
 function chatGlitchPhase() {
-  var chatWin = document.getElementById('chatWindow');
+  var chatWin = document.getElementById('storyChatWindow');
   chatWin.classList.add('glitching');
   setTimeout(function() {
-    document.getElementById('chatWindow').classList.remove('show');
+    document.getElementById('storyChatWindow').classList.remove('show');
     closeChatVisual();
     chatBusy = false;
     currentChatLines = null;
@@ -1355,7 +1651,7 @@ function answerSound() {
 }
 
 function runFinalMessage() {
-  document.getElementById('chatBody').innerHTML = '';
+  document.getElementById('storyChatBody').innerHTML = '';
   var lines = [
     '...и ваши показатели вызвали у нас вопросы.',
     'Нам требуется провести дополнительную сверку.',
@@ -1373,7 +1669,7 @@ function runFinalMessage() {
 }
 
 function runThanksMessage() {
-  document.getElementById('chatBody').innerHTML = '';
+  document.getElementById('storyChatBody').innerHTML = '';
   var lines = [
     'Благодарю за прохождение.',
     'Результаты второго теста приняты и будут обработаны.',
@@ -1389,7 +1685,7 @@ function runThanksMessage() {
 }
 
 function runDay3Dialog() {
-  document.getElementById('chatBody').innerHTML = '';
+  document.getElementById('storyChatBody').innerHTML = '';
   var lines = [
     'Доброго дня, кандидат.',
     'Надеюсь, вы отдохнули.',
@@ -1404,7 +1700,7 @@ function runDay3Dialog() {
   ];
   playLines(lines, function() {
     setTimeout(function() {
-      document.getElementById('chatWindow').classList.remove('show');
+      document.getElementById('storyChatWindow').classList.remove('show');
       closeChatVisual();
       chatBusy = false;
       setTimeout(showRorschachIntro, 500);
@@ -1494,7 +1790,7 @@ function submitRorschach() {
 }
 
 function runRorschachComments() {
-  document.getElementById('chatBody').innerHTML = '';
+  document.getElementById('storyChatBody').innerHTML = '';
   var answers = state.rorschach || [];
   var valid = [];
   for (var i = 0; i < answers.length; i++) {
@@ -1562,6 +1858,7 @@ setTimeout(function() {
   if (state.bubbleVisible && state.chatStage < 5) {
     updateBubble(false);
   }
+  updateMailBtn();
 }, 3500);
 </script>
 </body>
