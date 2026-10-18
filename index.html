@@ -1,12 +1,3 @@
-Понял все правки. Вот полный, исправленный код:
-
-1. **Отправка сообщений** работает.
-2. **Кадры и Безопасность** — только для чтения (поле ввода убрано).
-3. **«Служба безопасности»** в чатах заменена на **«Отдел надзора»**.
-4. **«СЕКТОР 82»** в навигации заменен на **«ВНУТРЕННИЙ ОБЪЕКТ»**.
-5. **Плашка при переходе в раздел Верификации** (появляется один раз, как приветствие).
-
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -234,7 +225,7 @@
   .locked-msg { padding: 40px 20px; text-align: center; color: #555; font-size: 12px; letter-spacing: 2px; line-height: 2; }
   .locked-msg .lk-head { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 16px; }
 
-  /* ВНУТРЕННИЙ ОБЪЕКТ */
+  /* ОБЪЕКТ И БЕЗОПАСНОСТЬ */
   .sector-card { border: 1px solid #3a1010; padding: 24px; background: rgba(139,0,0,0.05); margin-bottom: 16px; }
   .sector-title { color: #8B0000; font-size: 14px; letter-spacing: 4px; margin-bottom: 16px; }
   .sector-text { color: #888; font-size: 12px; line-height: 1.9; }
@@ -351,7 +342,7 @@
       <div class="corp-nav-item" data-page="profile" onclick="openPage('profile')">ПРОФИЛЬ</div>
       <div class="corp-nav-item" data-page="protocol" onclick="openPage('protocol')">ВЕРИФИКАЦИЯ</div>
       <div class="corp-nav-item" data-page="docs" onclick="openPage('docs')">ДОКУМЕНТЫ</div>
-      <div class="corp-nav-item" data-page="sector" onclick="openPage('sector')">ВНУТРЕННИЙ ОБЪЕКТ</div>
+      <div class="corp-nav-item" data-page="sector" onclick="openPage('sector')">ОБЪЕКТ 82</div>
       <div class="corp-nav-item" data-page="security" onclick="openPage('security')">БЕЗОПАСНОСТЬ</div>
     </div>
   </div>
@@ -462,7 +453,7 @@
 
   <div class="corp-page" id="page-sector">
     <div class="page-title">ВНУТРЕННИЙ ОБЪЕКТ</div>
-    <div class="page-sub">СЕКТОР 82</div>
+    <div class="page-sub">ОБЪЕКТ 82</div>
     <div class="page-divider"></div>
     <div class="sector-card">
       <div class="sector-title">СТАТУС ОБЪЕКТА: АКТИВЕН</div>
@@ -528,16 +519,16 @@
           <div class="chat-item-name">ОТДЕЛ КАДРОВ</div>
           <div class="chat-item-last">Служебное сообщение</div>
         </div>
-        <div class="chat-item" data-chat="sec" onclick="openChatInMessenger('sec')">
-          <div class="chat-item-name">ОТДЕЛ НАДЗОРА</div>
+        <div class="chat-item" data-chat="archive" onclick="openChatInMessenger('archive')">
+          <div class="chat-item-name">АРХИВНЫЙ ОТДЕЛ</div>
           <div class="chat-item-last">Уведомление</div>
         </div>
         <div class="chat-item locked" onclick="showLockedInMessenger('АРХИВ')">
           <div class="chat-item-name">АРХИВ</div>
           <div class="chat-item-last">Доступ ограничен</div>
         </div>
-        <div class="chat-item locked" onclick="showLockedInMessenger('ВНУТРЕННИЙ ОБЪЕКТ')">
-          <div class="chat-item-name">ВНУТРЕННИЙ ОБЪЕКТ</div>
+        <div class="chat-item locked" onclick="showLockedInMessenger('ОБЪЕКТ 82')">
+          <div class="chat-item-name">ОБЪЕКТ 82</div>
           <div class="chat-item-last">Доступ ограничен</div>
         </div>
       </div>
@@ -690,7 +681,7 @@ function loadState() {
     day2Unlocked: false,
     rorschach: null,
     pendingDayUnlock: false,
-    verificationPopupShown: false,
+    welcomePopupShown: false,
     mailUnreadCleared: false,
     messengerChats: {}
   };
@@ -764,26 +755,6 @@ function updateMailBtn() {
 function openPage(id) {
   if (isBlocked()) return;
 
-  if (id === 'protocol' && !state.verificationPopupShown) {
-    state.verificationPopupShown = true;
-    saveState();
-    document.getElementById('modalTitle').textContent = 'ВЕРИФИКАЦИЯ';
-    document.getElementById('modalText').innerHTML = 'Данный раздел содержит этапы проверки кандидата.<br><br>Обратите внимание: каждый этап имеет свой срок давности. Не пытайтесь ускорить процесс.';
-    var overlay = document.getElementById('modalOverlay');
-    overlay.classList.add('show');
-    var btn = overlay.querySelector('.modal-btn');
-    btn.onclick = function() {
-      overlay.classList.remove('show');
-      btn.onclick = function() { closeModal(); };
-      doPageSwitch(id);
-    };
-    return;
-  }
-
-  doPageSwitch(id);
-}
-
-function doPageSwitch(id) {
   document.querySelectorAll('.corp-page').forEach(function(p) { p.classList.remove('active'); });
   document.querySelectorAll('.corp-nav-item').forEach(function(n) { n.classList.remove('active'); });
 
@@ -794,6 +765,15 @@ function doPageSwitch(id) {
   if (navItem) navItem.classList.add('active');
 
   if (id === 'protocol') {
+    if (!state.welcomePopupShown) {
+      state.welcomePopupShown = true;
+      saveState();
+      document.getElementById('modalTitle').textContent = 'ПРИВЕТСТВИЕ';
+      document.getElementById('modalText').innerHTML =
+        'Здравствуйте.<br><br>Вас приветствует Комитет проверки данных.<br><br>' +
+        'Обратите внимание: этапы верификации будут открываться постепенно. Пожалуйста, рассчитывайте своё личное время.';
+      document.getElementById('modalOverlay').classList.add('show');
+    }
     renderDays();
     startTimers();
   }
@@ -840,7 +820,7 @@ function openDoc() {
   document.getElementById('docViewBody').innerHTML =
     '1. Кандидат обязан пройти все этапы верификации.<br><br>' +
     '2. На каждом этапе кандидату не сообщается полная информация.<br><br>' +
-    '3. Самостоятельный поиск данных о секторе 82 запрещён.<br><br>' +
+    '3. Самостоятельный поиск данных об объекте 82 запрещён.<br><br>' +
     '4. В случае обнаружения несоответствий — доложить куратору.<br><br>' +
     '5. <span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span><br><br>' +
     '6. <span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span><br><br>' +
@@ -853,10 +833,10 @@ function openDocCoop() {
   document.getElementById('docList').style.display = 'none';
   document.getElementById('docView').style.display = 'block';
   document.getElementById('docViewFrom').textContent = 'ОТДЕЛ КАДРОВ';
-  document.getElementById('docViewSubj').textContent = 'СОТРУДНИЧЕСТВО С СЕКТОРОМ 82';
+  document.getElementById('docViewSubj').textContent = 'СОТРУДНИЧЕСТВО С КОМИТЕТОМ';
   document.getElementById('docViewDate').textContent = '22.10.2026';
   document.getElementById('docViewBody').innerHTML =
-    'Комитет проверки данных продолжает набор кандидатов для работы в секторе 82.<br><br>' +
+    'Комитет проверки данных продолжает набор кандидатов для работы.<br><br>' +
     'Требования к кандидатам:<br>' +
     '— Внимательность.<br>' +
     '— Готовность к работе с закрытой информацией.<br>' +
@@ -886,7 +866,7 @@ var CHATS_DATA = {
       { words: ['привет','здравствуй','здравствуйте','добрый','хай','доброе'], reply: 'Здравствуйте. Слушаю вас внимательно.' },
       { words: ['приём','набор','работа','работать','трудоустройство','вакансия'], reply: 'Набор продолжается. Все кандидаты проходят обязательные процедуры. Подробности — в разделе «Верификация».' },
       { words: ['куратор','верес','вы'], reply: 'Я на связи. Задавайте вопросы по существу.' },
-      { words: ['зона','82','восемьдесят','сектор'], reply: 'Информация о расположении и внутреннем устройстве закрыта. Не пытайтесь получить её самостоятельно.' },
+      { words: ['зона','объект','82','восемьдесят','сектор'], reply: 'Информация о расположении и внутреннем устройстве закрыта. Не пытайтесь получить её самостоятельно.' },
       { words: ['документ','документы','бумаги','файл','архив'], reply: 'Документы доступны в соответствующем разделе. Часть материалов закрыта по регламенту.' },
       { words: ['когда','сроки','скоро','сколько'], reply: 'Сроки устанавливаются индивидуально. Следите за обновлениями на главной странице.' },
       { words: ['помощь','помогите','подскажите','помоги'], reply: 'Если вам требуется помощь — изложите суть. Я передам куда следует.' },
@@ -951,17 +931,16 @@ var CHATS_DATA = {
       { who: 'them', text: 'Не отвечайте на это сообщение — канал работает в режиме уведомлений.' }
     ]
   },
-  sec: {
-    name: 'ОТДЕЛ НАДЗОРА',
+  archive: {
+    name: 'АРХИВНЫЙ ОТДЕЛ',
     role: 'УВЕДОМЛЕНИЯ',
-    avatar: 'ОН',
+    avatar: 'АО',
     canWrite: false,
     initial: [
       { who: 'them', text: 'Уведомление.' },
-      { who: 'them', text: 'В секторе 82 ведётся постоянное наблюдение. Все действия сотрудников фиксируются.' },
-      { who: 'them', text: 'При обнаружении посторонних объектов, лиц или явлений — немедленно сообщите куратору.' },
-      { who: 'them', text: 'Не пытайтесь покинуть сектор самостоятельно. Не пытайтесь установить внешние контакты.' },
-      { who: 'them', text: 'Не оставляйте личные вещи в местах общего доступа.' }
+      { who: 'them', text: 'Доступ к архивным материалам ограничен согласно регламенту.' },
+      { who: 'them', text: 'При необходимости запросите документы через куратора.' },
+      { who: 'them', text: 'Не пытайтесь получить доступ к закрытым материалам самостоятельно.' }
     ]
   }
 };
@@ -1785,4 +1764,3 @@ setTimeout(function() {
 </script>
 </body>
 </html>
-```
