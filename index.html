@@ -22,13 +22,14 @@
   .cursor { display: inline-block; width: 8px; height: 13px; background: #8B0000; animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
   @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
-  .screen { display: none; min-height: 100vh; padding: 60px 24px; max-width: 720px; margin: 0 auto; animation: fadeIn 0.6s ease; }
+  .screen { display: none; min-height: 100vh; padding: 60px 24px; max-width: 820px; margin: 0 auto; animation: fadeIn 0.6s ease; }
   .screen.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* ===== ЛОГИН ===== */
   #login { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   #login.active { display: flex; }
-  .login-emblem { width: 110px; height: 110px; margin-bottom: 32px; animation: pulseGlow 3s infinite; }
+  .login-emblem { width: 130px; height: 130px; margin-bottom: 32px; animation: pulseGlow 3s infinite; }
   .login-emblem svg { width: 100%; height: 100%; }
   .login-title { color: #8B0000; font-size: 11px; letter-spacing: 5px; margin-bottom: 12px; }
   .login-sub { color: #d4d4d4; font-size: 18px; letter-spacing: 3px; margin-bottom: 48px; }
@@ -40,24 +41,159 @@
   .login-footer { margin-top: 48px; color: #1f1f1f; font-size: 10px; letter-spacing: 3px; }
   .error-msg { color: #8B0000; font-size: 11px; letter-spacing: 2px; margin-top: 16px; min-height: 16px; }
 
-  .topbar { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1f1f1f; padding-bottom: 20px; margin-bottom: 40px; position: relative; }
-  .topbar::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 60px; height: 1px; background: #8B0000; }
-  .topbar-left { display: flex; align-items: center; gap: 16px; }
-  .topbar-emblem { width: 42px; height: 42px; flex-shrink: 0; }
-  .topbar-emblem svg { width: 100%; height: 100%; }
-  .topbar-title { color: #d4d4d4; font-size: 13px; letter-spacing: 3px; }
-  .topbar-status { color: #8B0000; font-size: 10px; letter-spacing: 2px; animation: blink 2s infinite; }
+  /* ===== ШАПКА КОРПОРАТИВНОГО САЙТА ===== */
+  .corp-header {
+    border-bottom: 1px solid #1f1f1f;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .corp-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: #8B0000;
+  }
+  .corp-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .corp-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .corp-brand-emblem {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+  .corp-brand-emblem svg { width: 100%; height: 100%; }
+  .corp-brand-text { line-height: 1.3; }
+  .corp-brand-title { color: #d4d4d4; font-size: 14px; letter-spacing: 3px; }
+  .corp-brand-sub { color: #555; font-size: 10px; letter-spacing: 2px; margin-top: 2px; }
 
-  .menu { display: flex; flex-direction: column; gap: 2px; }
-  .menu-item { padding: 18px 24px; border: 1px solid #1a1a1a; color: #777; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.25s; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; }
-  .menu-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #8B0000; transform: scaleY(0); transition: transform 0.25s; }
-  .menu-item:hover { border-color: #3a1010; color: #d4d4d4; background: rgba(139,0,0,0.04); padding-left: 30px; }
-  .menu-item:hover::before { transform: scaleY(1); }
-  .menu-item .arrow { color: #333; transition: all 0.25s; }
-  .menu-item:hover .arrow { color: #8B0000; transform: translateX(4px); }
-  .menu-item.protocol { border-color: #3a1010; color: #8B0000; }
-  .menu-item.protocol .arrow { color: #8B0000; }
+  .corp-status {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #8B0000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .corp-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #8B0000;
+    animation: blink 2s infinite;
+  }
 
+  /* ===== НАВИГАЦИЯ ===== */
+  .corp-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-top: 1px solid #141414;
+    border-bottom: 1px solid #141414;
+  }
+  .corp-nav-item {
+    padding: 14px 18px;
+    color: #666;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-right: 1px solid #141414;
+    position: relative;
+  }
+  .corp-nav-item:last-child { border-right: none; }
+  .corp-nav-item:hover { color: #d4d4d4; background: rgba(139,0,0,0.04); }
+  .corp-nav-item.active { color: #8B0000; }
+  .corp-nav-item.active::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #8B0000;
+  }
+
+  /* ===== КОНТЕНТ ===== */
+  .corp-page { display: none; animation: fadeIn 0.4s ease; }
+  .corp-page.active { display: block; }
+
+  .page-title {
+    color: #8B0000;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+  .page-sub {
+    color: #d4d4d4;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+  }
+  .page-divider {
+    height: 1px;
+    background: linear-gradient(90deg, #8B0000, transparent);
+    margin: 0 0 32px;
+  }
+
+  /* Карточки */
+  .card {
+    border: 1px solid #1a1a1a;
+    padding: 24px;
+    margin-bottom: 16px;
+    background: rgba(139,0,0,0.015);
+    transition: all 0.2s;
+  }
+  .card:hover { border-color: #3a1010; background: rgba(139,0,0,0.03); }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .card-date {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+  .card-title {
+    color: #d4d4d4;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .card-text {
+    color: #888;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+  .card-more {
+    color: #8B0000;
+    font-size: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .card-more:hover { color: #ff3030; }
+
+  .card.locked { opacity: 0.55; cursor: pointer; }
+  .card.locked:hover { opacity: 0.75; }
+  .card.locked .card-title { color: #555; }
+  .card.locked .card-text { color: #444; }
+
+  /* Личное дело (внутри кабинета) */
   .case-block { border: 1px solid #1a1a1a; padding: 32px; background: rgba(139,0,0,0.02); }
   .case-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #141414; font-size: 13px; letter-spacing: 2px; }
   .case-row:last-child { border-bottom: none; }
@@ -67,6 +203,79 @@
 
   .redacted { background: #000; color: #000; padding: 1px 6px; user-select: none; display: inline-block; border-radius: 1px; }
 
+  /* Почта */
+  .mail-item {
+    border: 1px solid #1a1a1a;
+    padding: 18px 24px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .mail-item:hover { border-color: #3a1010; background: rgba(139,0,0,0.03); }
+  .mail-item.unread { border-left: 3px solid #8B0000; }
+  .mail-item-left { flex: 1; }
+  .mail-from { color: #8B0000; font-size: 10px; letter-spacing: 2px; margin-bottom: 4px; }
+  .mail-subj { color: #d4d4d4; font-size: 12px; letter-spacing: 1px; }
+  .mail-date { color: #555; font-size: 10px; letter-spacing: 2px; }
+
+  .mail-view {
+    border: 1px solid #3a1010;
+    padding: 32px;
+    background: rgba(139,0,0,0.02);
+    margin-bottom: 24px;
+  }
+  .mail-view-head { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
+  .mail-view-from { color: #8B0000; font-size: 10px; letter-spacing: 3px; margin-bottom: 8px; }
+  .mail-view-subj { color: #d4d4d4; font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; }
+  .mail-view-date { color: #555; font-size: 10px; letter-spacing: 2px; }
+  .mail-view-body { color: #aaa; font-size: 13px; line-height: 1.9; white-space: pre-wrap; }
+
+  /* Документы */
+  .doc-item {
+    border: 1px solid #1a1a1a;
+    padding: 18px 24px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .doc-item:hover { border-color: #3a1010; background: rgba(139,0,0,0.03); }
+  .doc-name { color: #d4d4d4; font-size: 12px; letter-spacing: 1px; }
+  .doc-name .ext { color: #555; margin-left: 8px; }
+  .doc-status { font-size: 10px; letter-spacing: 2px; color: #8B0000; }
+  .doc-item.locked { opacity: 0.5; }
+  .doc-item.locked .doc-name { color: #555; }
+  .doc-item.locked .doc-status { color: #444; }
+
+  /* Контакты */
+  .contact-block { border: 1px solid #1a1a1a; padding: 24px; margin-bottom: 16px; }
+  .contact-line { display: flex; padding: 10px 0; font-size: 12px; letter-spacing: 1px; border-bottom: 1px solid #141414; }
+  .contact-line:last-child { border-bottom: none; }
+  .contact-line-key { color: #555; width: 180px; flex-shrink: 0; }
+  .contact-line-val { color: #d4d4d4; }
+  .contact-line-val.redacted-line { color: transparent; background: #000; padding: 0 40px; user-select: none; }
+  .contact-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid #8B0000;
+    color: #8B0000;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .contact-btn:hover { background: #8B0000; color: #0a0a0a; }
+
+  /* ===== МОДАЛКА ===== */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 500; align-items: center; justify-content: center; padding: 24px; }
   .modal-overlay.show { display: flex; }
   .modal { max-width: 480px; width: 100%; background: #0d0d0d; border: 1px solid #8B0000; padding: 40px 32px; position: relative; animation: modalIn 0.4s ease; box-shadow: 0 0 60px rgba(139,0,0,0.2); }
@@ -79,6 +288,7 @@
   .modal-btn { display: block; width: 100%; padding: 14px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; }
   .modal-btn:hover { background: #8B0000; color: #0a0a0a; }
 
+  /* ===== ПРОТОКОЛ ===== */
   .protocol-head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
   .protocol-emblem { width: 48px; height: 48px; flex-shrink: 0; }
   .protocol-emblem svg { width: 100%; height: 100%; }
@@ -123,6 +333,7 @@
   .final-message { border: 1px solid #8B0000; padding: 40px 32px; text-align: center; margin-top: 24px; background: rgba(139,0,0,0.04); }
   .final-message .big { color: #8B0000; font-size: 22px; letter-spacing: 6px; margin: 20px 0; text-shadow: 0 0 20px rgba(139,0,0,0.5); }
 
+  /* ===== ЧАТ ===== */
   .chat-bubble {
     position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
     border-radius: 50%; background: #0d0d0d; border: 1px solid #8B0000;
@@ -188,6 +399,7 @@
   .chat-footer { border-top: 1px solid #1a1a1a; padding: 12px; background: #0d0d0d; }
   .chat-readonly { color: #444; font-size: 10px; letter-spacing: 2px; text-align: center; padding: 8px 0; border: 1px dashed #1f1f1f; background: #0a0a0a; }
 
+  /* ===== ЗВУК ===== */
   .sound-scene { display: none; position: fixed; inset: 0; background: #000; z-index: 800; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 40px; overflow: hidden; }
   .sound-scene.show { display: flex; }
   .sound-pulse { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #8B0000; position: relative; margin-bottom: 40px; animation: soundPulse 1.5s infinite; }
@@ -213,6 +425,7 @@
     100% { transform: translate(1px, 1px); }
   }
 
+  /* Роршах */
   #rorschach .rorschach-intro { border: 1px solid #8B0000; padding: 20px; margin-bottom: 32px; background: rgba(139,0,0,0.04); color: #d4d4d4; font-size: 12px; line-height: 1.9; }
   #rorschach .rorschach-intro .head { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 12px; }
   .rorschach-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
@@ -225,26 +438,40 @@
   .rorschach-submit { display: block; width: 100%; padding: 16px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; margin-top: 32px; }
   .rorschach-submit:hover { background: #8B0000; color: #0a0a0a; }
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     .screen { padding: 40px 16px; }
+    .corp-nav { flex-direction: column; }
+    .corp-nav-item { border-right: none; border-bottom: 1px solid #141414; }
+    .corp-nav-item:last-child { border-bottom: none; }
+    .corp-top { flex-direction: column; align-items: flex-start; gap: 16px; }
     .quiz-options { flex-direction: column; }
     .chat-window { width: calc(100vw - 16px); right: 8px; bottom: 8px; height: 80vh; }
     .chat-bubble { bottom: 16px; right: 16px; }
     .sound-options { flex-direction: column; gap: 12px; }
+    .contact-line { flex-direction: column; gap: 4px; }
+    .contact-line-key { width: auto; }
   }
 </style>
 </head>
 <body>
 
+<!-- НОВЫЙ ДЕТАЛЬНЫЙ ЛОГОТИП 82 -->
 <svg style="display:none">
   <symbol id="logo-82" viewBox="0 0 200 200">
-    <circle cx="100" cy="100" r="90" fill="none" stroke="#8B0000" stroke-width="3"/>
-    <circle cx="100" cy="100" r="80" fill="none" stroke="#8B0000" stroke-width="1" opacity="0.4"/>
-    <line x1="100" y1="5" x2="100" y2="20" stroke="#8B0000" stroke-width="2"/>
-    <line x1="100" y1="180" x2="100" y2="195" stroke="#8B0000" stroke-width="2"/>
-    <line x1="5" y1="100" x2="20" y2="100" stroke="#8B0000" stroke-width="2"/>
-    <line x1="180" y1="100" x2="195" y2="100" stroke="#8B0000" stroke-width="2"/>
-    <text x="100" y="100" text-anchor="middle" dominant-baseline="central" font-family="Courier New, monospace" font-size="72" font-weight="bold" fill="#8B0000">82</text>
+    <polygon points="100,10 160,20 190,70 190,130 160,180 100,190 40,180 10,130 10,70 40,20"
+             fill="none" stroke="#8B0000" stroke-width="2"/>
+    <circle cx="100" cy="100" r="75" fill="none" stroke="#8B0000" stroke-width="1" opacity="0.5"/>
+    <circle cx="100" cy="100" r="68" fill="none" stroke="#8B0000" stroke-width="3"/>
+    <circle cx="100" cy="100" r="85" fill="none" stroke="#8B0000" stroke-width="0.5" opacity="0.3" stroke-dasharray="2 4"/>
+    <line x1="100" y1="15" x2="100" y2="35" stroke="#8B0000" stroke-width="2"/>
+    <line x1="100" y1="165" x2="100" y2="185" stroke="#8B0000" stroke-width="2"/>
+    <line x1="15" y1="100" x2="35" y2="100" stroke="#8B0000" stroke-width="2"/>
+    <line x1="165" y1="100" x2="185" y2="100" stroke="#8B0000" stroke-width="2"/>
+    <line x1="30" y1="30" x2="42" y2="42" stroke="#8B0000" stroke-width="2"/>
+    <line x1="170" y1="30" x2="158" y2="42" stroke="#8B0000" stroke-width="2"/>
+    <line x1="30" y1="170" x2="42" y2="158" stroke="#8B0000" stroke-width="2"/>
+    <line x1="170" y1="170" x2="158" y2="158" stroke="#8B0000" stroke-width="2"/>
+    <text x="100" y="100" text-anchor="middle" dominant-baseline="central" font-family="Courier New, monospace" font-size="64" font-weight="bold" fill="#8B0000" letter-spacing="4">82</text>
   </symbol>
 </svg>
 
@@ -255,6 +482,7 @@
   <div class="load-text" id="loadText"></div>
 </div>
 
+<!-- ===== ЛОГИН ===== -->
 <div class="screen" id="login">
   <div class="login-emblem"><svg><use href="#logo-82"/></svg></div>
   <div class="login-title">SCP FOUNDATION</div>
@@ -265,58 +493,232 @@
   <div class="login-footer">Исх. № 641\88-6 · ДСП</div>
 </div>
 
+<!-- ===== ЛИЧНЫЙ КАБИНЕТ (корпоративный) ===== -->
 <div class="screen" id="main">
-  <div class="topbar">
-    <div class="topbar-left">
-      <div class="topbar-emblem"><svg><use href="#logo-82"/></svg></div>
-      <div class="topbar-title">ЛИЧНЫЙ КАБИНЕТ</div>
+  <div class="corp-header">
+    <div class="corp-top">
+      <div class="corp-brand">
+        <div class="corp-brand-emblem"><svg><use href="#logo-82"/></svg></div>
+        <div class="corp-brand-text">
+          <div class="corp-brand-title">SCP FOUNDATION</div>
+          <div class="corp-brand-sub">ЛИЧНЫЙ КАБИНЕТ · СЕКТОР 82</div>
+        </div>
+      </div>
+      <div class="corp-status">
+        <div class="corp-status-dot"></div>
+        <span>ДОПУСК: НУЛЕВОЙ</span>
+      </div>
     </div>
-    <div class="topbar-status">● ДОПУСК: ОГРАНИЧЕН</div>
+    <div class="corp-nav">
+      <div class="corp-nav-item active" data-page="home" onclick="openPage('home')">ГЛАВНАЯ</div>
+      <div class="corp-nav-item" data-page="profile" onclick="openPage('profile')">ПРОФИЛЬ</div>
+      <div class="corp-nav-item" data-page="protocol" onclick="openPage('protocol')">ПРОТОКОЛ</div>
+      <div class="corp-nav-item" data-page="mail" onclick="openPage('mail')">ВНУТРЕННЯЯ СВЯЗЬ</div>
+      <div class="corp-nav-item" data-page="docs" onclick="openPage('docs')">ДОКУМЕНТЫ</div>
+      <div class="corp-nav-item" data-page="contacts" onclick="openPage('contacts')">КОНТАКТЫ</div>
+    </div>
   </div>
-  <div class="menu">
-    <div class="menu-item" onclick="menuClick('archive')">АРХИВ <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="menuClick('case')">ЛИЧНОЕ ДЕЛО <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="menuClick('sector')">СЕКТОР 82 <span class="arrow">→</span></div>
-    <div class="menu-item" onclick="menuClick('reports')">ОТЧЁТЫ <span class="arrow">→</span></div>
-    <div class="menu-item protocol" onclick="menuClick('protocol')">ПРОТОКОЛ ПРОВЕРКИ <span class="arrow">→</span></div>
+
+  <!-- ГЛАВНАЯ -->
+  <div class="corp-page active" id="page-home">
+    <div class="page-title">ОБЪЯВЛЕНИЯ</div>
+    <div class="page-sub">СЕКТОР 82</div>
+    <div class="page-divider"></div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-date">23.10.2026</div>
+      </div>
+      <div class="card-title">ДОБРО ПОЖАЛОВАТЬ В КОМИТЕТ</div>
+      <div class="card-text">
+        Ваша заявка одобрена. Добро пожаловать в штат стажёров.<br><br>
+        Ознакомьтесь с внутренними разделами. По мере прохождения допуска вам будут открываться новые материалы.
+      </div>
+    </div>
+
+    <div class="card locked" onclick="showLocked('ЭТА ПУБЛИКАЦИЯ')">
+      <div class="card-head">
+        <div class="card-date">[ДАТА УДАЛЕНА]</div>
+      </div>
+      <div class="card-title">ОБНОВЛЕНИЕ РЕГЛАМЕНТА БЕЗОПАСНОСТИ</div>
+      <div class="card-text">
+        В связи с инцидентом в секторе [ДАННЫЕ УДАЛЕНЫ] временно изменены правила [...]
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-date">22.10.2026</div>
+      </div>
+      <div class="card-title">НАБОР В СЕКТОР 82</div>
+      <div class="card-text">
+        Комитет продолжает набор кандидатов. Все кандидаты проходят дополнительную психологическую проверку. Сроки и порядок указаны в «Протоколе проверки».
+      </div>
+    </div>
+
+    <div class="card locked" onclick="showLocked('ЭТА ПУБЛИКАЦИЯ')">
+      <div class="card-head">
+        <div class="card-date">20.10.2026</div>
+      </div>
+      <div class="card-title">ПОЗДРАВЛЯЕМ С 16-Й ГОДОВЩИНОЙ</div>
+      <div class="card-text">
+        [ТЕКСТ УДАЛЁН ПО РЕШЕНИЮ КОМИТЕТА]
+      </div>
+    </div>
+  </div>
+
+  <!-- ПРОФИЛЬ -->
+  <div class="corp-page" id="page-profile">
+    <div class="page-title">ЛИЧНОЕ ДЕЛО</div>
+    <div class="page-sub">СТАЖЁР</div>
+    <div class="page-divider"></div>
+    <div class="case-block">
+      <div class="case-row"><span class="case-key">РАНГ</span><span class="case-val red">СТАЖЁР</span></div>
+      <div class="case-row"><span class="case-key">СТАТУС</span><span class="case-val">ДОПУСК НУЛЕВОЙ</span></div>
+      <div class="case-row"><span class="case-key">ОТДЕЛ</span><span class="case-val">СЕКТОР 82</span></div>
+      <div class="case-row"><span class="case-key">КУРАТОР</span><span class="case-val">К. ВЕРЕС</span></div>
+      <div class="case-row"><span class="case-key">РЕГИСТРАЦИЯ</span><span class="case-val">23.10.2026</span></div>
+      <div class="case-row"><span class="case-key">ПРОФИЛЬ</span><span class="case-val"><span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span></span></div>
+      <div class="case-row"><span class="case-key">ПРЕДЫДУЩИЕ ОБЪЕКТЫ</span><span class="case-val"><span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span></span></div>
+      <div class="case-row"><span class="case-key">РЕКОМЕНДАЦИЯ</span><span class="case-val"><span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span></span></div>
+    </div>
+  </div>
+
+  <!-- ПРОТОКОЛ (встраивается из старого) -->
+  <div class="corp-page" id="page-protocol">
+    <div class="protocol-head">
+      <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
+      <div>
+        <div class="protocol-header">РЕГЛАМЕНТ ДОПОЛНИТЕЛЬНЫХ ПРОВЕРОК</div>
+        <div class="protocol-title">ПРОТОКОЛ</div>
+      </div>
+    </div>
+    <div class="protocol-divider"></div>
+    <div id="days"></div>
+  </div>
+
+  <!-- ПОЧТА -->
+  <div class="corp-page" id="page-mail">
+    <div class="page-title">ВНУТРЕННЯЯ СВЯЗЬ</div>
+    <div class="page-sub">ВХОДЯЩИЕ</div>
+    <div class="page-divider"></div>
+
+    <div id="mailList">
+      <div class="mail-item unread" onclick="openMail('welcome')">
+        <div class="mail-item-left">
+          <div class="mail-from">ОТДЕЛ КАДРОВ</div>
+          <div class="mail-subj">Приветственное сообщение</div>
+        </div>
+        <div class="mail-date">23.10.26</div>
+      </div>
+      <div class="mail-item" onclick="openMail('locked')">
+        <div class="mail-item-left">
+          <div class="mail-from">СЕКТОР 82</div>
+          <div class="mail-subj">[ЗАКРЫТО] Служебная записка</div>
+        </div>
+        <div class="mail-date">[УДАЛЕНО]</div>
+      </div>
+      <div class="mail-item" onclick="openMail('locked')">
+        <div class="mail-item-left">
+          <div class="mail-from">К. ВЕРЕС</div>
+          <div class="mail-subj">[ЗАКРЫТО] По результатам проверки</div>
+        </div>
+        <div class="mail-date">[УДАЛЕНО]</div>
+      </div>
+      <div class="mail-item" onclick="openMail('locked')">
+        <div class="mail-item-left">
+          <div class="mail-from">АРХИВ</div>
+          <div class="mail-subj">[ЗАКРЫТО] Файл №641\88-6</div>
+        </div>
+        <div class="mail-date">[УДАЛЕНО]</div>
+      </div>
+    </div>
+
+    <div id="mailView" style="display:none;">
+      <div class="mail-view">
+        <div class="mail-view-head">
+          <div class="mail-view-from" id="mailViewFrom"></div>
+          <div class="mail-view-subj" id="mailViewSubj"></div>
+          <div class="mail-view-date" id="mailViewDate"></div>
+        </div>
+        <div class="mail-view-body" id="mailViewBody"></div>
+      </div>
+      <div class="back-link" onclick="backToMailList()">← К СПИСКУ</div>
+    </div>
+  </div>
+
+  <!-- ДОКУМЕНТЫ -->
+  <div class="corp-page" id="page-docs">
+    <div class="page-title">АРХИВ</div>
+    <div class="page-sub">ДОКУМЕНТЫ</div>
+    <div class="page-divider"></div>
+
+    <div class="doc-item" onclick="openDoc('641')">
+      <div class="doc-name">Приложение №641\88-6<span class="ext">.PDF</span></div>
+      <div class="doc-status">ДОСТУПНО</div>
+    </div>
+    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
+      <div class="doc-name">Протокол совещания сектора 82<span class="ext">.PDF</span></div>
+      <div class="doc-status">ОГРАНИЧЕНО</div>
+    </div>
+    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
+      <div class="doc-name">Список сотрудников<span class="ext">.XLSX</span></div>
+      <div class="doc-status">ОГРАНИЧЕНО</div>
+    </div>
+    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
+      <div class="doc-name">Отчёт о происшествии №82-А<span class="ext">.PDF</span></div>
+      <div class="doc-status">ОГРАНИЧЕНО</div>
+    </div>
+    <div class="doc-item locked" onclick="showLocked('ДОКУМЕНТ')">
+      <div class="doc-name">[ИМЯ УДАЛЕНО]<span class="ext">.TXT</span></div>
+      <div class="doc-status">ОГРАНИЧЕНО</div>
+    </div>
+
+    <div id="docView" style="display:none;">
+      <div class="mail-view">
+        <div class="mail-view-head">
+          <div class="mail-view-from">ПРИЛОЖЕНИЕ №641\88-6</div>
+          <div class="mail-view-subj">ПРАВИЛА ПРИЁМА</div>
+          <div class="mail-view-date">23.10.2026</div>
+        </div>
+        <div class="mail-view-body">1. Кандидат обязан пройти все этапы проверки.<br><br>
+2. На каждом этапе кандидату не сообщается полная информация.<br><br>
+3. Самостоятельный поиск данных о секторе 82 запрещён.<br><br>
+4. В случае обнаружения несоответствий — доложить куратору.<br><br>
+5. [ДАННЫЕ УДАЛЕНЫ]<br><br>
+6. [ДАННЫЕ УДАЛЕНЫ]<br><br>
+7. По завершении проверки кандидат получает допуск.<br><br>
+8. При неудовлетворительных результатах — кандидат исключается из списка.</div>
+      </div>
+      <div class="back-link" onclick="backToDocs()">← К СПИСКУ</div>
+    </div>
+  </div>
+
+  <!-- КОНТАКТЫ -->
+  <div class="corp-page" id="page-contacts">
+    <div class="page-title">КОНТАКТЫ</div>
+    <div class="page-sub">СЕКТОР 82</div>
+    <div class="page-divider"></div>
+
+    <div class="contact-block">
+      <div class="contact-line"><div class="contact-line-key">АДРЕС</div><div class="contact-line-val redacted-line">........</div></div>
+      <div class="contact-line"><div class="contact-line-key">ТЕЛЕФОН</div><div class="contact-line-val redacted-line">........</div></div>
+      <div class="contact-line"><div class="contact-line-key">ЭЛ. ПОЧТА</div><div class="contact-line-val redacted-line">........</div></div>
+      <div class="contact-line"><div class="contact-line-key">ГРАФИК</div><div class="contact-line-val">Круглосуточно</div></div>
+      <div class="contact-line"><div class="contact-line-key">КУРАТОР</div><div class="contact-line-val">К. ВЕРЕС</div></div>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-line"><div class="contact-line-key">ОТДЕЛ КАДРОВ</div><div class="contact-line-val">[ДАННЫЕ УДАЛЕНЫ]</div></div>
+      <div class="contact-line"><div class="contact-line-key">СЛУЖБА БЕЗОПАСНОСТИ</div><div class="contact-line-val">[ДАННЫЕ УДАЛЕНЫ]</div></div>
+      <div class="contact-line"><div class="contact-line-key">ДИРЕКТОР</div><div class="contact-line-val">[ДАННЫЕ УДАЛЕНЫ]</div></div>
+    </div>
+
+    <button class="contact-btn" onclick="contactCurator()">НАПИСАТЬ КУРАТОРУ</button>
   </div>
 </div>
 
-<div class="screen" id="case">
-  <div class="protocol-head">
-    <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
-    <div>
-      <div class="protocol-header">КОМИТЕТ ПРОВЕРКИ ДАННЫХ</div>
-      <div class="protocol-title">ЛИЧНОЕ ДЕЛО</div>
-    </div>
-  </div>
-  <div class="protocol-divider"></div>
-  <div class="case-block">
-    <div class="case-row"><span class="case-key">РАНГ</span><span class="case-val red">СТАЖЁР</span></div>
-    <div class="case-row"><span class="case-key">СТАТУС</span><span class="case-val">ДОПУСК ОГРАНИЧЕН</span></div>
-    <div class="case-row"><span class="case-key">ОТДЕЛ</span><span class="case-val">СЕКТОР 82</span></div>
-    <div class="case-row"><span class="case-key">КУРАТОР</span><span class="case-val">К. ВЕРЕС</span></div>
-    <div class="case-row"><span class="case-key">РЕГИСТРАЦИЯ</span><span class="case-val">23.10.2026</span></div>
-    <div class="case-row"><span class="case-key">ПРОФИЛЬ</span><span class="case-val"><span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span></span></div>
-    <div class="case-row"><span class="case-key">ПРЕДЫДУЩИЕ ОБЪЕКТЫ</span><span class="case-val"><span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span></span></div>
-    <div class="case-row"><span class="case-key">РЕКОМЕНДАЦИЯ</span><span class="case-val"><span class="redacted">[ДАННЫЕ УДАЛЕНЫ]</span></span></div>
-  </div>
-  <div class="back-link" onclick="backToMain()">← НАЗАД</div>
-</div>
-
-<div class="screen" id="protocol">
-  <div class="protocol-head">
-    <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
-    <div>
-      <div class="protocol-header">РЕГЛАМЕНТ ДОПОЛНИТЕЛЬНЫХ ПРОВЕРОК</div>
-      <div class="protocol-title">ПРОТОКОЛ</div>
-    </div>
-  </div>
-  <div class="protocol-divider"></div>
-  <div id="days"></div>
-  <div class="back-link" onclick="backToMain()">← НАЗАД</div>
-</div>
-
+<!-- РОРШАХ (вне кабинета) -->
 <div class="screen" id="rorschach">
   <div class="protocol-head">
     <div class="protocol-emblem"><svg><use href="#logo-82"/></svg></div>
@@ -411,7 +813,7 @@ var QUIZ_2 = [
   { q: 'Вы готовы продолжать работу с нами и после проверок?', a: ['ДА','НЕТ'] }
 ];
 
-/* ДАТЫ ДНЕЙ. Меняй здесь. Месяц считается с нуля: 9 = октябрь. */
+/* ДАТЫ ДНЕЙ */
 var DAY_DATES = {
   1: new Date(2025, 0, 1, 0, 0, 0),
   2: new Date(2025, 0, 1, 0, 0, 0),
@@ -430,7 +832,6 @@ function loadState() {
   return {
     completed: {},
     quiz: {},
-    welcomeShown: false,
     chatStage: 0,
     bubbleVisible: false,
     day2Unlocked: false,
@@ -477,6 +878,7 @@ setTimeout(function() {
   }, 800);
 }, 3400);
 
+/* ЛОГИН */
 function checkCode() {
   var val = document.getElementById('codeInput').value.trim();
   var err = document.getElementById('errorMsg');
@@ -484,6 +886,7 @@ function checkCode() {
     err.textContent = '';
     document.getElementById('login').classList.remove('active');
     document.getElementById('main').classList.add('active');
+    openPage('home');
     updateBubble(false);
   } else {
     err.textContent = 'НЕВЕРНЫЙ ИДЕНТИФИКАТОР. ПОВТОРИТЕ ВВОД.';
@@ -494,11 +897,35 @@ document.getElementById('codeInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkCode();
 });
 
+/* НАВИГАЦИЯ */
+function openPage(id) {
+  if (isBlocked()) return;
+
+  document.querySelectorAll('.corp-page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.corp-nav-item').forEach(function(n) { n.classList.remove('active'); });
+
+  var page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+
+  var navItem = document.querySelector('.corp-nav-item[data-page="' + id + '"]');
+  if (navItem) navItem.classList.add('active');
+
+  if (id === 'protocol') {
+    renderDays();
+    startTimers();
+  }
+  if (id === 'mail') {
+    backToMailList();
+  }
+  if (id === 'docs') {
+    backToDocs();
+  }
+}
+
 /* БЛОКИРОВКА */
 function isChatOpen() {
   return document.getElementById('chatWindow').classList.contains('show');
 }
-
 function isBlocked() {
   if (isChatOpen()) return true;
   if (document.getElementById('soundScene').classList.contains('show')) return true;
@@ -506,105 +933,110 @@ function isBlocked() {
   if (document.getElementById('modalOverlay').classList.contains('show')) return true;
   return false;
 }
-
 function openChatVisual() { document.body.classList.add('chat-open'); }
 function closeChatVisual() { document.body.classList.remove('chat-open'); }
 
-/* НАВИГАЦИЯ */
-function menuClick(target) {
+/* МОДАЛКА */
+function showLocked(what) {
   if (isBlocked()) return;
-  if (!state.welcomeShown) {
-    state.welcomeShown = true;
-    saveState();
-    showWelcome(function() { doMenuAction(target); });
-    return;
-  }
-  doMenuAction(target);
-}
-function doMenuAction(target) {
-  if (target === 'case') { openCase(); return; }
-  if (target === 'protocol') { openProtocol(); return; }
-  lowAccess();
-}
-function showWelcome(cb) {
-  document.getElementById('modalTitle').textContent = 'УВЕДОМЛЕНИЕ';
-  document.getElementById('modalText').innerHTML = 'Уважаемый стажёр.<br><br>Фонд ценит своё право оставаться в тени. Несмотря на то, что ваша заявка одобрена, регламент обязывает провести дополнительные проверки.<br><br>Процедура начнётся <span style="color:#8B0000">26.10 в 10:00</span>.<br>Возвращайтесь ежедневно.<br><br>Раздел <span style="color:#8B0000">«ПРОТОКОЛ ПРОВЕРКИ»</span> уже доступен.';
-  var overlay = document.getElementById('modalOverlay');
-  overlay.classList.add('show');
-  var btn = overlay.querySelector('.modal-btn');
-  btn.onclick = function() {
-    overlay.classList.remove('show');
-    btn.onclick = function() { closeModal(); };
-    if (cb) cb();
-  };
-}
-function lowAccess() {
   document.getElementById('modalTitle').textContent = 'ДОСТУП ОГРАНИЧЕН';
-  document.getElementById('modalText').textContent = 'Ваш уровень допуска недостаточен. Обратитесь к куратору.';
+  document.getElementById('modalText').textContent = what + ' НЕДОСТУПНО ДЛЯ ВАШЕГО УРОВНЯ ДОПУСКА. ОБРАТИТЕСЬ К КУРАТОРУ.';
   document.getElementById('modalOverlay').classList.add('show');
 }
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('show');
 }
-function openCase() {
-  hideAllScreens();
-  document.getElementById('case').classList.add('active');
-}
-function openProtocol() {
-  hideAllScreens();
-  document.getElementById('protocol').classList.add('active');
-  renderDays();
-  startTimers();
-  updateBubble(false);
-}
-function backToMain() {
+
+/* ПОЧТА */
+function openMail(id) {
   if (isBlocked()) return;
-  hideAllScreens();
-  document.getElementById('main').classList.add('active');
-}
-function hideAllScreens() {
-  ['main','case','protocol','rorschach'].forEach(function(id) {
-    document.getElementById(id).classList.remove('active');
-  });
-  document.getElementById('soundScene').classList.remove('show');
+  document.getElementById('mailList').style.display = 'none';
+  document.getElementById('mailView').style.display = 'block';
+
+  var from = document.getElementById('mailViewFrom');
+  var subj = document.getElementById('mailViewSubj');
+  var date = document.getElementById('mailViewDate');
+  var body = document.getElementById('mailViewBody');
+
+  if (id === 'welcome') {
+    from.textContent = 'ОТДЕЛ КАДРОВ';
+    subj.textContent = 'Приветственное сообщение';
+    date.textContent = '23.10.2026';
+    body.innerHTML = 'Уважаемый стажёр.<br><br>' +
+      'Добро пожаловать в штат Комитета проверки данных.<br><br>' +
+      'Вы приняты на должность стажёра с нулевым уровнем допуска. По мере прохождения проверок уровень допуска будет повышаться.<br><br>' +
+      'Ознакомьтесь с правилами. Раздел «Протокол» содержит перечень предстоящих этапов.<br><br>' +
+      'По вопросам обращайтесь к куратору К. Вересу.<br><br>' +
+      'С уважением,<br>Отдел кадров';
+  } else {
+    from.textContent = '[СКРЫТО]';
+    subj.textContent = '[ЗАКРЫТО]';
+    date.textContent = '[УДАЛЕНО]';
+    body.innerHTML = '<span style="color:#8B0000;letter-spacing:4px;">ДОСТУП ОГРАНИЧЕН.</span><br><br>' +
+      'Это письмо доступно только сотрудникам с соответствующим уровнем допуска.';
+  }
 }
 
-/* ЛОГИКА ДНЯ — ДВА УСЛОВИЯ: ДАТА + ПРЕДЫДУЩИЙ ПРОЙДЕН */
+function backToMailList() {
+  document.getElementById('mailList').style.display = 'block';
+  document.getElementById('mailView').style.display = 'none';
+}
+
+/* ДОКУМЕНТЫ */
+function openDoc(id) {
+  if (isBlocked()) return;
+  if (id === '641') {
+    document.getElementById('page-docs').querySelector('.doc-item');
+    document.querySelectorAll('#page-docs .doc-item')[0].style.display = 'none';
+    // Просто показываем контент поверх
+    var view = document.getElementById('docView');
+    view.style.display = 'block';
+    // скрываем список
+    var items = document.querySelectorAll('#page-docs .doc-item');
+    items.forEach(function(i) { i.style.display = 'none'; });
+  }
+}
+
+function backToDocs() {
+  document.getElementById('docView').style.display = 'none';
+  var items = document.querySelectorAll('#page-docs .doc-item');
+  items.forEach(function(i) { i.style.display = 'flex'; });
+}
+
+function contactCurator() {
+  if (isBlocked()) return;
+  if (state.bubbleVisible) {
+    openChat();
+  } else {
+    showLocked('СВЯЗЬ С КУРАТОРОМ');
+  }
+}
+
+/* ЛОГИКА ДНЯ */
 function getDayType(num) {
   var now = new Date();
   var dayDate = DAY_DATES[num];
   var dateCame = now >= dayDate;
 
-  // Уже пройден — done
   if (state.completed[num]) return 'done';
-
-  // Дата ещё не наступила — заблокирован
   if (!dateCame) {
     if (num === 2) return 'phantom';
     return 'locked';
   }
-
-  // Дата наступила. Проверяем цепочку
-  if (num === 1) {
-    return 'quiz';
-  }
-
+  if (num === 1) return 'quiz';
   if (num === 2) {
     if (!state.completed[1]) return 'phantom';
     if (!state.day2Unlocked) return 'phantom';
     return 'quiz';
   }
-
   if (num === 3) {
     if (!state.completed[2]) return 'locked';
     return 'rorschach';
   }
-
   if (num === 4) {
     if (!state.completed[3]) return 'locked';
     return 'final';
   }
-
   return 'locked';
 }
 
@@ -631,6 +1063,7 @@ function toggleDay(num) {
 
 function renderDays() {
   var container = document.getElementById('days');
+  if (!container) return;
   container.innerHTML = '';
 
   DAYS.forEach(function(num) {
@@ -910,7 +1343,6 @@ function typeText(span, text, speed, cb, glitchAtEnd) {
   tick();
 }
 
-/* СТАДИЯ 0 — первый диалог, обрыв */
 function runChatSequence() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -964,6 +1396,13 @@ function showErrScreen() {
     setTimeout(nextLine, 60);
   }
   nextLine();
+}
+
+function hideAllScreens() {
+  ['main','rorschach'].forEach(function(id) {
+    document.getElementById(id).classList.remove('active');
+  });
+  document.getElementById('soundScene').classList.remove('show');
 }
 
 /* ЗВУК */
@@ -1040,13 +1479,13 @@ function answerSound() {
     saveState();
 
     hideAllScreens();
-    document.getElementById('protocol').classList.add('active');
+    document.getElementById('main').classList.add('active');
+    openPage('protocol');
     renderDays();
     updateBubble(true);
   }, 3000);
 }
 
-/* СТАДИЯ 1 — продолжение */
 function runFinalMessage() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -1065,7 +1504,6 @@ function runFinalMessage() {
   });
 }
 
-/* СТАДИЯ 2 — благодарность */
 function runThanksMessage() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -1082,7 +1520,6 @@ function runThanksMessage() {
   });
 }
 
-/* СТАДИЯ 3 — диалог дня 3 */
 function runDay3Dialog() {
   document.getElementById('chatBody').innerHTML = '';
   var lines = [
@@ -1123,7 +1560,6 @@ function showRorschachIntro() {
 
 /* РОРШАХ */
 var RORSCHACH_SVG = [];
-
 function makeRorschach(seed) {
   var s = seed;
   function r() { s = (s * 9301 + 49297) % 233280; return s / 233280; }
@@ -1149,7 +1585,6 @@ function makeRorschach(seed) {
     paths.map(function(p){ return '<path d="' + p + '"/>'; }).join('') +
     '</g></svg>';
 }
-
 function buildRorschach() {
   RORSCHACH_SVG = [];
   for (var i = 0; i < 7; i++) RORSCHACH_SVG.push(makeRorschach(1000 + i * 137));
@@ -1185,12 +1620,12 @@ function submitRorschach() {
   saveState();
 
   hideAllScreens();
-  document.getElementById('protocol').classList.add('active');
+  document.getElementById('main').classList.add('active');
+  openPage('protocol');
   renderDays();
   updateBubble(true);
 }
 
-/* СТАДИЯ 4 — комментарии к Роршаху */
 function runRorschachComments() {
   document.getElementById('chatBody').innerHTML = '';
   var answers = state.rorschach || [];
@@ -1238,7 +1673,6 @@ function startTimers() {
   timerInterval = setInterval(updateTimers, 1000);
   updateTimers();
 }
-
 function updateTimers() {
   var now = new Date();
   DAYS.forEach(function(num) {
@@ -1263,7 +1697,6 @@ setTimeout(function() {
     updateBubble(false);
   }
 }, 3500);
-
 </script>
 </body>
 </html>
