@@ -234,7 +234,6 @@
   .locked-msg { padding: 40px 20px; text-align: center; color: #555; font-size: 12px; letter-spacing: 2px; line-height: 2; }
   .locked-msg .lk-head { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 16px; }
 
-  /* БЛОК ВОПРОСОВ */
   .q-block {
     border-top: 1px solid #1a1a1a;
     background: #0d0d0d;
@@ -275,6 +274,10 @@
     border-color: #8B0000;
     background: rgba(139,0,0,0.05);
     color: #d4d4d4;
+  }
+  .q-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
   }
   .q-nav {
     display: flex;
@@ -367,16 +370,19 @@
       justify-content: flex-start;
     }
     .messenger {
+      display: flex;
       flex-direction: column;
-      width: 100%;
+      width: 100vw;
       height: 100vh;
-      height: 100dvh;
       max-height: 100vh;
-      max-height: 100dvh;
       border: none;
       border-radius: 0;
+      box-shadow: none;
+      animation: none;
     }
     .messenger-sidebar {
+      display: flex;
+      flex-direction: column;
       width: 100%;
       max-height: 32vh;
       border-right: none;
@@ -397,11 +403,23 @@
     .chat-item-name { font-size: 10px; }
     .chat-item-last { font-size: 9px; }
 
-    .messenger-main { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
-    .messenger-head { padding: 10px 14px; flex-shrink: 0; }
+    .messenger-main {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .messenger-head {
+      display: flex;
+      padding: 10px 14px;
+      flex-shrink: 0;
+    }
     .messenger-back { display: block; }
     .messenger-close { font-size: 24px; padding: 4px 12px; }
     .messenger-body {
+      display: flex;
+      flex-direction: column;
       padding: 12px;
       gap: 8px;
       flex: 1;
@@ -411,25 +429,25 @@
     }
     .msg { font-size: 13px; padding: 8px 12px; max-width: 88%; }
 
-    .q-block { padding: 10px; }
+    .q-block { display: block; padding: 10px; flex-shrink: 0; }
     .q-block-list { min-height: 160px; }
     .q-btn { font-size: 12px; padding: 12px; }
     .q-nav-btn { padding: 10px 20px; font-size: 16px; }
 
     #storyChatWindow {
+      display: none;
+      position: fixed;
+      inset: 0;
       width: 100vw !important;
       max-width: 100vw !important;
       height: 100vh !important;
-      height: 100dvh !important;
       max-height: 100vh !important;
-      max-height: 100dvh !important;
       bottom: 0 !important;
       right: 0 !important;
       border-radius: 0 !important;
-      border-left: none !important;
-      border-right: none !important;
-      border-bottom: none !important;
+      border: none !important;
     }
+    #storyChatWindow.show { display: flex !important; }
     #storyChatBody { padding: 12px !important; gap: 8px !important; -webkit-overflow-scrolling: touch; }
     .chat-msg { font-size: 13px !important; padding: 8px 12px !important; max-width: 88% !important; }
 
@@ -849,8 +867,7 @@
         <div class="messenger-close" onclick="closeMessenger()">×</div>
       </div>
       <div class="messenger-body" id="messengerBody"></div>
-      <div class="messenger-footer" id="messengerFooter">
-      </div>
+      <div class="messenger-footer" id="messengerFooter"></div>
     </div>
   </div>
 </div>
@@ -961,10 +978,10 @@ var QUIZ_2 = [
 ];
 
 var DAY_DATES = {
-  1: new Date(2025, 0, 1, 0, 0, 0),
-  2: new Date(2025, 0, 1, 0, 0, 0),
-  3: new Date(2025, 0, 1, 0, 0, 0),
-  4: new Date(2025, 0, 1, 0, 0, 0)
+  1: new Date(2026, 9, 26, 10, 0, 0),
+  2: new Date(2026, 9, 27, 10, 0, 0),
+  3: new Date(2026, 9, 28, 10, 0, 0),
+  4: new Date(2026, 9, 29, 10, 0, 0)
 };
 
 var DAYS = [1, 2, 3, 4];
@@ -1073,7 +1090,7 @@ function openPage(id) {
       document.getElementById('modalTitle').textContent = 'ПРИВЕТСТВИЕ';
       document.getElementById('modalText').innerHTML =
         'Здравствуйте.<br><br>Вас приветствует Комитет проверки данных.<br><br>' +
-        'Обратите внимание: этапы верификации будут открываться постепенно. Пожалуйста, рассчитывайте своё личное время.';
+        'Обратите внимание: этапы верификации будут открываться постепенно — по одному в день, начиная с 26.10. Каждый этап доступен с 10:00 утра.<br><br>Пожалуйста, рассчитывайте своё личное время.';
       document.getElementById('modalOverlay').classList.add('show');
     }
     renderDays();
@@ -1100,6 +1117,16 @@ function showLocked(what) {
   if (isBlocked()) return;
   document.getElementById('modalTitle').textContent = 'ДОСТУП ОГРАНИЧЕН';
   document.getElementById('modalText').textContent = what + ' НЕДОСТУПНО ДЛЯ ВАШЕГО УРОВНЯ ДОПУСКА. ОБРАТИТЕСЬ К КУРАТОРУ.';
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function showStageLocked(num) {
+  if (isBlocked()) return;
+  var d = DAY_DATES[num];
+  var dateStr = d.getDate() + '.' + ('0' + (d.getMonth() + 1)).slice(-2);
+  document.getElementById('modalTitle').textContent = 'ЭТАП ' + num + ' ЗАБЛОКИРОВАН';
+  document.getElementById('modalText').innerHTML =
+    'Этап откроется <span style="color:#8B0000">' + dateStr + ' в 10:00</span>.<br><br>' +
+    'Для доступа должен быть пройден предыдущий этап.';
   document.getElementById('modalOverlay').classList.add('show');
 }
 function closeModal() {
@@ -1168,8 +1195,8 @@ var CHATS_DATA = {
       { q: 'Сколько людей работает в Зоне 82?', a: 'Немного. Точную цифру не назову, но коллектив небольшой.' },
       { q: 'Почему именно Зона 82?', a: 'Просто номер. Не ищите скрытого смысла — его там нет.' },
       { q: 'Что такое верификация?', a: 'Процедура допуска. Проверка кандидата перед оформлением. Обязательна для всех, без исключений.' },
-      { q: 'Как проходится верификация?', a: 'Поэтапно. Один этап за другим. Все этапы в разделе «Верификация».' },
-      { q: 'Сколько этапов в верификации?', a: 'Четыре. Первый уже доступен.' },
+      { q: 'Как проходится верификация?', a: 'Этапы открываются в 10:00. Первый — 26-го числа. Следующие — по одному дню, при условии что предыдущий пройден. Все этапы в разделе «Верификация».' },
+      { q: 'Сколько этапов в верификации?', a: 'Четыре. Первый уже доступен — 26-го в 10:00.' },
       { q: 'Сколько времени занимает верификация?', a: 'По-разному. У кого-то неделя, у кого-то больше. Зависит от вас.' },
       { q: 'Что будет после верификации?', a: 'Если пройдёте — оформление. Если нет — на этом всё.' },
       { q: 'Какая зарплата?', a: 'Всё зависит от объёма нагрузки, должности и ещё пары факторов, о которых вы узнаете, если пройдёте начальный этап устройства.' },
@@ -1333,8 +1360,6 @@ function updateQuestionsBlock(chat) {
     btn.className = 'q-btn';
     btn.textContent = q.q;
     if (askedQuestions[i]) {
-      btn.style.opacity = '0.35';
-      btn.style.cursor = 'default';
       btn.disabled = true;
     } else {
       (function(idx) {
@@ -1446,7 +1471,10 @@ function toggleDay(num) {
   if (isBlocked()) return;
   if (state.completed[num]) return;
   var type = getDayType(num);
-  if (type === 'phantom' || type === 'locked' || type === 'done') return;
+  if (type === 'phantom' || type === 'locked' || type === 'done') {
+    if (type === 'locked' || type === 'phantom') showStageLocked(num);
+    return;
+  }
 
   if (type === 'rorschach') {
     state.chatStage = 3;
@@ -2083,8 +2111,6 @@ function updateTimers() {
     var el = document.getElementById('timer-' + num);
     if (!el) return;
     if (state.completed[num]) { el.textContent = ''; return; }
-    var type = getDayType(num);
-    if (type === 'phantom' || type === 'locked' || type === 'done') { el.textContent = ''; return; }
     var d = DAY_DATES[num];
     if (now >= d) { el.textContent = ''; return; }
     var diff = d - now;
