@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SCP FOUNDATION</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,6 +11,7 @@
   body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%); z-index: -1; pointer-events: none; }
 
   body.chat-open .screen.active { filter: brightness(0.35); pointer-events: none; transition: filter 0.3s; }
+  body.chat-open, body.messenger-open { overflow: hidden; }
 
   #loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; transition: opacity 0.8s; }
   .loader-emblem { width: 130px; height: 130px; margin-bottom: 40px; animation: pulseGlow 2.5s infinite; }
@@ -207,6 +208,8 @@
   .messenger-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
   .messenger-head { padding: 16px 20px; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: space-between; background: #0d0d0d; }
   .messenger-head-left { display: flex; align-items: center; gap: 10px; }
+  .messenger-back { color: #555; font-size: 20px; cursor: pointer; padding: 4px 12px; display: none; }
+  .messenger-back:hover { color: #8B0000; }
   .messenger-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #8B0000; display: flex; align-items: center; justify-content: center; color: #8B0000; font-size: 11px; flex-shrink: 0; }
   .messenger-name { color: #d4d4d4; font-size: 12px; letter-spacing: 2px; }
   .messenger-role { color: #555; font-size: 9px; letter-spacing: 1px; margin-top: 2px; }
@@ -275,136 +278,113 @@
   .rorschach-submit { display: block; width: 100%; padding: 16px; background: transparent; border: 1px solid #8B0000; color: #8B0000; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 4px; cursor: pointer; margin-top: 32px; }
   .rorschach-submit:hover { background: #8B0000; color: #0a0a0a; }
 
- @media (max-width: 600px) {
-  .screen { padding: 40px 16px; }
-  .corp-nav { flex-direction: column; }
-  .corp-nav-item { border-right: none; border-bottom: 1px solid #141414; }
-  .corp-nav-item:last-child { border-bottom: none; }
-  .corp-top { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .quiz-options { flex-direction: column; }
-  .sound-options { flex-direction: column; gap: 12px; }
-  .profile-header { flex-direction: column; align-items: flex-start; }
+  @media (max-width: 600px) {
+    .screen { padding: 40px 16px; }
+    .corp-nav { flex-direction: column; }
+    .corp-nav-item { border-right: none; border-bottom: 1px solid #141414; }
+    .corp-nav-item:last-child { border-bottom: none; }
+    .corp-top { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .quiz-options { flex-direction: column; }
+    .sound-options { flex-direction: column; gap: 12px; }
+    .profile-header { flex-direction: column; align-items: flex-start; }
 
-  /* МЕССЕНДЖЕР НА ТЕЛЕФОНЕ */
-  .messenger-overlay { padding: 0; }
-  .messenger {
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    max-height: 100vh;
-    border: none;
-    border-radius: 0;
-  }
-  .messenger-sidebar {
-    width: 100%;
-    height: auto;
-    max-height: 35vh;
-    border-right: none;
-    border-bottom: 1px solid #1a1a1a;
-    flex-shrink: 0;
-  }
-  .messenger-sidebar-head {
-    padding: 12px 16px;
-    font-size: 9px;
-    position: relative;
-  }
-  .messenger-sidebar-head::after {
-    content: '▾';
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #8B0000;
-  }
-  .messenger-chats {
-    max-height: 25vh;
-    overflow-y: auto;
-  }
-  .chat-item { padding: 10px 16px; }
-  .chat-item-name { font-size: 10px; }
-  .chat-item-last { font-size: 9px; }
-  .messenger-main {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-  }
-  .messenger-head {
-    padding: 10px 14px;
-    flex-shrink: 0;
-  }
-  .messenger-close {
-    font-size: 24px;
-    padding: 4px 12px;
-  }
-  .messenger-body {
-    padding: 12px;
-    gap: 8px;
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-  }
-  .msg {
-    font-size: 13px;
-    padding: 8px 12px;
-    max-width: 88%;
-  }
-  .messenger-footer {
-    padding: 8px;
-    gap: 6px;
-    flex-shrink: 0;
-    position: sticky;
-    bottom: 0;
-  }
-  .messenger-input {
-    font-size: 14px;
-    padding: 10px 12px;
-    min-width: 0;
-  }
-  .messenger-send {
-    padding: 10px 14px;
-    font-size: 10px;
-    flex-shrink: 0;
-  }
+    body.chat-open,
+    body.messenger-open {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+    }
 
-  /* СЮЖЕТНЫЙ ЧАТ НА ТЕЛЕФОНЕ */
-  #storyChatWindow {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    bottom: 0 !important;
-    right: 0 !important;
-    border-radius: 0 !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: none !important;
-  }
-  #storyChatBody {
-    padding: 12px !important;
-    gap: 8px !important;
-  }
-  .chat-msg {
-    font-size: 13px !important;
-    padding: 8px 12px !important;
-    max-width: 88% !important;
-  }
+    .messenger-overlay {
+      padding: 0;
+      align-items: stretch;
+      justify-content: flex-start;
+    }
+    .messenger {
+      flex-direction: column;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100vh;
+      max-height: 100dvh;
+      border: none;
+      border-radius: 0;
+    }
+    .messenger-sidebar {
+      width: 100%;
+      max-height: 32vh;
+      border-right: none;
+      border-bottom: 1px solid #1a1a1a;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+    .messenger-sidebar-head {
+      padding: 12px 16px;
+      font-size: 9px;
+      position: sticky;
+      top: 0;
+      background: #0a0a0a;
+      z-index: 2;
+    }
+    .messenger-chats { max-height: none; overflow-y: visible; }
+    .chat-item { padding: 10px 16px; }
+    .chat-item-name { font-size: 10px; }
+    .chat-item-last { font-size: 9px; }
 
-  /* КНОПКА ЧАТА НА ТЕЛЕФОНЕ */
-  .chat-bubble {
-    bottom: 16px !important;
-    right: 16px !important;
-    width: 52px !important;
-    height: 52px !important;
-  }
+    .messenger-main { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .messenger-head { padding: 10px 14px; flex-shrink: 0; }
+    .messenger-back { display: block; }
+    .messenger-close { font-size: 24px; padding: 4px 12px; }
+    .messenger-body {
+      padding: 12px;
+      gap: 8px;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .msg { font-size: 13px; padding: 8px 12px; max-width: 88%; }
+    .messenger-footer {
+      padding: 8px;
+      gap: 6px;
+      flex-shrink: 0;
+      background: #0d0d0d;
+      border-top: 1px solid #1a1a1a;
+    }
+    .messenger-input { font-size: 16px; padding: 10px 12px; min-width: 0; width: 100%; }
+    .messenger-send { padding: 10px 14px; font-size: 10px; flex-shrink: 0; }
 
-  /* ПРОЧЕЕ */
-  .doc-view, .case-block, .sector-card { padding: 20px; }
-  .pinned { padding: 20px; }
-  .board-item { padding: 16px 18px; }
-  .board-item-head { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .board-item-date { align-self: flex-end; }
-}
+    #storyChatWindow {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      max-height: 100vh !important;
+      max-height: 100dvh !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      border-radius: 0 !important;
+      border-left: none !important;
+      border-right: none !important;
+      border-bottom: none !important;
+    }
+    #storyChatBody { padding: 12px !important; gap: 8px !important; -webkit-overflow-scrolling: touch; }
+    .chat-msg { font-size: 13px !important; padding: 8px 12px !important; max-width: 88% !important; }
+
+    .chat-bubble {
+      bottom: 16px !important;
+      right: 16px !important;
+      width: 52px !important;
+      height: 52px !important;
+    }
+
+    .doc-view, .case-block, .sector-card { padding: 20px; }
+    .pinned { padding: 20px; }
+    .board-item { padding: 16px 18px; }
+    .board-item-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .board-item-date { align-self: flex-end; }
+  }
 </style>
 </head>
 <body>
@@ -466,7 +446,7 @@
       <div class="corp-nav-item" data-page="profile" onclick="openPage('profile')">ПРОФИЛЬ</div>
       <div class="corp-nav-item" data-page="protocol" onclick="openPage('protocol')">ВЕРИФИКАЦИЯ</div>
       <div class="corp-nav-item" data-page="docs" onclick="openPage('docs')">ДОКУМЕНТЫ</div>
-      <div class="corp-nav-item" data-page="board" onclick="openPage('board')">ОПЕРАТИВНЫЙ КАНАЛ</div>
+      <div class="corp-nav-item" data-page="board" onclick="openPage('board')">ОБЪЯВЛЕНИЯ</div>
     </div>
   </div>
 
@@ -501,7 +481,7 @@
       <div class="card-head"><div class="card-date">21.10.2026</div></div>
       <div class="card-title">ОБНОВЛЕНИЕ РЕЖИМА РАБОТЫ</div>
       <div class="card-text">
-        В связи с внутренними процедурами режим работы кураторов изменён. Приём вопросов осуществляется с 09:00 до 18:00.
+        В связи с внутренними процедурами режим работы кураторов изменён. Приём вопросов осуществляется с 09:00 до 17:00.
       </div>
     </div>
 
@@ -774,7 +754,7 @@
 
 <div class="messenger-overlay" id="messengerOverlay">
   <div class="messenger">
-    <div class="messenger-sidebar">
+    <div class="messenger-sidebar" id="messengerSidebar">
       <div class="messenger-sidebar-head">ВНУТРЕННЯЯ СВЯЗЬ</div>
       <div class="messenger-chats" id="messengerChats">
         <div class="chat-item" data-chat="veres" onclick="openChatInMessenger('veres')">
@@ -795,9 +775,10 @@
         </div>
       </div>
     </div>
-    <div class="messenger-main">
+    <div class="messenger-main" id="messengerMain">
       <div class="messenger-head">
         <div class="messenger-head-left">
+          <div class="messenger-back" onclick="backToChatList()">←</div>
           <div class="messenger-avatar" id="mAvatar">КВ</div>
           <div>
             <div class="messenger-name" id="mName">К. ВЕРЕС</div>
@@ -1050,6 +1031,7 @@ function isBlocked() {
   if (document.getElementById('soundScene').classList.contains('show')) return true;
   if (document.getElementById('errScreen').classList.contains('show')) return true;
   if (document.getElementById('modalOverlay').classList.contains('show')) return true;
+  if (document.getElementById('messengerOverlay').classList.contains('show')) return true;
   return false;
 }
 function openChatVisual() { document.body.classList.add('chat-open'); }
@@ -1138,7 +1120,7 @@ var CHATS_DATA = {
       { words: ['кто','я','зачем','здесь','почему я','моя роль','кто я'], reply: 'Вы — стажёр. Пока что.' },
       { words: ['сны','сон','снится','снилось','кошмар','приснилось','сновидение','кошмары'], reply: 'Записывайте. Возможно, пригодится.' },
       { words: ['голос','шёпот','шепот','шум','звук','звуки','гул','шорох','голоса','слышу','слышал','слышала'], reply: 'Не реагируйте слишком остро. Записывайте.' },
-      { words: ['тень','тени','силуэт','фигура','кто-то','мелькнуло','тень','мелькает'], reply: 'Запишите. Мы проверим.' },
+      { words: ['тень','тени','силуэт','фигура','кто-то','мелькнуло','мелькает'], reply: 'Запишите. Мы проверим.' },
       { words: ['дверь','двери','стук','стучится','стучат','открыть','закрыть','замок','ключ'], reply: 'Не открывайте. Дождитесь указаний.' },
       { words: ['зеркало','отражение','стекло','окно','отражаться'], reply: 'Избегайте долгого зрительного контакта с отражающими поверхностями.' },
       { words: ['пусто','пустота','тишина','темно','темнота','мрак','пустой'], reply: 'В тишине легче услышать важное.' },
@@ -1147,7 +1129,7 @@ var CHATS_DATA = {
       { words: ['ребёнок','ребенок','дети','мальчик','девочка','ребенка'], reply: 'Детей в секторе 82 нет. Если видите — сообщите немедленно.' },
       { words: ['врач','медик','больница','лекарство','медицина','доктор','аптека','таблетки'], reply: 'Медицинская помощь — через отдел кадров.' },
       { words: ['вода','еда','голод','жажда','питание','пить','есть'], reply: 'Всё необходимое есть. Не покидайте помещение.' },
-      { words: ['часы','время','сколько','сейчас','минута','час','день','ночь','время'], reply: 'Время здесь идёт иначе. Не сверяйтесь с часами.' },
+      { words: ['часы','время','сколько','сейчас','минута','час','день','ночь'], reply: 'Время здесь идёт иначе. Не сверяйтесь с часами.' },
       { words: ['камера','наблюдение','следят','следит','слежка','видео','камеры'], reply: 'Наблюдение ведётся постоянно. Это часть работы.' },
       { words: ['вопрос','вопросы','спросить','можно','вопросик'], reply: 'Задавайте.' },
       { words: ['отчёт','отчет','доклад','рапорт','отчетность'], reply: 'Отчёт — после этапа. Пока рано.' },
@@ -1251,12 +1233,13 @@ var currentMessengerChat = null;
 function isCuratorWorkingHours() {
   var now = new Date();
   var h = now.getHours();
-  return h >= 9 && h < 19;
+  return h >= 9 && h < 17;
 }
 
 function openMessenger() {
   if (isBlocked()) return;
   document.getElementById('messengerOverlay').classList.add('show');
+  document.body.classList.add('messenger-open');
 
   if (!state.mailUnreadCleared) {
     state.mailUnreadCleared = true;
@@ -1269,7 +1252,15 @@ function openMessenger() {
 
 function closeMessenger() {
   document.getElementById('messengerOverlay').classList.remove('show');
+  document.body.classList.remove('messenger-open');
   currentMessengerChat = null;
+}
+
+function backToChatList() {
+  document.getElementById('messengerMain').style.display = 'none';
+  document.getElementById('messengerSidebar').style.display = 'flex';
+  currentMessengerChat = null;
+  document.querySelectorAll('.chat-item').forEach(function(el) { el.classList.remove('active'); });
 }
 
 function openChatInMessenger(id) {
@@ -1373,9 +1364,6 @@ function sendMessage() {
 
 function findReply(keywords, text) {
   var lower = text.toLowerCase();
-  
-  // Приоритетный поиск: ищем точные совпадения длинных фраз
-  // Проходим по всем ключевым словам, сортируя по длине фразы в обратном порядке
   var allMatches = [];
   for (var i = 0; i < keywords.length; i++) {
     var k = keywords[i];
@@ -1386,14 +1374,10 @@ function findReply(keywords, text) {
       }
     }
   }
-  
   if (allMatches.length === 0) {
     return 'Принято. Я передам это куда следует. Ожидайте.';
   }
-  
-  // Сортируем по длине совпадения (самые длинные фразы — в приоритете)
   allMatches.sort(function(a, b) { return b.length - a.length; });
-  
   return allMatches[0].reply;
 }
 
