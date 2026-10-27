@@ -234,80 +234,17 @@
   .locked-msg { padding: 40px 20px; text-align: center; color: #555; font-size: 12px; letter-spacing: 2px; line-height: 2; }
   .locked-msg .lk-head { color: #8B0000; font-size: 11px; letter-spacing: 4px; margin-bottom: 16px; }
 
-  .q-block {
-    border-top: 1px solid #1a1a1a;
-    background: #0d0d0d;
-    padding: 12px;
-    flex-shrink: 0;
-  }
-  .q-block-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    color: #8B0000;
-    font-size: 10px;
-    letter-spacing: 2px;
-  }
-  .q-block-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-height: 140px;
-  }
-  .q-btn {
-    display: block;
-    width: 100%;
-    padding: 10px 12px;
-    background: transparent;
-    border: 1px solid #2a1010;
-    color: #bbb;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s;
-    line-height: 1.4;
-  }
-  .q-btn:hover {
-    border-color: #8B0000;
-    background: rgba(139,0,0,0.05);
-    color: #d4d4d4;
-  }
-  .q-btn:disabled {
-    opacity: 0.35;
-    cursor: default;
-  }
-  .q-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-  .q-nav-btn {
-    padding: 8px 16px;
-    background: transparent;
-    border: 1px solid #3a1010;
-    color: #8B0000;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .q-nav-btn:hover:not(:disabled) {
-    background: #8B0000;
-    color: #0a0a0a;
-  }
-  .q-nav-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-  .q-counter {
-    color: #555;
-    font-size: 11px;
-    letter-spacing: 2px;
-  }
+  .q-block { border-top: 1px solid #1a1a1a; background: #0d0d0d; padding: 12px; flex-shrink: 0; }
+  .q-block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; color: #8B0000; font-size: 10px; letter-spacing: 2px; }
+  .q-block-list { display: flex; flex-direction: column; gap: 6px; min-height: 140px; }
+  .q-btn { display: block; width: 100%; padding: 10px 12px; background: transparent; border: 1px solid #2a1010; color: #bbb; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.5px; text-align: left; cursor: pointer; transition: all 0.2s; line-height: 1.4; }
+  .q-btn:hover { border-color: #8B0000; background: rgba(139,0,0,0.05); color: #d4d4d4; }
+  .q-btn:disabled { opacity: 0.35; cursor: default; }
+  .q-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+  .q-nav-btn { padding: 8px 16px; background: transparent; border: 1px solid #3a1010; color: #8B0000; font-family: 'Courier New', monospace; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+  .q-nav-btn:hover:not(:disabled) { background: #8B0000; color: #0a0a0a; }
+  .q-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .q-counter { color: #555; font-size: 11px; letter-spacing: 2px; }
 
   .sound-scene { display: none; position: fixed; inset: 0; background: #000; z-index: 800; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 40px; overflow: hidden; }
   .sound-scene.show { display: flex; }
@@ -560,7 +497,7 @@
       <div class="card-head"><div class="card-date">21.10.2026</div></div>
       <div class="card-title">ОБНОВЛЕНИЕ РЕЖИМА РАБОТЫ</div>
       <div class="card-text">
-        В связи с внутренними процедурами режим работы кураторов изменён. Приём вопросов осуществляется с 09:00 до 18:00.
+        В связи с внутренними процедурами режим работы кураторов изменён. Приём вопросов осуществляется с 09:00 до 02:00.
       </div>
     </div>
 
@@ -1453,7 +1390,6 @@ function getDayType(num) {
   if (num === 1) return 'quiz';
   if (num === 2) {
     if (!state.completed[1]) return 'phantom';
-    if (!state.day2Unlocked) return 'phantom';
     return 'quiz';
   }
   if (num === 3) {
@@ -1471,6 +1407,7 @@ function toggleDay(num) {
   if (isBlocked()) return;
   if (state.completed[num]) return;
   var type = getDayType(num);
+  
   if (type === 'phantom' || type === 'locked' || type === 'done') {
     if (type === 'locked' || type === 'phantom') showStageLocked(num);
     return;
@@ -1526,7 +1463,7 @@ function renderDays() {
                '<div class="quiz-question" id="qq-' + num + '"></div>' +
                '<div class="quiz-options" id="qo-' + num + '"></div>';
       } else if (type === 'final') {
-        body = '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ВЕРИФИКАЦИЯ ЗАВЕРШЕНА</div><div class="big">30.10 · 18:00</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА.:)</div></div>';
+        body = '<div class="final-message"><div style="color:#777;font-size:11px;letter-spacing:3px;">ВЕРИФИКАЦИЯ ЗАВЕРШЕНА</div><div class="big">30.10 · 17:20</div><div style="color:#777;font-size:11px;letter-spacing:3px;">ЯВКА ОБЯЗАТЕЛЬНА</div></div>';
       }
     }
 
@@ -1941,10 +1878,9 @@ function runFinalMessage() {
 function runThanksMessage() {
   document.getElementById('storyChatBody').innerHTML = '';
   var lines = [
-    'Благодарю за прохождение.',
-    'Результаты второго теста приняты и будут обработаны.',
-    'Мы свяжемся с вами завтра.',
-    'Отдыхайте. До встречи.'
+    'Приносим извинения за временные неудобства.',
+    'Мы столкнулись с проблемами, но теперь всё работает.',
+    'Ваш доступ к следующему этапу восстановлен.'
   ];
   playLines(lines, function() {
     state.chatStage = 3;
@@ -2111,6 +2047,8 @@ function updateTimers() {
     var el = document.getElementById('timer-' + num);
     if (!el) return;
     if (state.completed[num]) { el.textContent = ''; return; }
+    var type = getDayType(num);
+    if (type === 'phantom' || type === 'locked' || type === 'done') { el.textContent = ''; return; }
     var d = DAY_DATES[num];
     if (now >= d) { el.textContent = ''; return; }
     var diff = d - now;
